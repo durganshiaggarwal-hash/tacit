@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · Rule Cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+JP:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* Layout: a ledger of approved rules — cards in a column, the cause groups docked beside them */
+:root{
+  --bg:#eef0f2; --panel:#ffffff; --ink:#15191e; --muted:#5d6672; --line:#d6dbe1;
+  --master:#2346c9; --master-soft:#e2e8fb; --manual:#8a8f96; --tacit:#c27a00; --tacit-soft:#fbefd9;
+  --accept:#227a4c; --accept-soft:#dcf0e4; --reject:#c23b2b; --reject-soft:#f9e1de;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ja:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1216; --panel:#171b21; --ink:#e5e8ec; --muted:#98a1ad; --line:#2a3039;
+  --master:#8ea6ff; --master-soft:#1d2645; --manual:#7d838b; --tacit:#f2b33d; --tacit-soft:#33280f;
+  --accept:#6bcf97; --accept-soft:#14301f; --reject:#f2857a; --reject-soft:#3a1c19; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+button,select,input,textarea{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--master);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+header{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.06em;font-size:1.05rem}
+nav{display:flex;gap:4px}
+nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.9rem}
+nav a[aria-current="page"]{background:var(--master-soft);color:var(--master);font-weight:600}
+.counters{display:flex;gap:22px}
+.counter{display:flex;flex-direction:column}
+.counter b{font-family:var(--mono);font-size:1.3rem;font-weight:500;line-height:1.1}
+
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:20px;padding:20px max(16px,env(safe-area-inset-left));max-width:1400px;margin:0 auto;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.intro{color:var(--muted);max-width:70ch}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+
+/* rule card */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px}
+.card.approved{border-color:var(--accept);box-shadow:inset 4px 0 0 var(--accept)}
+.card.rejected{opacity:.55}
+.card-head{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:.68rem;padding:2px 8px;border-radius:4px;letter-spacing:.05em}
+.tag.stricter{background:var(--reject-soft);color:var(--reject)}
+.tag.lenient{background:var(--accept-soft);color:var(--accept)}
+.status{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.status.approved{color:var(--accept)}
+.card h3{margin:0;font-size:1.05rem}
+.texts{display:flex;flex-direction:column;gap:8px;min-width:0}
+.en{font-size:1rem;font-weight:500}
+.ja{font-family:var(--ja);font-size:.95rem;color:var(--muted)}
+textarea{width:100%;min-height:62px;border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--bg);color:var(--ink);resize:vertical}
+.compare{display:flex;flex-direction:column;gap:4px}
+.compare svg{display:block;max-width:100%}
+svg text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.meta{font-size:.8rem;color:var(--muted)}
+.examples{display:flex;gap:10px}
+.ex{display:flex;flex-direction:column;gap:4px;width:150px}
+.ex img{width:150px;height:150px;border-radius:6px;display:block;background:#000}
+.ex span{font-size:.75rem;line-height:1.3}
+.ex b{font-weight:600}
+.ex .r{color:var(--reject)} .ex .a{color:var(--accept)}
+.actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 14px;border-radius:6px;font-weight:500}
+.btn.primary{background:var(--accept);border-color:var(--accept);color:var(--panel)}
+.btn.quiet{color:var(--muted)}
+.empty{color:var(--muted);padding:24px;text-align:center}
+h2.sense{margin:18px 0 0;font-size:1.15rem;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+h2.sense:first-child{margin-top:0}
+
+/* causes */
+.group{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.group:first-of-type{border-top:0;padding-top:0}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.thumbs img{width:100%;aspect-ratio:1;border-radius:4px;display:block;background:#000}
+.name-row{display:flex;gap:8px;flex-wrap:wrap}
+select,input[type=text]{border:1px solid var(--line);border-radius:6px;padding:7px 8px;background:var(--panel);color:var(--ink);min-width:0;flex:1}
+.named{font-weight:600}
+.named small{font-family:var(--ja);font-weight:400;color:var(--muted);margin-left:6px}
+.err{color:var(--reject);font-size:.85rem}
+
+@media (max-width:980px){main{grid-template-columns:1fr}.card{grid-template-columns:1fr}.examples{justify-content:flex-start}}
+@media (max-width:420px){.ex{width:calc(50% - 5px)}.ex img{width:100%;height:auto;aspect-ratio:1}}
+</style>
+<link rel="stylesheet" href="/tacit.css">
+<script src="/tacit.js" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules" aria-current="page"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+<header>
+  <div class="ptitle"><h1>Rule cards<small lang="ja">ルールカード</small></h1><p>Approve, reword or strike out each unwritten rule TACIT found.</p></div>
+  <div class="counters">
+    <div class="counter"><span class="label">Unwritten rules</span><b id="c-total">0</b></div>
+    <div class="counter"><span class="label">Approved by master</span><b id="c-approved">0</b></div>
+    <div class="counter"><span class="label">Learned from</span><b id="c-swipes">0</b></div>
+  </div>
+</header>
+
+<main>
+  <section class="col" aria-label="Rule cards">
+    <p class="intro">Each card is a place where the master's judgment differs from the written rule, by eye, by ear or by hand, learned only from their answers. Approve it, correct the wording, or mark it as not a rule. Approved cards are what juniors are trained and tested on.</p>
+    <div class="err" id="err" role="alert"></div>
+    <div id="cards" class="col"><div class="empty">Loading rule cards…</div></div>
+  </section>
+  <aside class="panel" aria-label="Cause groups">
+    <span class="label">Eye: why the master rejects (cause groups)</span>
+    <p class="meta">TACIT never knows the cause of a defect. It groups the parts you rejected by the outline of the pit. Name each group once; rules that depend on pit shape will carry that name.</p>
+    <div id="causes"></div>
+  </aside>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ZN = {sealing_lip: "Sealing lip", flange_face: "Flange face", rim: "Outer rim"};
+const SH = {any: "Any pit shape", round: "Round, smooth pits", irregular: "Irregular, jagged pits"};
+let editing = null;
+
+async function api(path, opts) {
+  const r = await fetch(path, Object.assign({headers: {"Content-Type": "application/json"}}, opts || {}));
+  if (!r.ok) { const t = await r.json().catch(() => ({detail: r.statusText})); throw new Error(t.detail || r.statusText); }
+  return r.json();
+}
+const sid = id => String(id).replace(/[^a-z0-9_-]/gi, "_");
+const SENSE = {eye: "Eye · castings", ear: "Ear · pump sound", hand: "Hand · deburring"};
+const SENSE_HINT = {eye: "Learned from the master's accept / reject answers on cast impellers.",
+  ear: "Learned from the master's stop / keep-running answers on pump sounds.",
+  hand: "Learned from the master's good / bad answers on deburring strokes (concept demo: strokes are generated)."};
+function compareSVG(c) {
+  const w = 320, h = 44, lo = c.lo, hi = c.hi, X = v => 10 + (Math.min(Math.max(v, lo), hi) - lo) / (hi - lo) * (w - 20);
+  const l = X(c.limit), a = X(c.limit - c.sd), b = X(c.limit + c.sd);
+  const step = (hi - lo) / 5, ticks = [0, 1, 2, 3, 4, 5].map(i => lo + i * step);
+  const tk = ticks.map(t => `<text x="${X(t)}" y="42" text-anchor="middle">${Number.isInteger(t) ? t : t.toFixed(1)}</text>`).join("");
+  const man = c.manual > hi ? `<text x="${w - 12}" y="8" text-anchor="end">manual never</text>`
+    : `<line x1="${X(c.manual)}" x2="${X(c.manual)}" y1="4" y2="32" stroke="var(--manual)" stroke-width="2" stroke-dasharray="4 3"/>`;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Manual ${c.manual} ${c.unit}, master ${c.limit} ${c.unit}">
+    <rect x="10" y="10" width="${w - 20}" height="16" fill="none" stroke="var(--line)"/>
+    <rect x="${l}" y="10" width="${Math.max(0, w - 10 - l)}" height="16" fill="var(--reject-soft)"/>${man}
+    <rect x="${a}" y="15" width="${Math.max(2, b - a)}" height="6" rx="3" fill="var(--master)" opacity=".25"/>
+    <circle cx="${l}" cy="18" r="6" fill="var(--master)"/>${tk}</svg>`;
+}
+function manualTxt(c) {
+  if (c.sense === "ear") return c.manual > 100 ? "meter rule never stops it" : c.manual <= 2 ? "meter rule stops it every time" : `meter rule stops it from ${c.manual.toFixed(0)}%`;
+  return `manual ${c.manual.toFixed(1)} ${c.unit}`;
+}
+function examplesHTML(c) {
+  if (c.sense === "eye") {
+    const surprising = c.direction === "stricter" ? 0 : 1;
+    return `<div class="examples">${c.examples.map((e, i) => `<div class="ex"><img src="${e.image}" alt="${e.label}, ${e.size_mm} mm pit">
+      <span><b class="${i === 0 ? "r" : "a"}">${e.label}</b> · ${e.size_mm.toFixed(1)} mm${i === surprising ? "<br><em>manual says the opposite</em>" : ""}</span></div>`).join("")}</div>`;
+  }
+  if (c.sense === "ear") {
+    return `<div class="examples" style="flex-direction:column;gap:8px">${c.audio_examples.map((e, i) => `<div class="ex" style="width:auto">
+      <span><b class="${i === 0 ? "r" : "a"}">${e.label}</b> · fault ${e.level}% · meter ${e.meter_db} dB (says ${e.meter_says})</span>
+      <audio controls preload="none" src="${e.audio}" style="width:220px;max-width:100%"></audio></div>`).join("")}</div>`;
+  }
+  return "";
+}
+function cardHTML(c) {
+  const lenient = c.direction !== "stricter", ed = editing === c.id, k = sid(c.id);
+  return `<article class="card ${c.status}" id="card-${k}">
+    <div class="card-head">
+      <span class="tag ${lenient ? "lenient" : "stricter"}">${lenient ? "More lenient than the manual" : "Stricter than the manual"}</span>
+      <h3>${esc(c.title)} · ${esc(c.sub)}</h3>
+      <span class="status ${c.status}">${c.status === "approved" ? "✓ Approved" : c.status === "rejected" ? "Marked not a rule" : "Waiting for approval"}${c.edited ? " · edited" : ""}</span>
+    </div>
+    <div class="texts">
+      ${ed ? `<label class="label" for="en-${k}">English</label><textarea id="en-${k}">${esc(c.text_en)}</textarea>
+              <label class="label" for="ja-${k}">日本語</label><textarea id="ja-${k}" lang="ja">${esc(c.text_ja)}</textarea>`
+           : `<div class="en">${esc(c.text_en)}</div><div class="ja" lang="ja">${esc(c.text_ja)}</div>`}
+      <div class="compare">${compareSVG(c)}
+        <div class="meta"><span style="color:var(--manual)">┆ ${manualTxt(c)}</span> · <span style="color:var(--master)">● master ${c.limit} ± ${c.sd} ${c.unit}</span> · learned from ${c.evidence} answers</div></div>
+    </div>
+    ${examplesHTML(c)}
+    <div class="actions">
+      ${ed ? `<button class="btn primary" data-act="save" data-id="${c.id}">Save and approve</button><button class="btn quiet" data-act="cancel">Cancel</button>`
+           : `<button class="btn primary" data-act="approved" data-id="${c.id}">${c.status === "approved" ? "Approved" : "Approve"}</button>
+              <button class="btn" data-act="edit" data-id="${c.id}">Edit wording</button>
+              <button class="btn quiet" data-act="${c.status === "rejected" ? "pending" : "rejected"}" data-id="${c.id}">${c.status === "rejected" ? "Restore" : "Not a rule"}</button>`}
+    </div></article>`;
+}
+let last = null;
+function render(r) {
+  last = r;
+  $("#c-total").textContent = r.total; $("#c-approved").textContent = r.approved;
+  $("#c-swipes").textContent = (r.answers.eye + r.answers.ear + r.answers.hand) + " answers";
+  const sec = k => `<h2 class="sense">${SENSE[k]} <span class="meta">${r[k].length} rule${r[k].length === 1 ? "" : "s"} · ${r.answers[k]} answers</span></h2>
+    <p class="meta">${SENSE_HINT[k]} Written rule: ${esc(r.manual[k].join(" "))}</p>
+    ${r[k].length ? r[k].map(cardHTML).join("") : `<div class="empty">No unwritten rules yet for this sense.</div>`}`;
+  $("#cards").innerHTML = r.total ? ["eye", "ear", "hand"].map(sec).join("")
+    : `<div class="empty">No unwritten rules yet. Capture the master on the Eye, Ear or Hand page first.</div>`;
+}
+function renderCauses(g) {
+  if (!g.ready) { $("#causes").innerHTML = `<div class="meta">Needs at least ${g.needed} rejected parts to group (you have ${g.have}).</div>`; return; }
+  $("#causes").innerHTML = g.groups.map(x => `<div class="group">
+    <div><b>Group ${x.gid + 1}</b> · ${x.size} rejects · ${x.look}</div>
+    <div class="thumbs">${x.thumbs.map(t => `<img src="${t}" alt="Rejected pit in group ${x.gid + 1}">`).join("")}</div>
+    ${x.name ? `<div class="named">${esc(x.name)}<small lang="ja">${esc(g.options_ja[x.name] || "")}</small></div>` : ""}
+    <div class="name-row"><select id="cause-${x.gid}" aria-label="Cause for group ${x.gid + 1}">
+      <option value="">${x.name ? "Change name…" : "Name this group…"}</option>
+      ${g.options.map(o => `<option ${o === x.name ? "selected" : ""}>${o}</option>`).join("")}</select>
+      <button class="btn" data-cause="${x.gid}" data-shape="${x.shape}">Save</button></div></div>`).join("");
+}
+async function refresh() {
+  try { render(await api("/api/rules/all")); renderCauses(await api("/api/causes")); $("#err").textContent = ""; }
+  catch (e) { $("#err").textContent = "Could not load rule cards: " + e.message; }
+}
+document.addEventListener("click", async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  try {
+    if (b.dataset.cause !== undefined) {
+      const v = $("#cause-" + b.dataset.cause).value; if (!v) return;
+      renderCauses(await api("/api/causes", {method: "POST", body: JSON.stringify({shape: b.dataset.shape, name: v})}));
+      render(await api("/api/rules/all")); return;
+    }
+    const act = b.dataset.act, id = b.dataset.id;
+    if (act === "edit") { editing = id; render(last); $("#en-" + sid(id)).focus(); return; }
+    if (act === "cancel") { editing = null; render(last); return; }
+    if (act === "save") {
+      const body = {status: "approved", text_en: $("#en-" + sid(id)).value, text_ja: $("#ja-" + sid(id)).value};
+      editing = null; await api("/api/rules/" + encodeURIComponent(id), {method: "POST", body: JSON.stringify(body)}); render(await api("/api/rules/all")); return;
+    }
+    if (act) { await api("/api/rules/" + encodeURIComponent(id), {method: "POST", body: JSON.stringify({status: act})}); render(await api("/api/rules/all")); }
+  } catch (err) { $("#err").textContent = err.message; }
+});
+refresh();
+</script>
+</body>
+</html>

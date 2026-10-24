@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · Master's Ear</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* Layout: the test bench — the pump you are listening to on the left, what TACIT is learning on the right */
+:root{
+  --bg:#eef0f2; --panel:#ffffff; --ink:#15191e; --muted:#5d6672; --line:#d6dbe1;
+  --master:#2346c9; --master-soft:#e2e8fb; --manual:#8a8f96; --tacit:#c27a00; --tacit-soft:#fbefd9;
+  --run:#227a4c; --run-soft:#dcf0e4; --stop:#c23b2b; --stop-soft:#f9e1de;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1216; --panel:#171b21; --ink:#e5e8ec; --muted:#98a1ad; --line:#2a3039;
+  --master:#8ea6ff; --master-soft:#1d2645; --manual:#7d838b; --tacit:#f2b33d; --tacit-soft:#33280f;
+  --run:#6bcf97; --run-soft:#14301f; --stop:#f2857a; --stop-soft:#3a1c19; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--master);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.06em;font-size:1.05rem}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.9rem}
+nav a[aria-current="page"]{background:var(--master-soft);color:var(--master);font-weight:600}
+.counters{display:flex;gap:22px}
+.counter{display:flex;flex-direction:column}
+.counter b{font-family:var(--mono);font-size:1.3rem;font-weight:500;line-height:1.1}
+.counter.tacit b{color:var(--tacit)}
+.ghost{border:1px solid var(--line);background:transparent;color:var(--muted);padding:6px 10px;border-radius:6px;font-size:.82rem}
+.source{padding:8px max(16px,env(safe-area-inset-left));font-size:.82rem;color:var(--muted);background:var(--tacit-soft)}
+.source.real{background:var(--run-soft)}
+main{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:20px;padding:20px max(16px,env(safe-area-inset-left));max-width:1400px;margin:0 auto;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.play{display:flex;align-items:center;gap:14px}
+.play button{width:64px;height:64px;border-radius:50%;border:2px solid var(--master);background:var(--master-soft);color:var(--master);font-size:1.4rem;flex:none}
+.meter{display:flex;flex-direction:column}
+.meter b{font-family:var(--mono);font-size:1.6rem;font-weight:500;line-height:1.1}
+.spec{position:relative;border-radius:6px;overflow:hidden;background:#000}
+.spec img{display:block;width:100%;height:auto}
+.spec .axis{position:absolute;left:6px;top:4px;font-family:var(--mono);font-size:.65rem;color:#fff;opacity:.85}
+.spec .axis.b{top:auto;bottom:4px}
+.spec .head{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:0;opacity:.9;pointer-events:none}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.verdicts button{border:2px solid;border-radius:8px;padding:16px 10px;font-weight:600;font-size:1.05rem}
+.b-stop{border-color:var(--stop);color:var(--stop);background:var(--stop-soft)}
+.b-run{border-color:var(--run);color:var(--run);background:var(--run-soft)}
+.verdicts button:disabled{opacity:.4;cursor:wait}
+.hint{font-size:.8rem;color:var(--muted)}
+.manual-box{font-size:.86rem;background:var(--bg);border-radius:6px;padding:10px 12px}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:170px minmax(0,1fr) 170px;gap:12px;align-items:center;padding:8px 6px;border-radius:6px}
+.row.tacit{background:var(--tacit-soft)}
+.row .name{font-size:.86rem;font-weight:500;line-height:1.25}
+.row .name small{display:block;font-weight:400;color:var(--muted);font-size:.75rem}
+.row svg{display:block;max-width:100%;overflow:visible}
+.row .v{font-size:.78rem;line-height:1.3}
+.tag{display:inline-block;font-family:var(--mono);font-size:.66rem;padding:1px 6px;border-radius:4px;background:var(--tacit);color:var(--panel)}
+svg text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.76rem;color:var(--muted)}
+.rules{display:flex;flex-direction:column;gap:8px}
+.rule{border-left:3px solid var(--tacit);padding:6px 10px;font-size:.88rem;background:var(--bg);border-radius:0 6px 6px 0}
+.err{color:var(--stop);font-size:.85rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tabs button{border:0;background:var(--panel);color:var(--muted);padding:10px;font-weight:500}
+.tabs button[aria-pressed="true"]{background:var(--master);color:var(--panel)}
+.fb{border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:.9rem}
+.fb.right{background:var(--run-soft)} .fb.wrong{background:var(--stop-soft)}
+.fb .note{background:var(--tacit-soft);border-left:3px solid var(--tacit);padding:8px 10px;border-radius:0 6px 6px 0}
+.next{align-self:flex-start;border:1px solid var(--ink);background:var(--ink);color:var(--panel);padding:8px 14px;border-radius:6px;font-weight:600}
+.prog{display:flex;flex-direction:column;gap:8px}
+.prow{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:4px}
+.prow.absorbed{border-color:var(--run);background:var(--run-soft)}
+.prow .st{font-family:var(--mono);font-size:.72rem}
+@media (max-width:980px){main{grid-template-columns:1fr}.row{grid-template-columns:120px minmax(0,1fr)}.row .v{grid-column:1/-1}}
+</style>
+<link rel="stylesheet" href="/tacit.css">
+<script src="/tacit.js" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture" aria-current="page"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+<header>
+  <div class="ptitle"><h1>Capture the master<small lang="ja">熟練者の判定</small></h1><p>Pump running check by ear. Keep it running or stop it.</p></div><nav class="senses" aria-label="Sense"><a href="/eye">Eye: castings</a><a href="/ear" aria-current="page">Ear: pump sound</a><a href="/hand">Hand: deburring</a></nav>
+  <div class="counters">
+    <div class="counter"><span class="label">Clips judged</span><b id="c-n">0</b></div>
+    <div class="counter tacit"><span class="label">Unwritten rules</span><b id="c-rules">0</b></div>
+  </div>
+  <div style="display:flex;gap:8px"><button class="ghost" id="b-auto">Run backup session</button><button class="ghost" id="b-reset">Reset</button></div>
+</header>
+<div class="source" id="source">Loading sound source…</div>
+
+<main>
+  <section class="card" aria-label="Pump to listen to">
+    <div class="tabs" role="group" aria-label="Mode"><button id="m-cap" aria-pressed="true">Master: teach TACIT</button><button id="m-prac" aria-pressed="false">Junior: practice</button></div>
+    <div class="head"><span class="label">Listen. Would you keep this pump running?</span><span class="label mono" id="clip-n"></span></div>
+    <div class="play">
+      <button id="b-play" aria-label="Play the pump sound">▶</button>
+      <div class="meter"><span class="label">Sound-level meter</span><b id="meter">– dB</b><span class="hint">The written rule stops the pump above <span id="limit-db">82</span> dB.</span></div>
+    </div>
+    <audio id="audio" preload="auto"></audio>
+    <div class="spec"><img id="spec" alt="Spectrogram of the pump sound: time left to right, pitch bottom to top"><div class="head" id="playhead"></div><span class="axis">8 kHz</span><span class="axis b">0 Hz · 4 seconds →</span></div>
+    <div class="hint">Keys: Space play · ← stop the pump · → keep running. Headphones help.</div>
+    <div class="verdicts"><button class="b-stop" id="b-stop">Stop the pump</button><button class="b-run" id="b-run">Keep it running</button></div>
+    <div id="feedback"></div>
+    <details class="hint"><summary>Why TACIT chose this clip</summary><div id="why"></div></details>
+    <div class="err" id="err" role="alert"></div>
+  </section>
+
+  <section class="card" aria-label="What TACIT is learning">
+    <div class="head"><h2 style="margin:0;font-size:1.15rem">What TACIT is learning from your ear</h2>
+      <span class="legend"><span>┆ meter rule</span><span style="color:var(--master)">● your limit</span></span></div>
+    <div class="manual-box"><span class="label">Written rule (the manual)</span><div id="manual"></div></div>
+    <div class="hint">Each bar is how strong the fault sound is, from a healthy pump (0%) to fully faulty (100%). TACIT knows the true fault level of every clip; you only hear it.</div>
+    <div class="rows" id="rows"></div>
+    <span class="label">Unwritten rules found</span>
+    <div class="rules" id="rules"><div class="hint">None yet.</div></div>
+  </section>
+  <section class="card" aria-label="Junior progress" id="prog-card" hidden>
+    <div class="head"><h2 style="margin:0;font-size:1.15rem">The master's ear rules, and how far you've come</h2>
+      <span class="legend"><span>┆ meter rule</span><span style="color:var(--master)">● master</span><span style="color:var(--tacit)">▲ you</span></span></div>
+    <div class="hint" id="prog-sum"></div>
+    <div class="prog" id="prog"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="ghost" id="b-jauto">Simulate a junior practising 20 clips</button><button class="ghost" id="b-jreset">Start over</button></div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let clip = null, busy = false, last = null, mode = "cap", waiting = false;
+const audio = $("#audio");
+async function api(path, opts) {
+  const r = await fetch(path, Object.assign({headers: {"Content-Type": "application/json"}}, opts || {}));
+  if (!r.ok) { const t = await r.json().catch(() => ({detail: r.statusText})); throw new Error(t.detail || r.statusText); }
+  return r.json();
+}
+function rowSVG(r, w) {
+  const h = 32, X = v => 6 + Math.min(Math.max(v, 0), 1) * (w - 12);
+  const man = r.manual > 1 ? null : X(r.manual), lx = X(r.limit), lo = X(r.limit - r.sd), hi = X(r.limit + r.sd);
+  const stopZone = r.seen ? `<rect x="${lx}" y="6" width="${Math.max(0, w - 6 - lx)}" height="20" fill="var(--stop-soft)"/>` : "";
+  const manLine = man === null ? `<text x="${w - 8}" y="40" text-anchor="end">meter never stops it</text>`
+    : `<line x1="${man}" x2="${man}" y1="2" y2="30" stroke="var(--manual)" stroke-width="2" stroke-dasharray="4 3"/>` + (r.manual <= 0.02 ? `<text x="${man + 4}" y="40">meter stops it every time</text>` : "");
+  const dot = r.seen ? `<rect x="${lo}" y="13" width="${Math.max(2, hi - lo)}" height="6" rx="3" fill="var(--master)" opacity=".25"/><circle cx="${lx}" cy="16" r="6" fill="var(--master)"/>` : "";
+  return `<svg width="${w}" height="44" viewBox="0 0 ${w} 44"><rect x="6" y="6" width="${w - 12}" height="20" fill="none" stroke="var(--line)"/>${stopZone}${manLine}${dot}</svg>`;
+}
+function render(s) {
+  last = s;
+  $("#source").textContent = "Sound source: " + s.source; $("#source").className = "source" + (s.real ? " real" : "");
+  $("#c-n").textContent = s.answers; $("#c-rules").textContent = s.rules.length;
+  $("#manual").textContent = s.manual_rules.join(" ");
+  const w = Math.max(160, Math.min(420, Math.round(($("#rows").getBoundingClientRect().width || 600) - 360)));
+  $("#rows").innerHTML = s.situations.map(r => `<div class="row ${r.tacit ? "tacit" : ""}">
+    <div class="name">${esc(r.label)}<small>${esc(r.sub)} · ${r.seen} heard</small></div><div>${rowSVG(r, w)}</div>
+    <div class="v">${!r.seen ? '<span class="hint">Not heard yet</span>' : r.tacit ? `<span class="tag">Unwritten rule</span><br>You stop at <b>${Math.round(100 * r.limit)}%</b>` : r.confident ? `Agrees with the meter rule (${Math.round(100 * r.limit)}%)` : `Learning… about ${Math.round(100 * Math.max(0, r.limit))}%`}</div></div>`).join("");
+  $("#rules").innerHTML = s.rules.length ? s.rules.map(r => `<div class="rule">${esc(r.text_en)}<div class="hint" lang="ja">${esc(r.text_ja)}</div></div>`).join("") : '<div class="hint">None yet.</div>';
+}
+async function loadClip() {
+  busy = true; setB();
+  try {
+    clip = await api(mode === "cap" ? "/api/ear/next" : "/api/ear/train/next");
+    audio.src = clip.audio; $("#spec").src = clip.spectrogram; $("#meter").textContent = clip.meter_db.toFixed(1) + " dB";
+    $("#clip-n").textContent = "Clip #" + clip.n;
+    const w = clip.why || {}; $("#why").textContent = w.context ? `${w.note}. Situation: ${w.context.replace("/", ", ")}; fault level ${Math.round(100 * w.severity)}%.` : (w.reason || "");
+    $("#err").textContent = "";
+    audio.play().catch(() => {});
+  } catch (e) { $("#err").textContent = (mode === "prac" ? "" : "Could not load the next clip: ") + e.message; }
+  busy = false; setB();
+}
+function setB() { $("#b-stop").disabled = $("#b-run").disabled = busy || waiting || !clip; }
+async function send(v) {
+  if (mode === "prac") return practise(v);
+  if (busy || !clip) return; busy = true; setB(); audio.pause();
+  try { render(await api("/api/ear/answer", {method: "POST", body: JSON.stringify({id: clip.id, verdict: v})})); }
+  catch (e) { $("#err").textContent = e.message; }
+  clip = null; busy = false; await loadClip();
+}
+const SHOP = {quiet: "quiet shop", noisy: "noisy shop"}, DIS = {none: "no other sounds", beep: "forklift beeping", knock: "pallet knocks"};
+async function practise(v) {
+  if (busy || waiting || !clip) return; busy = true; setB(); audio.pause();
+  try {
+    const r = await api("/api/ear/train/answer", {method: "POST", body: JSON.stringify({id: clip.id, verdict: v})});
+    const f = r.feedback; renderProg(r.state); waiting = true;
+    $("#feedback").innerHTML = `<div class="fb ${f.correct ? "right" : "wrong"}"><b>${f.correct ? "Right." : "Not quite."} The master would ${f.master_call}.</b>
+      <span class="hint">Fault level ${f.level}% · ${SHOP[f.shop]}, ${DIS[f.distractor]}</span>
+      <span>The meter rule would ${f.manual_call}.${f.manual_differs ? " <b>This is one of the master's unwritten rules.</b>" : ""}</span>
+      ${f.rule ? `<div class="note"><span class="label">Master's note</span><br>${esc(f.rule.text_en)}<div class="hint" lang="ja">${esc(f.rule.text_ja)}</div></div>` : ""}
+      <button class="next" id="b-next">Next clip →</button></div>`;
+    $("#b-next").onclick = nextPractice;
+  } catch (e) { $("#err").textContent = e.message; }
+  busy = false; setB();
+}
+function nextPractice() { waiting = false; $("#feedback").innerHTML = ""; loadClip(); }
+function renderProg(s) {
+  $("#prog-sum").textContent = s.ready ? `${s.absorbed} of ${s.rules.length} rules absorbed · ${s.answers} clips practised` + (s.recent_n ? ` · last ${s.recent_n}: ${s.correct_recent} right` : "") : "";
+  if (!s.ready) { $("#prog").innerHTML = '<div class="hint">No ear rules to practise yet. Teach TACIT first (Master tab or the backup session).</div>'; return; }
+  const w = Math.max(200, Math.min(520, Math.round($("#prog").getBoundingClientRect().width) - 24)), X = v => 6 + Math.min(Math.max(v, 0), 1) * (w - 12);
+  $("#prog").innerHTML = s.rules.map(r => `<div class="prow ${r.status === "absorbed" ? "absorbed" : ""}">
+    <div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:.86rem">${esc(r.text_en)}</span>
+    <span class="st" style="color:${r.status === "absorbed" ? "var(--run)" : r.status === "learning" ? "var(--tacit)" : "var(--muted)"}">${r.status === "absorbed" ? "✓ Absorbed" : r.status === "learning" ? "Learning" : "Not yet"} ${r.probes_right}/${r.probes}</span></div>
+    <svg width="${w}" height="28" viewBox="0 0 ${w} 28"><rect x="6" y="8" width="${w - 12}" height="12" fill="none" stroke="var(--line)"/>
+      ${r.manual <= 1 ? `<line x1="${X(r.manual)}" x2="${X(r.manual)}" y1="3" y2="25" stroke="var(--manual)" stroke-width="2" stroke-dasharray="3 3"/>` : ""}
+      <circle cx="${X(r.master_limit)}" cy="14" r="5.5" fill="var(--master)"/>
+      <path d="M${X(r.trainee_limit)} 6 l6 10 h-12z" fill="var(--tacit)" stroke="var(--panel)"/></svg></div>`).join("");
+}
+function setMode(m) {
+  mode = m; waiting = false; $("#feedback").innerHTML = "";
+  $("#m-cap").setAttribute("aria-pressed", m === "cap"); $("#m-prac").setAttribute("aria-pressed", m === "prac");
+  document.querySelector('section[aria-label="What TACIT is learning"]').hidden = m !== "cap";
+  $("#prog-card").hidden = m !== "prac"; $("#b-auto").hidden = m !== "cap";
+  if (m === "prac") api("/api/ear/train/state").then(renderProg);
+  loadClip();
+}
+$("#m-cap").onclick = () => setMode("cap"); $("#m-prac").onclick = () => setMode("prac");
+$("#b-jauto").onclick = async () => { $("#b-jauto").disabled = true; try { renderProg(await api("/api/ear/train/autofill?n=20", {method: "POST"})); } finally { $("#b-jauto").disabled = false; nextPractice(); } };
+$("#b-jreset").onclick = async () => { renderProg(await api("/api/ear/train/reset", {method: "POST"})); nextPractice(); };
+$("#b-play").onclick = () => { audio.currentTime = 0; audio.play().catch(e => $("#err").textContent = "Your browser blocked playback: " + e.message); };
+$("#b-stop").onclick = () => send("reject");
+$("#b-run").onclick = () => send("accept");
+$("#b-auto").onclick = async () => { $("#b-auto").disabled = true; try { render(await api("/api/ear/autofill?n=40", {method: "POST"})); } finally { $("#b-auto").disabled = false; loadClip(); } };
+$("#b-reset").onclick = async () => { render(await api("/api/ear/reset", {method: "POST"})); loadClip(); };
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") { e.preventDefault(); $("#b-play").click(); }
+  else if (e.key === "ArrowLeft") send("reject"); else if (e.key === "ArrowRight") send("accept");
+  else if (e.key === "Enter" && waiting) nextPractice();
+});
+function tick() { const d = audio.duration || 4; $("#playhead").style.left = (100 * audio.currentTime / d) + "%"; requestAnimationFrame(tick); }
+tick();
+window.addEventListener("resize", () => last && render(last));
+api("/api/ear/state").then(render); loadClip();
+if (location.hash === "#practice") setMode("prac");
+</script>
+</body>
+</html>

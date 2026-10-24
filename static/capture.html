@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · Master Capture</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* Layout: inspection bench — the part under the loupe on the left, the learning ledger on the right */
+:root{
+  --bg:#eef0f2; --panel:#ffffff; --ink:#15191e; --muted:#5d6672; --line:#d6dbe1;
+  --master:#2346c9; --master-soft:#e2e8fb; --manual:#8a8f96; --tacit:#c27a00; --tacit-soft:#fbefd9;
+  --accept:#227a4c; --accept-soft:#dcf0e4; --reject:#c23b2b; --reject-soft:#f9e1de;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1216; --panel:#171b21; --ink:#e5e8ec; --muted:#98a1ad; --line:#2a3039;
+  --master:#8ea6ff; --master-soft:#1d2645; --manual:#7d838b; --tacit:#f2b33d; --tacit-soft:#33280f;
+  --accept:#6bcf97; --accept-soft:#14301f; --reject:#f2857a; --reject-soft:#3a1c19; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--master);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+header{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.06em;font-size:1.05rem}
+.brand span{font-weight:400;color:var(--muted);letter-spacing:0;margin-left:10px;font-size:.92rem}
+.counters{display:flex;gap:22px;flex-wrap:wrap}
+.counter{display:flex;flex-direction:column}
+.counter b{font-family:var(--mono);font-size:1.3rem;font-weight:500;line-height:1.1}
+.counter.tacit b{color:var(--tacit)}
+.demo{display:flex;gap:8px}
+.nav{display:flex;gap:4px}.nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.9rem}.nav a[aria-current="page"]{background:var(--master-soft);color:var(--master);font-weight:600}
+.ghost{border:1px solid var(--line);background:transparent;color:var(--muted);padding:6px 10px;border-radius:6px;font-size:.82rem}
+.ghost:hover{color:var(--ink);border-color:var(--muted)}
+
+main{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:20px;padding:20px max(16px,env(safe-area-inset-left));max-width:1400px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* part */
+.stage{position:relative;aspect-ratio:1;max-width:100%;background:#000;border-radius:6px;overflow:hidden;touch-action:none}
+.stage img{width:100%;height:100%;display:block;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.loupe{position:absolute;width:170px;height:170px;border-radius:50%;border:3px solid var(--master);pointer-events:none;background-repeat:no-repeat;box-shadow:0 6px 24px rgba(0,0,0,.35);display:none}
+.flash{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:2rem;letter-spacing:.1em;opacity:0;pointer-events:none;transition:opacity .25s}
+.flash.accept{background:color-mix(in srgb,var(--accept) 30%,transparent);color:#fff}
+.flash.reject{background:color-mix(in srgb,var(--reject) 30%,transparent);color:#fff}
+.flash.show{opacity:1}
+.hint{font-size:.82rem;color:var(--muted)}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.verdicts button{border:2px solid;border-radius:8px;padding:16px 10px;font-weight:600;font-size:1.08rem;display:flex;flex-direction:column;align-items:center;gap:2px}
+.verdicts button small{font-family:var(--mono);font-weight:400;font-size:.72rem;opacity:.75}
+.btn-reject{border-color:var(--reject);color:var(--reject);background:var(--reject-soft)}
+.btn-accept{border-color:var(--accept);color:var(--accept);background:var(--accept-soft)}
+.verdicts button:disabled{opacity:.4;cursor:wait}
+.secondary{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.why{font-size:.8rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.why b{color:var(--ink);font-weight:500}
+
+/* ledger */
+.ledger-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ledger-head h2{margin:0;font-size:1.15rem}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);align-items:center}
+.legend i{display:inline-block;vertical-align:middle;margin-right:6px}
+.lg-manual{width:0;height:14px;border-left:2px dashed var(--manual)}
+.lg-master{width:12px;height:12px;border-radius:50%;background:var(--master)}
+.lg-reject{width:18px;height:10px;background:var(--reject-soft);border:1px solid var(--reject)}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:150px minmax(0,1fr) 150px;gap:12px;align-items:center;padding:8px 6px;border-radius:6px}
+.row.tacit{background:var(--tacit-soft)}
+.row .name{font-size:.86rem;font-weight:500;line-height:1.25}
+.row .name small{display:block;font-weight:400;color:var(--muted);font-size:.75rem}
+.row svg{display:block;overflow:visible;max-width:100%}
+.row .verdict{font-size:.78rem;line-height:1.3}
+.row .verdict b{font-family:var(--mono);font-weight:500}
+.tag{display:inline-block;font-family:var(--mono);font-size:.68rem;padding:1px 6px;border-radius:4px;background:var(--tacit);color:var(--panel);margin-bottom:2px;letter-spacing:.04em}
+.pending{color:var(--muted)}
+.axis{display:grid;grid-template-columns:150px minmax(0,1fr) 150px;gap:12px;padding:0 6px}
+.axis svg{height:18px;overflow:visible;display:block}
+svg text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+details summary{cursor:pointer;color:var(--muted);font-size:.85rem;padding:6px}
+.manual-box{font-size:.84rem;background:var(--bg);border-radius:6px;padding:10px 12px}
+.manual-box ul{margin:4px 0 0;padding-left:18px}
+.recent{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:.7rem;padding:3px 7px;border-radius:4px;border:1px solid var(--line)}
+.chip.r{color:var(--reject)} .chip.a{color:var(--accept)} .chip.f{color:var(--muted);text-decoration:line-through}
+.chip.diff{border-color:var(--tacit);background:var(--tacit-soft)}
+.err{color:var(--reject);font-size:.85rem}
+
+@media (max-width:980px){main{grid-template-columns:1fr}.row,.axis{grid-template-columns:110px minmax(0,1fr)}.row .verdict{grid-column:1/-1}.axis div:last-child{display:none}}
+@media (prefers-reduced-motion:reduce){.flash{transition:none}}
+</style>
+<link rel="stylesheet" href="/tacit.css">
+<script src="/tacit.js" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture" aria-current="page"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+<header>
+  <div class="ptitle"><h1>Capture the master<small lang="ja">熟練者の判定</small></h1><p>Cast impeller inspection. Accept or reject each part; TACIT picks the next one.</p></div><nav class="senses" aria-label="Sense"><a href="/eye" aria-current="page">Eye: castings</a><a href="/ear">Ear: pump sound</a><a href="/hand">Hand: deburring</a></nav>
+  <div class="counters">
+    <div class="counter"><span class="label">Swipes</span><b id="c-swipes">0</b></div>
+    <div class="counter"><span class="label">Rejected</span><b id="c-rejects">0</b></div>
+    <div class="counter tacit"><span class="label">Unwritten rules found</span><b id="c-tacit">0</b></div>
+  </div>
+  <div class="demo">
+    <button class="ghost" id="b-auto" title="Backup demo: a simulated master with hidden rules answers 60 cards">Run backup session</button>
+    <button class="ghost" id="b-reset">Reset</button>
+  </div>
+</header>
+
+<main>
+  <section class="card" aria-label="Part to inspect">
+    <div class="ledger-head"><span class="label">Would you ship this part?</span><span class="label mono" id="card-n"></span></div>
+    <div class="stage" id="stage">
+      <img id="part" alt="Cast impeller, top view" src="">
+      <div class="loupe" id="loupe"></div>
+      <div class="flash" id="flash"></div>
+    </div>
+    <div class="hint">Hover or touch the part to magnify. Keys: <span class="mono">←</span> reject · <span class="mono">→</span> accept · <span class="mono">F</span> looks fake · <span class="mono">U</span> undo</div>
+    <div class="verdicts">
+      <button class="btn-reject" id="b-reject">Reject<small>scrap / rework</small></button>
+      <button class="btn-accept" id="b-accept">Accept<small>ship it</small></button>
+    </div>
+    <div class="secondary">
+      <button class="ghost" id="b-fake" title="This defect does not look real. TACIT will stop using it.">Looks fake</button>
+      <button class="ghost" id="b-undo">Undo last</button>
+    </div>
+    <details class="why"><summary>Why TACIT chose this part</summary><div id="why"></div></details>
+    <div class="err" id="err" role="alert"></div>
+  </section>
+
+  <section class="card" aria-label="What TACIT is learning">
+    <div class="ledger-head">
+      <h2>What TACIT is learning from you</h2>
+      <div class="legend"><span><i class="lg-manual"></i>Written standard</span><span><i class="lg-master"></i>Your limit (learned)</span><span><i class="lg-reject"></i>You reject</span></div>
+    </div>
+    <div class="manual-box"><span class="label">Written standard (the manual)</span><ul id="manual"></ul></div>
+    <div class="axis"><div></div><div><svg id="axis-top"></svg></div><div></div></div>
+    <div class="rows" id="rows-1"></div>
+    <details><summary>Parts with two pits</summary><div class="rows" id="rows-2"></div></details>
+    <div><span class="label">Last answers</span> <span class="hint">· amber = you disagreed with the manual</span><div class="recent" id="recent"></div></div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const XMIN = 1.5, XMAX = 7.0;
+let card = null, busy = false;
+
+async function api(path, opts) {
+  const r = await fetch(path, Object.assign({headers: {"Content-Type": "application/json"}}, opts || {}));
+  if (!r.ok) { const t = await r.json().catch(() => ({detail: r.statusText})); throw new Error(t.detail || r.statusText); }
+  return r.json();
+}
+function x(mm, w) { return (Math.min(Math.max(mm, XMIN - 0.3), XMAX + 0.3) - XMIN) / (XMAX - XMIN) * w; }
+const ZN = {sealing_lip: "Sealing lip", flange_face: "Flange face", rim: "Outer rim"};
+
+function rowSVG(r, w) {
+  const h = 34, mid = 17, lim = r.limit, lo = x(lim - r.sd, w), hi = x(lim + r.sd, w), lx = x(lim, w), mx = x(r.manual, w);
+  const reject = r.seen ? `<rect x="${lx}" y="6" width="${Math.max(0, w - lx)}" height="22" fill="var(--reject-soft)" stroke="var(--reject)" stroke-opacity=".35"/>` : "";
+  const band = r.seen ? `<rect x="${lo}" y="${mid - 3}" width="${Math.max(2, hi - lo)}" height="6" rx="3" fill="var(--master)" opacity=".22"/>` : "";
+  const dot = r.seen ? `<circle cx="${lx}" cy="${mid}" r="6" fill="var(--master)"/>` : "";
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><rect x="0" y="6" width="${w}" height="22" fill="none" stroke="var(--line)"/>${reject}
+    <line x1="${mx}" x2="${mx}" y1="2" y2="${h - 2}" stroke="var(--manual)" stroke-width="2" stroke-dasharray="4 3"/>${band}${dot}</svg>`;
+}
+function verdictText(r) {
+  if (!r.seen) return `<span class="pending">Not asked yet</span>`;
+  if (!r.confident) return `<span class="pending">Learning… limit ≈ <b>${r.limit.toFixed(1)} mm</b></span>`;
+  if (r.tacit) return `<span class="tag">Unwritten rule</span><br>You are ${r.direction}: <b>${r.limit.toFixed(1)} mm</b> vs manual <b>${r.manual.toFixed(1)} mm</b>`;
+  return `Agrees with manual (<b>${r.limit.toFixed(1)} mm</b>)`;
+}
+let lastState = null;
+function renderState(s) {
+  lastState = s;
+  $("#c-swipes").textContent = s.swipes; $("#c-rejects").textContent = s.rejects; $("#c-tacit").textContent = s.tacit_found;
+  $("#manual").innerHTML = s.manual_rules.map(t => `<li>${t}</li>`).join("");
+  const w = Math.max(160, Math.round($(".axis > div:nth-child(2)").getBoundingClientRect().width));
+  for (const n of [1, 2]) {
+    $("#rows-" + n).innerHTML = s.situations.filter(r => r.count === n).map(r => `
+      <div class="row ${r.tacit ? "tacit" : ""}">
+        <div class="name">${ZN[r.zone]}<small>${r.shape === "round" ? "Round, smooth pit" : "Irregular, jagged pit"}${n > 1 ? " · 2 pits" : ""} · ${r.seen} asked</small></div>
+        <div>${rowSVG(r, w)}</div>
+        <div class="verdict">${verdictText(r)}</div>
+      </div>`).join("");
+  }
+  const ticks = [2, 3, 4, 5, 6, 7];
+  $("#axis-top").setAttribute("viewBox", `0 0 ${w} 18`); $("#axis-top").setAttribute("width", w);
+  $("#axis-top").innerHTML = ticks.map(t => `<text x="${x(t, w)}" y="12" text-anchor="middle">${t} mm</text>`).join("");
+  $("#recent").innerHTML = s.recent.map(e => {
+    const cls = e.fake ? "f" : (e.y ? "r" : "a"), diff = !e.fake && e.y !== e.manual;
+    const [z, sh, n] = e.context.split("/");
+    return `<span class="chip ${cls} ${diff ? "diff" : ""}" title="${ZN[z]}, ${sh}, ${n} pit(s), ${e.size_mm} mm">${e.fake ? "fake" : (e.y ? "✕" : "✓")} ${ZN[z].split(" ")[0]} ${e.size_mm.toFixed(1)}</span>`;
+  }).join("");
+}
+async function loadCard() {
+  busy = true; setButtons();
+  try {
+    card = await api("/api/capture/next");
+    $("#part").src = card.image; $("#card-n").textContent = "Part #" + (card.n + 1);
+    const w = card.why;
+    $("#why").innerHTML = `${w.note}.<br>Situation <b>${w.context.replaceAll("/", " · ")}</b>, pit size <b>${w.size_mm.toFixed(1)} mm</b>` +
+      (w.info_gain != null ? `, expected information <b>${w.info_gain.toFixed(2)} nats</b>` : "") + ".";
+    $("#err").textContent = "";
+  } catch (e) { $("#err").textContent = "Could not load the next part: " + e.message; }
+  busy = false; setButtons();
+}
+function setButtons() { for (const id of ["#b-reject", "#b-accept", "#b-fake"]) $(id).disabled = busy || !card; }
+function flash(kind) { const f = $("#flash"); f.className = "flash " + kind + " show"; f.textContent = kind === "accept" ? "ACCEPT" : kind === "reject" ? "REJECT" : "FLAGGED"; setTimeout(() => f.classList.remove("show"), 260); }
+async function send(verdict, fake = false) {
+  if (busy || !card) return;
+  busy = true; setButtons(); flash(fake ? "" : verdict);
+  try { renderState(await api("/api/capture/answer", {method: "POST", body: JSON.stringify({id: card.id, verdict, fake})})); }
+  catch (e) { $("#err").textContent = e.message; }
+  card = null; busy = false; await loadCard();
+}
+$("#b-reject").onclick = () => send("reject");
+$("#b-accept").onclick = () => send("accept");
+$("#b-fake").onclick = () => send("accept", true);
+$("#b-undo").onclick = async () => renderState(await api("/api/capture/undo", {method: "POST"}));
+$("#b-reset").onclick = async () => { renderState(await api("/api/capture/reset", {method: "POST"})); loadCard(); };
+$("#b-auto").onclick = async () => { $("#b-auto").disabled = true; $("#b-auto").textContent = "Running…"; try { renderState(await api("/api/capture/autofill?n=60", {method: "POST"})); } finally { $("#b-auto").disabled = false; $("#b-auto").textContent = "Run backup session"; loadCard(); } };
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea")) return;
+  if (e.key === "ArrowLeft") send("reject"); else if (e.key === "ArrowRight") send("accept");
+  else if (e.key.toLowerCase() === "f") send("accept", true); else if (e.key.toLowerCase() === "u") $("#b-undo").click();
+});
+// loupe
+const stage = $("#stage"), loupe = $("#loupe"), ZOOM = 3;
+function moveLoupe(cx, cy) {
+  const r = stage.getBoundingClientRect(), px = cx - r.left, py = cy - r.top;
+  if (px < 0 || py < 0 || px > r.width || py > r.height) { loupe.style.display = "none"; return; }
+  loupe.style.display = "block"; loupe.style.left = (px - 85) + "px"; loupe.style.top = (py - 85) + "px";
+  loupe.style.backgroundImage = `url(${$("#part").src})`; loupe.style.backgroundSize = `${r.width * ZOOM}px ${r.height * ZOOM}px`;
+  loupe.style.backgroundPosition = `${-(px * ZOOM - 85)}px ${-(py * ZOOM - 85)}px`;
+}
+stage.addEventListener("pointermove", e => moveLoupe(e.clientX, e.clientY));
+stage.addEventListener("pointerleave", () => loupe.style.display = "none");
+window.addEventListener("resize", () => lastState && renderState(lastState));
+api("/api/capture/state").then(renderState); loadCard();
+</script>
+</body>
+</html>

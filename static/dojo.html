@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技能道場 · TACIT Dojo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700;900&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="/tacit.css?v=20261025b">
+<script src="/bilingual.js?v=20261025b" defer></script>
+<style>
+/* A dojo hung with indigo noren. Three stations (eye, ear, hand), then a rank. Paper for content, indigo for the room,
+   vermilion only for seals, gold only for the rank. */
+:root{
+  --ai:#1f2c52; --ai-2:#24335f; --ai-3:#2d3f74; --ai-line:rgba(255,255,255,.12);
+  --washi:#f3f0e7; --washi-2:#e9e4d6; --sumi:#1d1f24; --sumi-2:#55585f;
+  --shu:#c8372d; --gold:#d3a84a; --ok:#2f8a57; --ng:#c8372d; --ink:#1f3a93;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --serif:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
+  --hand:"Caveat","Segoe Print",cursive;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100%}
+body{background:var(--ai);color:var(--washi);font-family:var(--sans);font-size:16px;line-height:1.55;overflow-x:hidden;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,transparent 1px 5px)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.en{display:block;font-size:.8em;opacity:.7;font-weight:400;font-family:var(--sans)}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:16px;padding:12px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--ai-line)}
+.bar .t{font-family:var(--serif);font-weight:700;font-size:1.2rem;letter-spacing:.2em}
+.bar a{margin-left:auto;color:var(--washi);opacity:.7;font-size:.85rem;text-decoration:none}
+.stations{display:flex;gap:6px;margin-left:12px}
+.stations span{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);display:grid;place-items:center;font-family:var(--serif);font-weight:700;opacity:.55}
+.stations span.now{opacity:1;border-color:var(--gold);color:var(--gold)}
+.stations span.done{opacity:1;background:var(--washi);color:var(--ai);border-color:var(--washi)}
+
+/* noren entrance */
+.noren{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--ai);overflow:hidden}
+.rod{position:absolute;top:28px;left:3%;right:3%;height:16px;border-radius:8px;background:linear-gradient(#8b6440,#5b3d22);box-shadow:0 4px 10px rgba(0,0,0,.4);z-index:2}
+.cloth{position:absolute;top:36px;bottom:16%;width:47%;background:var(--ai-3);
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 1px,transparent 1px 4px);
+  box-shadow:inset 0 -30px 40px -30px rgba(0,0,0,.6);display:grid;place-items:center;transition:transform 1.1s cubic-bezier(.6,0,.2,1);transform-origin:top center}
+.cloth.l{left:3%;border-right:2px solid rgba(0,0,0,.25)} .cloth.r{right:3%}
+.cloth b{font-family:var(--serif);font-weight:900;font-size:clamp(4rem,min(13vw,17vh),10rem);color:var(--washi);line-height:1.08;display:flex;flex-direction:column;align-items:center;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+.cloth b span{display:block}
+.noren.open .cloth.l{transform:translateX(-112%) rotate(-4deg)}
+.noren.open .cloth.r{transform:translateX(112%) rotate(4deg)}
+.noren.open{background:transparent;pointer-events:none;transition:background .9s .3s}
+.enter{position:absolute;bottom:5%;z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity .4s}
+.noren.open .enter{opacity:0}
+.enter p{margin:0;opacity:.85;text-align:center;max-width:44ch}
+.btn{border:0;border-radius:8px;padding:14px 26px;font-weight:700;font-size:1.1rem;background:var(--washi);color:var(--ai)}
+.btn .en{color:var(--ai)}
+.btn.gold{background:var(--gold);color:var(--sumi)}
+.btn.ghost{background:transparent;color:var(--washi);border:1.5px solid rgba(255,255,255,.4)}
+.btn.ghost .en{color:var(--washi)}
+
+/* stations */
+.station{max-width:1200px;margin:0 auto;padding:26px max(16px,env(safe-area-inset-left)) 40px}
+.head{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap;margin-bottom:18px}
+.kanji{font-family:var(--serif);font-weight:900;font-size:clamp(3.4rem,8vw,5.6rem);line-height:.9;color:var(--washi)}
+.head h2{margin:0;font-family:var(--serif);font-size:1.7rem;line-height:1.25}
+.head p{margin:4px 0 0;opacity:.8;max-width:62ch}
+.paper{background:var(--washi);color:var(--sumi);border-radius:6px;padding:22px;position:relative}
+.paper .en{color:var(--sumi-2);opacity:1}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.result{font-family:var(--serif);font-size:1.25rem;line-height:1.5}
+.pts{font-family:var(--serif);font-weight:900;font-size:2.4rem;color:var(--gold);line-height:1}
+
+/* eye: limit samples */
+.strip-wrap{position:relative;padding:58px 0 46px;touch-action:none;user-select:none}
+.strip{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;position:relative}
+.cell{position:relative;border-radius:4px;overflow:hidden;aspect-ratio:1;background:#000;outline:3px solid transparent;transition:outline-color .15s}
+.cell img{width:100%;height:100%;display:block;object-fit:cover}
+.cell .v{position:absolute;right:6px;top:4px;font-weight:900;font-size:1.5rem;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.cell.ok{outline-color:var(--ok)} .cell.ok .v{color:#7fe0a6}
+.cell.ng{outline-color:var(--ng)} .cell.ng .v{color:#ff9a90}
+.cell.gap{outline-color:var(--gold)!important;box-shadow:0 0 0 6px rgba(211,168,74,.25)}
+.cell .you{position:absolute;left:4px;top:4px;background:var(--washi);color:var(--sumi);font-size:.72rem;font-weight:700;border-radius:8px;padding:1px 7px}
+.cell .mm{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);color:#fff;font-size:.8rem;text-align:center;padding:2px 0}
+.marker{position:absolute;top:8px;bottom:22px;width:0;cursor:ew-resize;z-index:3}
+.marker::before{content:"";position:absolute;left:-3px;top:0;bottom:0;width:6px;border-radius:3px;background:linear-gradient(90deg,#9cbf5a,#d9e7a3,#9cbf5a);box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+.marker .grip{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);background:var(--washi);color:var(--sumi);border-radius:16px;padding:3px 12px;font-weight:700;white-space:nowrap;font-size:.9rem;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.manual-line{position:absolute;top:0;bottom:30px;width:0;border-left:2px dashed rgba(255,255,255,.55);z-index:2;pointer-events:none}
+.manual-line > span{position:absolute;top:-2px;left:6px;font-size:.78rem;white-space:nowrap;opacity:.85}
+.manual-line > span .en{font-size:.9em}
+.brush{position:absolute;top:26px;bottom:18px;width:46px;margin-left:-23px;z-index:4;pointer-events:none;overflow:visible}
+.brush path{fill:none;stroke:#e9eefc;stroke-width:14;stroke-linecap:round;filter:url(#rough)}
+.brush .lbl{position:absolute;top:-30px;left:50%;transform:translateX(-50%) rotate(-4deg);font-family:var(--hand);font-size:2rem;font-weight:700;color:#fff;white-space:nowrap;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.gaplbl{position:absolute;bottom:-4px;transform:translateX(-50%);color:var(--gold);font-weight:700;white-space:nowrap;font-size:.95rem}
+.ruler{display:flex;justify-content:space-between;font-size:.75rem;opacity:.6;margin-top:6px}
+
+/* ear */
+.pumps{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pump{background:var(--ai-2);border:1.5px solid var(--ai-line);border-radius:12px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.pump svg{width:150px;height:110px;overflow:visible}
+.pump .waves circle{fill:none;stroke:var(--gold);stroke-width:2;opacity:0}
+.pump.playing .waves circle{animation:wave 1s ease-out infinite}
+.pump.playing .waves circle:nth-child(2){animation-delay:.33s}.pump.playing .waves circle:nth-child(3){animation-delay:.66s}
+@keyframes wave{0%{opacity:.9;r:20}100%{opacity:0;r:62}}
+.pump .lab{font-family:var(--serif);font-size:2rem;font-weight:900}
+.pump .acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pump.right{border-color:var(--ok);background:rgba(47,138,87,.2)} .pump.wrong{border-color:var(--ng);background:rgba(200,55,45,.2)}
+.meter{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:18px}
+.track{position:relative;height:20px;border-radius:10px;background:rgba(255,255,255,.1);overflow:visible}
+.track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:linear-gradient(90deg,#f0b44c,#e0603f);transition:width .5s}
+.track .stop{position:absolute;top:-8px;bottom:-8px;border-left:2px solid #fff}
+.track .stop > span{position:absolute;bottom:26px;left:-4px;font-size:.78rem;white-space:nowrap}
+.trail{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.trail i{font-style:normal;font-size:.8rem;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.1)}
+.trail i.r{background:rgba(47,138,87,.45)} .trail i.w{background:rgba(200,55,45,.45)}
+
+/* hand */
+.handgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:center}
+.pad{user-select:none;-webkit-user-select:none;position:relative;background:var(--ai-2);border-radius:12px;border:1.5px solid var(--ai-line);touch-action:none;user-select:none}
+.pad svg{display:block;width:100%;height:auto}
+.gauge svg{width:100%;max-width:340px;display:block;margin:0 auto}
+.tries{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.tries i{font-style:normal;padding:3px 10px;border-radius:10px;background:rgba(255,255,255,.1);font-size:.85rem}
+.tries i.p{background:rgba(47,138,87,.5)} .tries i.f{background:rgba(200,55,45,.5)}
+
+/* finale */
+.cert{background:var(--washi);color:var(--sumi);max-width:820px;margin:20px auto 0;border-radius:4px;padding:38px 34px 30px;position:relative;text-align:center;
+  outline:2px solid #b9a77a;outline-offset:-12px}
+.cert .rank{font-family:var(--serif);font-weight:900;font-size:clamp(5rem,16vw,9rem);line-height:1;margin:6px 0;color:var(--sumi);clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.5,0,.2,1)}
+.cert .rank.show{clip-path:inset(0 0 0 0)}
+.cert .en{color:var(--sumi-2)}
+.cert .score{font-size:1.05rem;color:var(--sumi-2)}
+.seal{position:absolute;right:40px;top:40px;width:104px;height:104px;border:5px solid var(--shu);color:var(--shu);border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:1.6rem;line-height:1.05;text-align:center;
+  transform:rotate(-8deg) scale(2.6);opacity:0;transition:transform .25s cubic-bezier(.3,1.6,.6,1),opacity .15s;background:rgba(200,55,45,.05)}
+.seal.down{transform:rotate(-8deg) scale(1);opacity:.92}
+.secrets{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:left}
+.secrets li{background:var(--washi-2);border-left:4px solid var(--shu);padding:10px 12px;font-size:.92rem}
+.secrets b{display:block;font-family:var(--serif)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translate(2px,-2px)}50%{transform:translate(-2px,2px)}75%{transform:translate(1px,1px)}}
+
+@media (max-width:860px){.pumps,.handgrid,.secrets{grid-template-columns:1fr}.strip{gap:3px}.cell .v{font-size:1rem}.cell .you{position:absolute;left:4px;top:4px;background:var(--washi);color:var(--sumi);font-size:.72rem;font-weight:700;border-radius:8px;padding:1px 7px}
+.cell .mm{font-size:.62rem}.seal{width:76px;height:76px;font-size:1.15rem;right:18px;top:18px}.stations{display:none}}
+@media (prefers-reduced-motion:reduce){.cloth,.cert .rank,.seal,.track .fill{transition:none}.pump.playing .waves circle{animation:none}}
+.offer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding:12px 14px;background:#262626;border-left:6px solid var(--gold,#f2b51b);width:100%}
+.offer-t{flex:1 1 260px;color:#fff}
+.offer .en{color:#cfd5db}
+</style>
+<link rel="stylesheet" href="/pixel.css?v=20261025b">
+<link rel="stylesheet" href="/calm.css?v=1">
+<link rel="stylesheet" href="/deck.css?v=1">
+<script src="/lesson.js?v=20261025e" defer></script>
+</head>
+<body class="d">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+
+<div class="noren" id="noren">
+  <div class="rod"></div>
+  <div class="cloth l"><b><span>技</span><span>能</span></b></div><div class="cloth r"><b><span>道</span><span>場</span></b></div>
+  <div class="enter"><p>熟練者の目・耳・手を、三つの稽古で。<span class="en">The master's eye, ear and hand, in three short drills. About two minutes.</span></p>
+    <button class="btn gold" id="b-enter">入門する<kbd class="k">Enter</kbd><span class="en">Enter the dojo</span></button></div>
+</div>
+
+<div class="bar">
+  <span class="t">技能道場</span><span style="opacity:.6;font-size:.85rem">TACIT Dojo</span>
+  <div class="stations" aria-hidden="true"><span id="st-1">目</span><span id="st-2">耳</span><span id="st-3">手</span><span id="st-4">段</span></div>
+  <a href="/">← ホーム<span class="en">← Home</span></a>
+</div>
+
+<!-- 1: eye -->
+<section class="station" id="s-eye" hidden>
+  <div class="head"><div class="kanji">目</div><div><h2>限度見本：師匠はどこで線を引く？<span class="en">Limit samples: where does the master draw the line?</span></h2>
+    <p id="eye-sub">同じ鋳物で、ピットが 1.5 mm から 7 mm まで大きくなります。竹の目印をドラッグしてください。左側は出荷（○）、右側は廃棄（✕）。<span class="en">One cast impeller, the same pit growing from 1.5 to 7 mm. Drag the bamboo marker: parts on its left ship (○), parts on its right are scrapped (✕).</span></p></div></div>
+  <div class="strip-wrap" id="wrap">
+    <div class="strip" id="strip"></div>
+    <div class="manual-line" id="manual"><span>標準書 4.0 mm<span class="en">Manual 4.0 mm</span></span></div>
+    <div class="marker" id="marker" role="slider" tabindex="0" aria-label="Your line, in millimetres" aria-valuemin="1.5" aria-valuemax="7"><span class="grip" id="grip"></span></div>
+  </div>
+  <div class="ruler"><span>小さいピット<span class="en">small pit</span></span><span style="text-align:right">大きいピット<span class="en">large pit</span></span></div>
+  <div class="row"><button class="btn gold" id="b-lock">この線で決める<kbd class="k">Enter</kbd><span class="en">Lock in my line</span></button><div class="result" id="eye-res"></div></div>
+</section>
+
+<!-- 2: ear -->
+<section class="station" id="s-ear" hidden>
+  <div class="head"><div class="kanji">耳</div><div><h2>聞き分け：どちらのポンプが悪い？<span class="en">Which pump is sick? Real pump recordings.</span></h2>
+    <p>正解するたびに故障音は小さくなります。聞き分けられる一番かすかな故障音を見つけ、師匠がどこでポンプを止めるかを確かめましょう。<span class="en">Every right answer makes the fault fainter. Find the faintest fault you can still hear, then see where the master stops the pump.</span></p></div></div>
+  <div class="pumps">
+    <div class="pump" id="p-a"><svg viewBox="0 0 150 110" aria-hidden="true"><g class="waves"><circle cx="75" cy="50" r="20"/><circle cx="75" cy="50" r="20"/><circle cx="75" cy="50" r="20"/></g><rect x="35" y="30" width="60" height="40" rx="8" fill="#3c5193"/><circle cx="105" cy="50" r="14" fill="#5b6fb0"/><rect x="25" y="70" width="90" height="10" rx="3" fill="#6b7aa5"/></svg>
+      <span class="lab">A</span><div class="acts"><button class="btn ghost" data-play="a">▶ 聴く<span class="en">Listen</span></button><button class="btn" data-pick="a">A が悪い<kbd class="k">A</kbd><span class="en">A is sick</span></button></div></div>
+    <div class="pump" id="p-b"><svg viewBox="0 0 150 110" aria-hidden="true"><g class="waves"><circle cx="75" cy="50" r="20"/><circle cx="75" cy="50" r="20"/><circle cx="75" cy="50" r="20"/></g><rect x="35" y="30" width="60" height="40" rx="8" fill="#3c5193"/><circle cx="105" cy="50" r="14" fill="#5b6fb0"/><rect x="25" y="70" width="90" height="10" rx="3" fill="#6b7aa5"/></svg>
+      <span class="lab">B</span><div class="acts"><button class="btn ghost" data-play="b">▶ 聴く<span class="en">Listen</span></button><button class="btn" data-pick="b">B が悪い<kbd class="k">B</kbd><span class="en">B is sick</span></button></div></div>
+  </div>
+  <div class="meter"><span>故障音の強さ<span class="en">Fault strength</span></span><div class="track"><div class="fill" id="fill"></div><div class="stop" id="stop"><span>師匠が止める<span class="en">Where the master stops the pump</span></span></div></div></div>
+  <div class="trail" id="trail"></div>
+  <div class="row"><div class="result" id="ear-res"></div></div>
+</section>
+
+<!-- 3: hand -->
+<section class="station" id="s-hand" hidden>
+  <div class="head"><div class="kanji">手</div><div><h2>バリ取り：最後は力を抜く<span class="en">Deburring: ease off at the end of the stroke</span></h2>
+    <p>工具をシールリップに沿って、緑の点から赤い点までドラッグしてください。標準書では 25 mm/s まで。最後の速度に注目。<span class="en">Drag the tool along the sealing lip, from the green dot to the red dot. The manual allows up to 25 mm/s. Watch the speed at the very end.</span></p></div></div>
+  <div class="handgrid">
+    <div class="pad" id="pad"><svg viewBox="0 0 420 340" id="padsvg" aria-label="Trace the deburring stroke"></svg></div>
+    <div class="gauge"><svg viewBox="0 0 340 200" id="gauge"></svg><div class="tries" id="tries"></div><div class="result" id="hand-res" style="text-align:center;margin-top:10px"></div></div>
+  </div>
+</section>
+
+<!-- finale -->
+<section class="station" id="s-end" hidden>
+  <div class="cert" id="cert"></div>
+  <div class="row" style="justify-content:center"><button class="btn gold" id="b-again">もう一度稽古する<span class="en">Train again</span></button><a class="btn ghost" href="/passport" style="text-decoration:none">工場の画面へ<span class="en">Plant view</span></a></div>
+</section>
+
+<script>
+const $ = s => document.querySelector(s);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+let INFO = null, score = {eye: [], ear: 0, hand: 0}, earMin = null, handBest = null;
+
+// a taiko "don" for the big moments (Web Audio, no files)
+let AC = null;
+function don(f = 70, d = .5, g = .9) {
+  try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), v = AC.createGain(), t = AC.currentTime;
+    o.frequency.setValueAtTime(f * 2.2, t); o.frequency.exponentialRampToValueAtTime(f, t + .08); v.gain.setValueAtTime(g, t); v.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(v); v.connect(AC.destination); o.start(t); o.stop(t + d); } catch (e) {}
+}
+function station(n) {
+  ["s-eye", "s-ear", "s-hand", "s-end"].forEach((id, k) => $("#" + id).hidden = k !== n);
+  [1, 2, 3, 4].forEach(k => { const e = $("#st-" + k); e.className = k - 1 < n ? "done" : k - 1 === n ? "now" : ""; });
+  window.scrollTo(0, 0);
+}
+
+
+// ------------------------------------------------------------------ progress, saved after every drill (for the hub)
+function saveSkill(key, value) {
+  try {
+    const h = JSON.parse(localStorage.getItem("tacit-practice") || "{}"); h.days = h.days || []; h.best = h.best || {};
+    const d = new Date().toISOString().slice(0, 10); if (!h.days.includes(d)) h.days.push(d);
+    h.best[key] = Math.max(h.best[key] || 0, value);
+    localStorage.setItem("tacit-practice", JSON.stringify(h));
+  } catch (e) {}
+}
+// ------------------------------------------------------------------ entrance
+$("#b-enter").onclick = async () => {
+  if (!INFO) INFO = await (await fetch("/api/dojo/info")).json();   // the master's lines must be loaded before any drill starts
+  don(60, .9); $("#noren").classList.add("open");
+  const go = location.hash.slice(1);                       // the hub opens a stage directly: #flange, #ear, #hand
+  if (go === "ear") { station(1); earStart(); } else if (go === "hand") { station(2); handStart(); }
+  else { station(0); eyeRound(go === "flange" ? 1 : 0); }
+  await sleep(1300); $("#noren").hidden = true;
+};
+
+// ------------------------------------------------------------------ 1. eye
+const ZONES = [["sealing_lip", "シールリップ", "Sealing lip"], ["flange_face", "フランジ面", "Flange face"]];
+let E = null, line = 4.0, locked = false;
+async function eyeRound(k) {
+  locked = false; $("#eye-res").innerHTML = ""; $("#b-lock").hidden = false; clearOffers();
+  $("#wrap").querySelectorAll(".brush,.gaplbl").forEach(e => e.remove());
+  const [z, ja, en] = ZONES[k];
+  $("#eye-sub").innerHTML = `${ja}。同じ鋳物で、ピットが 1.5 mm から 7 mm まで大きくなります。竹の目印をドラッグしてください。左側は出荷（○）、右側は廃棄（✕）。<span class="en">${en}. One cast impeller, the same pit growing from 1.5 to 7 mm. Drag the bamboo marker: parts on its left ship (○), parts on its right are scrapped (✕).</span>`;
+  E = await (await fetch("/api/dojo/eye?zone=" + z)).json(); E.k = k;
+  $("#strip").innerHTML = E.images.map((src, i) => `<div class="cell" id="c${i}"><img src="${src}" alt="Pit ${E.sizes[i]} mm"><span class="v"></span><span class="mm">${E.sizes[i].toFixed(1)} mm</span></div>`).join("");
+  line = 4.0; placeLine(); placeX($("#manual"), E.manual);
+}
+// size <-> x: the cells are evenly spaced, sizes nearly so; interpolate between cell centres
+function xOf(mm) {
+  const r = $("#strip").getBoundingClientRect(), w = $("#wrap").getBoundingClientRect(), n = E.sizes.length, cw = r.width / n;
+  let i = 0; while (i < n - 2 && mm > E.sizes[i + 1]) i++;
+  const f = clamp((mm - E.sizes[i]) / (E.sizes[i + 1] - E.sizes[i]), -0.6, 1.6);
+  return r.left - w.left + cw * (i + .5 + f);
+}
+function mmOf(x) {
+  const r = $("#strip").getBoundingClientRect(), w = $("#wrap").getBoundingClientRect(), n = E.sizes.length, cw = r.width / n;
+  const p = clamp((x - (r.left - w.left)) / cw - .5, -0.45, n - .55); const i = clamp(Math.floor(p), 0, n - 2), f = p - i;
+  return Math.round((E.sizes[i] + f * (E.sizes[i + 1] - E.sizes[i])) * 10) / 10;
+}
+function placeX(el, mm) { el.style.left = xOf(mm) + "px"; }
+function placeLine() {
+  placeX($("#marker"), line); $("#grip").innerHTML = `あなたの線 ${line.toFixed(1)} mm<span class="en">Your line ${line.toFixed(1)} mm</span>`;
+  $("#marker").setAttribute("aria-valuenow", line);
+  E.sizes.forEach((s, i) => { const c = $("#c" + i); if (!c) return; const ng = s > line; c.classList.toggle("ok", !ng); c.classList.toggle("ng", ng); c.querySelector(".v").textContent = ng ? "✕" : "○"; });
+}
+(() => {
+  // the whole strip is the drag surface: press anywhere, the marker follows until release
+  const m = $("#marker"), W = $("#wrap"); let drag = false;
+  const move = e => { if (!drag || locked) return; const w = W.getBoundingClientRect(); line = clamp(mmOf(e.clientX - w.left), 1.2, 7.3); placeLine(); };
+  const stop = () => { drag = false; };
+  W.addEventListener("pointerdown", e => { if (locked) return; drag = true; W.setPointerCapture(e.pointerId); move(e); e.preventDefault(); });
+  W.addEventListener("pointermove", move);
+  ["pointerup", "pointercancel", "lostpointercapture"].forEach(ev => W.addEventListener(ev, stop));
+  m.addEventListener("keydown", e => { if (locked) return; if (e.key === "ArrowLeft") { line = clamp(line - .1, 1.2, 7.3); placeLine(); e.preventDefault(); } if (e.key === "ArrowRight") { line = clamp(line + .1, 1.2, 7.3); placeLine(); e.preventDefault(); } });
+  window.addEventListener("resize", () => { if (E) { placeLine(); placeX($("#manual"), E.manual); $("#wrap").querySelectorAll("[data-mm]").forEach(el => placeX(el, +el.dataset.mm)); } });
+})();
+$("#b-lock").onclick = async () => {
+  if (locked) return; locked = true; $("#b-lock").hidden = true;
+  const m = E.master, err = Math.abs(line - m), pts = Math.max(0, Math.round(100 - 45 * err));
+  score.eye[E.k] = pts; saveSkill(E.k === 0 ? "lip" : "flange", pts);
+  // the master's line, painted
+  const b = document.createElement("div"); b.className = "brush"; b.dataset.mm = m; placeX(b, m);
+  const h = $("#strip").getBoundingClientRect().height + 40;
+  b.innerHTML = `<svg width="46" height="${h}" viewBox="0 0 46 ${h}"><path d="M23 4 C 27 ${h * .3}, 19 ${h * .6}, 24 ${h - 6}" stroke-dasharray="${h * 1.1}" stroke-dashoffset="${h * 1.1}"><animate attributeName="stroke-dashoffset" to="0" dur=".7s" fill="freeze"/></path></svg><span class="lbl">師匠 ${m.toFixed(1)} mm<span class="en">Master ${m.toFixed(1)} mm</span></span>`;
+  $("#wrap").appendChild(b); don(90, .4, .6);
+  await sleep(750);
+  // the tacit gap: parts where the master and the manual disagree
+  const lo = Math.min(m, E.manual), hi = Math.max(m, E.manual);
+  let wrong = 0;
+  E.sizes.forEach((s, i) => {
+    const c = $("#c" + i), masterNg = s >= m, mineNg = s > line, manualNg = s > E.manual;
+    c.classList.toggle("ok", !masterNg); c.classList.toggle("ng", masterNg);
+    c.querySelector(".v").textContent = masterNg ? "✕" : "○";            // from now on: the master's call
+    if (masterNg !== manualNg) c.classList.add("gap");                     // where the manual is wrong
+    if (masterNg !== mineNg) { wrong++; c.insertAdjacentHTML("beforeend", `<span class="you">あなた ${mineNg ? "✕" : "○"}<span class="en">You ${mineNg ? "✕" : "○"}</span></span>`); }
+  });
+  const g = document.createElement("div"); g.className = "gaplbl"; g.dataset.mm = (lo + hi) / 2; placeX(g, (lo + hi) / 2);
+  g.innerHTML = "↔ 暗黙知<span class='en'>↔ The tacit gap</span>"; $("#wrap").appendChild(g);
+  const stricter = m < E.manual;
+  $("#eye-res").innerHTML = `<span class="pts">${pts}</span> 点 · あなた ${line.toFixed(1)} mm, 師匠 ${m.toFixed(1)} mm
+    <span class="en">points. Your line ${line.toFixed(1)} mm, the master's ${m.toFixed(1)} mm. ${wrong ? `You called ${wrong} of ${E.sizes.length} parts differently from the master (marked "You").` : "Every part called like the master."} The marks now show the master's call. ${m === E.manual ? "Here the master agrees with the manual, so there is no gap to learn." : `He is ${stricter ? "stricter" : "more lenient"} than the manual here: the gold parts are the ones the manual gets wrong.`} Learned from ${E.source}.</span>`;
+  const nb = document.createElement("button"); nb.className = "btn"; nb.innerHTML = E.k === 0 ? "次：フランジ面<span class='en'>Next: the flange face</span>" : "次：耳の稽古<span class='en'>Next: the ear</span>";
+  nb.onclick = () => { nb.remove(); clearOffers(); if (E.k === 0) eyeRound(1); else { station(1); earStart(); } };
+  $("#eye-res").parentElement.appendChild(nb); nb.focus();
+  if (wrong) {                                      // a mistake: generate the master's lesson for it
+    offerLesson($("#eye-res").parentElement, () => eyeLesson(m, line), nb);
+  }
+};
+
+// ------------------------------------------------------------------ 2. ear (exaggerate, then fade)
+let level = .85, trial = null, nTrials = 0, audio = {a: new Audio(), b: new Audio()}, trail = [];
+const EAR_TRIALS = 6;
+function earStart() {
+  level = .85; nTrials = 0; trail = []; earMin = null; $("#trail").innerHTML = ""; $("#ear-res").innerHTML = "";
+  $("#stop").style.left = (100 * INFO.ear) + "%"; earTrial();
+}
+async function earTrial() {
+  ["a", "b"].forEach(k => $("#p-" + k).classList.remove("right", "wrong"));
+  $("#fill").style.width = (100 * level) + "%";
+  trial = await (await fetch("/api/dojo/ear/trial", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({level})})).json();
+  audio.a.src = trial.a; audio.b.src = trial.b;
+  document.querySelectorAll("[data-pick]").forEach(b => b.disabled = false);
+  playBoth();
+}
+async function play(k) {
+  const o = k === "a" ? "b" : "a"; audio[o].pause(); $("#p-" + o).classList.remove("playing");
+  audio[k].currentTime = 0; $("#p-" + k).classList.add("playing");
+  try { await audio[k].play(); } catch (e) {}
+  await new Promise(r => { audio[k].onended = r; setTimeout(r, 2700); });
+  $("#p-" + k).classList.remove("playing");
+}
+async function playBoth() { await play("a"); await sleep(250); await play("b"); }
+document.querySelectorAll("[data-play]").forEach(b => b.onclick = () => play(b.dataset.play));
+document.querySelectorAll("[data-pick]").forEach(b => b.onclick = async () => {
+  if (!trial) return; document.querySelectorAll("[data-pick]").forEach(x => x.disabled = true);
+  audio.a.pause(); audio.b.pause();
+  const r = await (await fetch("/api/dojo/ear/answer", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({id: trial.id, pick: b.dataset.pick})})).json();
+  trial = null; nTrials++;
+  $("#p-" + r.faulty).classList.add(r.correct ? "right" : "wrong");
+  const prev = trail[trail.length - 1];
+  if (r.correct) { if (prev && prev.correct) earMin = earMin === null ? r.level : Math.min(earMin, r.level); don(110, .25, .4); } else $("#p-" + b.dataset.pick).classList.add("shake");
+  trail.push(r); $("#trail").innerHTML = trail.map(t => `<i class="${t.correct ? "r" : "w"}">${Math.round(100 * t.level)}% ${t.correct ? "○" : "✕"}</i>`).join("");
+  level = r.correct ? Math.max(.04, level * .55) : Math.min(1, level / .55);
+  await sleep(900);
+  if (nTrials < EAR_TRIALS) return earTrial();
+  // result
+  const m = INFO.ear, mine = earMin;
+  score.ear = mine === null ? 10 : mine <= m ? 100 : Math.max(20, Math.round(100 - 120 * (mine - m))); saveSkill("ear", score.ear);
+  $("#fill").style.width = (100 * (mine ?? 1)) + "%";
+  $("#ear-res").innerHTML = `<span class="pts">${score.ear}</span> 点 · ${mine === null ? "まだ安定して聞き分けられない" : `${Math.round(100 * mine)}% の故障音まで聞き分けた`}
+    <span class="en">${mine === null ? "Not two right in a row yet, so this could still be guessing." : `Two right in a row down to a ${Math.round(100 * mine)}% fault, so not a lucky guess.`} The master stops the pump at ${Math.round(100 * m)}% (learned from ${INFO.ear_src}), well before a sound-level meter would. ${mine !== null && mine <= m ? "Your ear can already hear everything the master acts on." : "Not yet at the master's ear: practise on the Ear page."}</span>`;
+  const nb = document.createElement("button"); nb.className = "btn"; nb.innerHTML = "次：手の稽古<span class='en'>Next: the hand</span>";
+  nb.onclick = () => { nb.remove(); clearOffers(); station(2); handStart(); }; $("#ear-res").parentElement.appendChild(nb); nb.focus();
+  if (score.ear < 100) offerLesson($("#ear-res").parentElement, () => earLesson(mine), nb);
+});
+
+// ------------------------------------------------------------------ 3. hand (trace the stroke)
+const CX = 210, CY = 175, R = 118, A0 = 200, A1 = 340, MMPS_PER_PXPS = .085;   // pixels per second to mm/s
+let tries = [];
+const pt = a => [CX + R * Math.cos(a * Math.PI / 180), CY + R * Math.sin(a * Math.PI / 180)];
+function handStart() {
+  clearOffers(); tries = []; handBest = null; $("#hand-res").innerHTML = ""; drawTries();
+  const [sx, sy] = pt(A0), [ex, ey] = pt(A1);
+  $("#padsvg").innerHTML = `<circle cx="${CX}" cy="${CY}" r="162" fill="#3a4a7e"/><circle cx="${CX}" cy="${CY}" r="140" fill="#56659a"/>
+    <circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="#d3a84a" stroke-width="14" opacity=".35"/>
+    <circle cx="${CX}" cy="${CY}" r="96" fill="#1a2343"/><circle cx="${CX}" cy="${CY}" r="40" fill="#56659a"/><circle cx="${CX}" cy="${CY}" r="22" fill="#1a2343"/>
+    <path d="M${sx} ${sy} A ${R} ${R} 0 0 1 ${ex} ${ey}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="5 6" opacity=".7"/>
+    <text x="${CX}" y="${CY - R - 26}" text-anchor="middle" fill="#fff" font-size="14" opacity=".8">シールリップの縁 · sealing lip edge</text>
+    <g id="trace"></g><circle cx="${sx}" cy="${sy}" r="12" fill="#2f8a57"/><circle cx="${ex}" cy="${ey}" r="12" fill="#c8372d"/><circle id="tool" cx="${sx}" cy="${sy}" r="9" fill="#fff" stroke="#000" stroke-width="2"/>`;
+  gauge(0);
+}
+function gauge(v, done) {
+  const m = INFO.hand, man = 25, max = 40, ang = x => Math.PI * (1 - clamp(x, 0, max) / max);
+  const p = (x, r) => [170 + r * Math.cos(ang(x)), 175 - r * Math.sin(ang(x))];
+  const arc = (a, b, col) => { const [x0, y0] = p(a, 130), [x1, y1] = p(b, 130); return `<path d="M${x0} ${y0} A130 130 0 0 1 ${x1} ${y1}" stroke="${col}" stroke-width="18" fill="none"/>`; };
+  const [nx, ny] = p(v, 112), tick = (x, l, c) => { const [a, b] = p(x, 150), [c2, d] = p(x, 108); return `<line x1="${a}" y1="${b}" x2="${c2}" y2="${d}" stroke="${c}" stroke-width="3"/><text x="${p(x, 168)[0]}" y="${p(x, 168)[1]}" fill="${c}" font-size="12" text-anchor="middle">${l}</text>`; };
+  $("#gauge").innerHTML = arc(0, m, "#2f8a57") + arc(m, man, "#d3a84a") + arc(man, max, "#c8372d") + tick(m, `師匠 ${m}`, "#fff") + tick(man, "標準書 25", "#aab")
+    + `<line x1="170" y1="175" x2="${nx}" y2="${ny}" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="170" cy="175" r="9" fill="#fff"/>
+       <text x="170" y="160" text-anchor="middle" fill="#fff" font-size="30" font-weight="700">${v.toFixed(0)}</text><text x="170" y="196" text-anchor="middle" fill="#fff" font-size="12" opacity=".7">${done ? "終端速度 · end speed, mm/s" : "mm/s"}</text>`;
+}
+function drawTries() { $("#tries").innerHTML = [0, 1, 2].map(i => tries[i] === undefined ? "<i>—</i>" : `<i class="${tries[i] <= INFO.hand ? "p" : "f"}">${tries[i].toFixed(0)} mm/s</i>`).join(""); }
+(() => {
+  const pad = $("#pad"); let on = false, path = [];
+  const toSvg = e => { const r = $("#padsvg").getBoundingClientRect(); return [(e.clientX - r.left) * 420 / r.width, (e.clientY - r.top) * 340 / r.height, performance.now()]; };
+  const angOf = (x, y) => { let a = Math.atan2(y - CY, x - CX) * 180 / Math.PI; if (a < 0) a += 360; return a; };
+  pad.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    if (tries.length >= 3 || $("#s-hand").hidden) return; const [x, y, t] = toSvg(e); const [sx, sy] = pt(A0);
+    if (Math.hypot(x - sx, y - sy) > 40) { $("#hand-res").innerHTML = "緑の点から始める<span class='en'>Start on the green dot</span>"; return; }
+    on = true; path = [[sx, sy, t]]; pad.setPointerCapture(e.pointerId); $("#trace").innerHTML = ""; $("#hand-res").textContent = "";
+  });
+  pad.addEventListener("pointermove", e => {
+    if (!on) return; const [x, y, t] = toSvg(e);
+    // snap the tool to the edge; outside the arc it sticks to the nearest end (never jumps across the part)
+    let a = angOf(x, y); if (a < A0) a = a >= 90 ? A0 : A1; else if (a > A1) a = A1;
+    const last = path[path.length - 1], lastA = path.length > 1 ? angOf(last[0], last[1]) : A0;
+    if (Math.abs(a - lastA) > 45) return;                              // ignore a sudden jump
+    const [px, py] = pt(a); path.push([px, py, t]);
+    const k = Math.max(0, path.length - 6), dt = (t - path[k][2]) / 1000; let d = 0;
+    for (let i = k + 1; i < path.length; i++) d += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]);
+    const v = dt > 0 ? d / dt * MMPS_PER_PXPS : 0;
+    const col = v <= INFO.hand ? "#2f8a57" : v <= 25 ? "#d3a84a" : "#c8372d";
+    $("#trace").insertAdjacentHTML("beforeend", `<line x1="${last[0]}" y1="${last[1]}" x2="${px}" y2="${py}" stroke="${col}" stroke-width="10" stroke-linecap="round"/>`);
+    $("#tool").setAttribute("cx", px); $("#tool").setAttribute("cy", py); gauge(v);
+  });
+  pad.addEventListener("pointerup", async () => {
+    if (!on) return; on = false;
+    const [ex, ey] = pt(A1), last = path[path.length - 1];
+    if (path.length < 6 || Math.hypot(last[0] - ex, last[1] - ey) > 26) { $("#hand-res").innerHTML = "赤い点まで引く<span class='en'>Drag all the way to the red dot</span>"; gauge(0); return; }
+    // end speed: the last 20% of the stroke's length
+    const angs = path.map(q => { let a = Math.atan2(q[1] - CY, q[0] - CX) * 180 / Math.PI; return a < 0 ? a + 360 : a; });
+    const aStart = A1 - .2 * (A1 - A0), iEnd = angs.findIndex(a => a >= A1 - .5), i0 = angs.findIndex(a => a >= aStart);
+    const arcLen = (A1 - .5 - aStart) * Math.PI / 180 * R, dt = (path[iEnd][2] - path[i0][2]) / 1000;
+    const v = arcLen / Math.max(.05, dt) * MMPS_PER_PXPS;
+    tries.push(v); drawTries(); gauge(v, true);
+    const ok = v <= INFO.hand;
+    if (ok) don(100, .3, .5);
+    $("#hand-res").innerHTML = ok ? `師匠と同じ手。<span class="en">${v.toFixed(0)} mm/s at the end: you eased off like the master (under ${INFO.hand} mm/s). The manual would allow 25.</span>`
+      : `${v.toFixed(0)} mm/s。最後をもっとゆっくり。<span class="en">The manual allows this, but the master eases off to ${INFO.hand} mm/s on the sealing lip so the burr rolls off instead of tearing the seal.</span>`;
+    handBest = Math.min(...tries);
+    if (ok) clearOffers();
+    else if (!$("#hand-offer")) offerLesson($("#hand-res").parentElement, () => handLesson(v), null, "hand-offer");
+    if (ok || tries.length >= 3) {
+      score.hand = handBest <= INFO.hand ? 100 - 15 * (tries.findIndex(t => t <= INFO.hand)) : Math.max(10, Math.round(100 - 6 * (handBest - INFO.hand))); saveSkill("hand", score.hand);
+      await sleep(500);
+      const nb = document.createElement("button"); nb.className = "btn gold"; nb.innerHTML = "段位を受ける<span class='en'>Receive your rank</span>";
+      nb.onclick = () => { nb.remove(); finale(); }; $("#hand-res").appendChild(document.createElement("br")); $("#hand-res").appendChild(nb); nb.focus();
+      tries.length = 3;   // no more strokes
+    }
+  });
+})();
+
+
+
+// ------------------------------------------------------------------ offer a lesson (never autoplay)
+function clearOffers() { document.querySelectorAll(".offer").forEach(o => o.remove()); }
+function offerLesson(where, make, focusAfter, id) {
+  clearOffers();
+  const o = document.createElement("div"); o.className = "offer"; if (id) o.id = id;
+  o.innerHTML = `<span class="offer-t">間違えたところを、師匠の一分講座で見ますか？<span class="en">Watch the master's one-minute lesson on what you missed?</span></span>
+    <button class="btn gold" data-o="go">▶ 見る<span class="en">Watch</span></button><button class="btn ghost" data-o="skip">スキップ<span class="en">Skip</span></button>`;
+  where.appendChild(o);
+  o.querySelector('[data-o="skip"]').onclick = () => { o.remove(); focusAfter && focusAfter.focus(); };
+  o.querySelector('[data-o="go"]').onclick = async () => { o.remove(); await Lesson.play(await make()); focusAfter && focusAfter.isConnected && focusAfter.focus(); };
+}
+// ------------------------------------------------------------------ 師匠の一分講座: lessons generated after a mistake
+const WHY = {
+  sealing_lip: ["シールリップは圧力を受ける面です。小さなピットでも漏れにつながります。", "The sealing lip holds pressure, so even a small pit can leak."],
+  flange_face: ["フランジ面は見た目だけの面です。丸いガス穴なら、ポンプの働きに影響しません。", "The flange face is cosmetic. A round gas pit there does not affect how the pump works."],
+};
+const pctOf = mm => { const n = E.sizes.length; let i = 0; while (i < n - 2 && mm > E.sizes[i + 1]) i++; const f = clamp((mm - E.sizes[i]) / (E.sizes[i + 1] - E.sizes[i]), -.5, 1.5); return 4 + 92 * (i + .5 + f) / n; };
+function eyeLesson(m, line) {
+  const [z, zja, zen] = ZONES[E.k], why = WHY[z] || ["", ""];
+  const missed = E.sizes.map((s, i) => [s, i]).filter(([s]) => (s >= m) !== (s > line)).sort((a, b) => Math.abs(a[0] - m) - Math.abs(b[0] - m));
+  const [ms, mi] = missed[0], masterNg = ms >= m;
+  const below = E.sizes.map((s, i) => [s, i]).filter(([s]) => s < m).pop(), above = E.sizes.map((s, i) => [s, i]).find(([s]) => s >= m);
+  const gaps = E.sizes.map((s, i) => [s, i]).filter(([s]) => (s >= m) !== (s > E.manual) && s !== ms);
+  const [cs, ci] = gaps.length ? gaps[gaps.length >> 1] : [ms, mi], cNg = cs >= m;
+  const strict = m < E.manual;
+  return {title_ja: "師匠の一分講座", title_en: `The master's one-minute lesson: ${zen.toLowerCase()}`, scenes: [
+    {ja: `${zja}。あなたはこの ${ms.toFixed(1)} mm の部品を${masterNg ? "出荷" : "不良"}にしました。師匠なら${masterNg ? "不良" : "出荷"}です。`,
+     en: `${zen}. You ${masterNg ? "shipped" : "scrapped"} this ${ms.toFixed(1)} mm part. The master would ${masterNg ? "scrap" : "ship"} it.`, hold: 2600,
+     draw: st => { st.innerHTML = `<div class="ls-zoom"><img src="${E.images[mi]}" alt=""></div><span class="ls-tag" style="left:6%;top:12%">あなた ${masterNg ? "○" : "✕"} · you</span><span class="ls-tag ${masterNg ? "ng" : "ok"}" style="right:6%;top:12%">師匠 ${masterNg ? "✕" : "○"} · master</span>`; }},
+    {ja: `標準書では 4.0 mm まで良品。でも師匠の線は ${m.toFixed(1)} mm です。${why[0]}`, en: `The manual draws the line at 4.0 mm. The master draws it at ${m.toFixed(1)} mm. ${why[1]}`, hold: 3200,
+     draw: st => {
+       st.innerHTML = `<div class="ls-strip">${E.images.map((src, i) => `<div data-s="${E.sizes[i]}" class="${E.sizes[i] > E.manual ? "ng" : "ok"}"><img src="${src}" alt=""><b>${E.sizes[i] > E.manual ? "✕" : "○"}</b><span>${E.sizes[i].toFixed(1)}</span></div>`).join("")}</div>
+         <div class="ls-line man" style="left:${pctOf(E.manual)}%"><em>標準書 4.0</em></div><div class="ls-line mas" id="lsm" style="left:${pctOf(E.manual)}%"><em>師匠 ${m.toFixed(1)}</em></div>`;
+       setTimeout(() => { const l = st.querySelector("#lsm"); if (l) l.style.left = pctOf(m) + "%"; }, 400);
+       setTimeout(() => st.querySelectorAll(".ls-strip div").forEach(d => { const ng = +d.dataset.s >= m; d.className = ng ? "ng" : "ok"; d.querySelector("b").textContent = ng ? "✕" : "○"; }), 2600);
+     }},
+    {ja: `並べて見ましょう。${below[0].toFixed(1)} mm は出荷、${above[0].toFixed(1)} mm は不良。この差が師匠の目です。`, en: `Side by side: ${below[0].toFixed(1)} mm ships, ${above[0].toFixed(1)} mm is scrapped. That small difference is the master's eye.`, hold: 2600,
+     draw: st => { st.innerHTML = `<div class="ls-pair"><div class="ok"><img src="${E.images[below[1]]}" alt=""><span class="ls-tag ok">○ ${below[0].toFixed(1)} mm</span></div><div class="ng"><img src="${E.images[above[1]]}" alt=""><span class="ls-tag ng">✕ ${above[0].toFixed(1)} mm</span></div></div>`; }},
+    {ja: `では確認です。この ${cs.toFixed(1)} mm の部品は？`, en: `Quick check. This ${cs.toFixed(1)} mm part?`, hold: 600,
+     draw: st => new Promise(res => {
+       st.innerHTML = `<div class="ls-zoom" style="inset:4% 32% 22%"><img src="${E.images[ci]}" alt=""></div><div class="ls-ask"><button class="x">✕ 不良 · scrap</button><button class="o">○ 良品 · ship</button></div>`;
+       const ans = ng => { const ok = ng === cNg; st.querySelector(".ls-ask").innerHTML = `<span class="ls-tag ${ok ? "ok" : "ng"}" style="position:static">${ok ? "正解！ · Right" : "惜しい · Not quite"}</span>`; don(ok ? 110 : 60, .3, .5);
+         res(ok ? {ja: `正解。${zja}では、師匠は ${m.toFixed(1)} mm で線を引きます。`, en: `Right. On the ${zen.toLowerCase()}, the master draws the line at ${m.toFixed(1)} mm.`}
+                : {ja: `師匠なら${cNg ? "不良" : "出荷"}です。${strict ? "標準書より厳しく" : "標準書より緩く"}、${m.toFixed(1)} mm が線です。`, en: `The master would ${cNg ? "scrap" : "ship"} it. He is ${strict ? "stricter" : "more lenient"} than the manual: the line is ${m.toFixed(1)} mm.`}); };
+       st.querySelector(".x").onclick = () => ans(true); st.querySelector(".o").onclick = () => ans(false);
+     })},
+  ]};
+}
+async function earLesson(mine) {
+  const d = await (await fetch("/api/dojo/ear/lesson")).json(), lv = Math.round(100 * d.level);
+  const playIn = (st, url, bad, label, top) => new Promise(res => { const a = new Audio(url); st.insertAdjacentHTML("beforeend", `<div class="ls-lab" style="top:calc(${top} - 32px)">${label}</div>`);
+    Lesson.wave(st, a, bad, top); a.onended = res; a.play().catch(res); setTimeout(res, 3200); });
+  return {title_ja: "師匠の一分講座", title_en: "The master's one-minute lesson: hearing the fault", scenes: [
+    {ja: "まず、正常なポンプの音を聞きましょう。", en: "First, a healthy pump.", hold: 600, after: st => playIn(st, d.healthy, false, "正常 · healthy", "35%")},
+    {ja: `次は、師匠がポンプを止める音です。故障の強さ ${lv}%。メーターはまだ正常と言います。`, en: `Now the sound at which the master stops the pump: a ${lv}% fault. The sound meter still says it's fine.`, hold: 600, after: st => playIn(st, d.master, true, `師匠が止める · master stops (${lv}%)`, "35%")},
+    {ja: "続けて聞き比べます。正常、そして師匠が止める音。", en: "Back to back: healthy, then the sound the master stops at.", hold: 400,
+     after: async st => { await playIn(st, d.healthy, false, "正常 · healthy", "25%"); await sleep(200); await playIn(st, d.master, true, `師匠が止める · ${lv}%`, "70%"); }},
+    {ja: `${mine === null ? "まだ安定して聞き分けられません。" : `あなたは ${Math.round(100 * mine)}% まで聞き分けました。`}低いうなりの、わずかなざらつきに注目しましょう。`,
+     en: `${mine === null ? "You couldn't yet hear it reliably." : `You heard it down to ${Math.round(100 * mine)}%.`} Listen for a slight roughness in the low hum.`, hold: 2200,
+     draw: st => { st.innerHTML = `<div class="center"><div class="ls-big">あなた ${mine === null ? "—" : Math.round(100 * mine) + "%"}<br>師匠 ${lv}%</div></div>`; }},
+  ]};
+}
+function handLesson(yours) {
+  const m = INFO.hand, race = st => {
+    st.innerHTML = `<svg viewBox="0 0 640 330" style="position:absolute;inset:0;width:100%;height:100%"><path d="M60 250 Q 320 -60 580 250" fill="none" stroke="#555" stroke-width="10"/>
+      <text x="40" y="290" fill="#aaa" font-size="16">start</text><text x="600" y="290" fill="#aaa" font-size="16" text-anchor="end">end · 縁</text>
+      <circle id="hm" r="12" fill="#1f9d57"/><circle id="hy" r="12" fill="#e5432d"/><text id="tm" x="20" y="30" fill="#7fe0a6" font-size="20"></text><text id="ty" x="20" y="58" fill="#ff9a90" font-size="20"></text></svg>`;
+    const P = u => { const x = (1 - u) * (1 - u) * 60 + 2 * (1 - u) * u * 320 + u * u * 580, y = (1 - u) * (1 - u) * 250 + 2 * (1 - u) * u * -60 + u * u * 250; return [x, y]; };
+    const t0 = performance.now(), D = 3200;
+    (function tick(now) { const svg = st.querySelector("svg"); if (!svg) return; const f = Math.min(1, (now - t0) / D);
+      const um = f < .8 ? f / .8 * .8 : .8 + .2 * Math.sin((f - .8) / .2 * Math.PI / 2), uy = Math.min(1, f * 1.15);   // master eases off over the last fifth
+      const [xm, ym] = P(um), [xy, yy] = P(uy); svg.querySelector("#hm").setAttribute("cx", xm); svg.querySelector("#hm").setAttribute("cy", ym); svg.querySelector("#hy").setAttribute("cx", xy); svg.querySelector("#hy").setAttribute("cy", yy);
+      svg.querySelector("#tm").textContent = `師匠 · master: ${f < .8 ? "20" : Math.max(m, Math.round(20 - (f - .8) / .2 * (20 - m)))} mm/s`;
+      svg.querySelector("#ty").textContent = `あなた · you: ${yours.toFixed(0)} mm/s`;
+      if (f < 1) requestAnimationFrame(tick); })(t0);
+  };
+  return {title_ja: "師匠の一分講座", title_en: "The master's one-minute lesson: easing off", scenes: [
+    {ja: `あなたは最後に ${yours.toFixed(0)} mm/s でした。師匠は ${m} mm/s まで落とします。並べて見ましょう。`, en: `You finished at ${yours.toFixed(0)} mm/s. The master slows to ${m} mm/s. Watch them side by side.`, hold: 3400, draw: race},
+    {ja: "標準書は 25 mm/s まで許します。でも速く抜くと、バリがシール面を裂きます。ゆっくり抜けば、バリは転がって落ちます。", en: "The manual allows 25 mm/s. But leaving fast tears the burr across the seal face. Leaving slowly lets it roll off.", hold: 2400,
+     draw: st => { st.innerHTML = `<div class="center"><div class="ls-big">標準書 25 mm/s<br><span style="color:#7fe0a6">師匠 ${m} mm/s</span></div></div>`; }},
+    {ja: "コツ：最後の五分の一で、心の中で「いち、に」と数えましょう。", en: "Tip: over the last fifth of the stroke, count 'one, two' in your head.", hold: 2000, draw: race},
+  ]};
+}
+
+// ------------------------------------------------------------------ finale: the rank
+const RANKS = [[0, "五級", "5th kyu"], [140, "三級", "3rd kyu"], [190, "一級", "1st kyu"], [230, "初段", "1st dan"], [262, "二段", "2nd dan"], [285, "三段", "3rd dan"]];
+async function finale() {
+  clearOffers();
+  try {                                                     // practice history for the My learning page
+    const h = JSON.parse(localStorage.getItem("tacit-practice") || "{}"); h.days = h.days || [];
+    const d = new Date().toISOString().slice(0, 10); if (!h.days.includes(d)) h.days.push(d);
+    const eyeS = Math.round(score.eye.filter(v => v != null).reduce((a, b) => a + b, 0) / Math.max(1, score.eye.filter(v => v != null).length)), tot = eyeS + score.ear + score.hand, rk = RANKS.filter(x => tot >= x[0]).pop();
+    h.last = {total: tot, rank: rk[1], rank_en: rk[2], date: d, skills: {lip: score.eye[0] ?? 0, flange: score.eye[1] ?? 0, ear: score.ear, hand: score.hand}};
+    h.best = h.best || {}; for (const [k, v] of Object.entries(h.last.skills)) h.best[k] = Math.max(h.best[k] || 0, v);
+    h.runs = (h.runs || 0) + 1;
+    h.bestTotal = Math.max(h.bestTotal || 0, tot); localStorage.setItem("tacit-practice", JSON.stringify(h));
+  } catch (e) {}
+  station(3);
+  const eye = Math.round(score.eye.filter(v => v != null).reduce((a, b) => a + b, 0) / Math.max(1, score.eye.filter(v => v != null).length)), total = eye + score.ear + score.hand;
+  const r = RANKS.filter(x => total >= x[0]).pop();
+  $("#cert").innerHTML = `<div style="letter-spacing:.2em;color:var(--sumi-2)">TACIT 技能道場 · 認定<span class="en">TACIT Dojo certificate</span></div>
+    <div class="rank" id="rank">${r[1]}</div><div class="score">${r[2]} · 目 ${eye} · 耳 ${score.ear} · 手 ${score.hand} = ${total} / 300</div>
+    <div class="seal" id="seal">師匠<br>認定</div>
+    <ul class="secrets">
+      <li><b>目 · 限度見本</b>シールリップは ${INFO.eye.sealing_lip.toFixed(1)} mm から不良、フランジ面は ${INFO.eye.flange_face.toFixed(1)} mm まで良品。<span class="en">Sealing lip: reject from ${INFO.eye.sealing_lip.toFixed(1)} mm. Flange face: fine up to ${INFO.eye.flange_face.toFixed(1)} mm. The manual says 4.0 for both.</span></li>
+      <li><b>耳 · 聞き分け</b>静かな工場では故障音 ${Math.round(100 * INFO.ear)}% で止める。<span class="en">In a quiet shop, stop the pump at a ${Math.round(100 * INFO.ear)}% fault sound, long before the meter says so.</span></li>
+      <li><b>手 · バリ取り</b>シールリップの縁は ${INFO.hand} mm/s 以下で抜く。<span class="en">On the sealing lip, finish the stroke under ${INFO.hand} mm/s. The manual allows 25.</span></li>
+    </ul>
+    <p style="margin-top:14px;color:var(--sumi-2)">標準書に書かれていない三つのこと。師匠の回答から取り出し、約2分で伝えました。<span class="en">Three things the manual does not say, captured from the master's answers and passed on in about two minutes.</span></p>`;
+  await sleep(150); $("#rank").classList.add("show"); don(55, 1.1);
+  await sleep(1300); $("#seal").classList.add("down"); don(80, .5, .8); $("#cert").classList.add("shake");
+}
+$("#b-again").onclick = () => { score = {eye: [], ear: 0, hand: 0}; station(0); eyeRound(0); };
+
+fetch("/api/dojo/info").then(r => r.json()).then(d => { if (!INFO) INFO = d; });
+window.addEventListener("hashchange", () => location.reload());   // a stage link while already in the dojo
+// keyboard: Enter opens the curtain or locks the line, A / B pick the faulty pump
+document.addEventListener("keydown", e => {
+  if (document.querySelector(".ls-veil")) return;          // a lesson is playing
+  if (e.target.closest && e.target.closest("button,a,[role=slider]") && e.key === "Enter" && !e.target.matches("#marker")) return;   // a focused button handles Enter itself
+  if (e.key === "Enter") { if (!$("#noren").hidden && !$("#noren").classList.contains("open")) { $("#b-enter").click(); e.preventDefault(); }
+                           else if (!$("#s-eye").hidden && !$("#b-lock").hidden) { $("#b-lock").click(); e.preventDefault(); } }
+  if (!$("#s-ear").hidden && (e.key === "a" || e.key === "A" || e.key === "b" || e.key === "B")) { const b = document.querySelector(`[data-pick="${e.key.toLowerCase()}"]`); if (b && !b.disabled) b.click(); }
+});
+</script>
+</body>
+</html>

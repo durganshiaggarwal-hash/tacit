@@ -1,0 +1,170 @@
+/* TACIT calm theme: warm paper, quiet ink, a terracotta accent and soft sage, lots of space.
+   Loaded last on the game and the dojo; it keeps every layout rule of the earlier theme and changes only the look.
+   Meaning of colour stays fixed: terracotta = action and the master's line, sage = OK / ship, red = NG / scrap. */
+:root{
+  --paper:#f4f2ed; --card:#fffdf9; --sand:#efeae1; --sand-2:#e7e0d4; --hair:#e4ded3;
+  --ink:#2a2723; --ink-2:#5f5a52; --mute:#8a847a;
+  --terra:#b8553f; --terra-2:#9e4532; --terra-soft:#f5e3dc;
+  --sage:#5f7a5c; --sage-soft:#e2e8dd; --red:#c2493a; --red-soft:#f7e1dc; --amber:#d99a2b; --amber-soft:#f6ead2;
+  --clean:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  --px:var(--clean); --sans:var(--clean); --serif:var(--clean); --ja:var(--clean); --hand:var(--clean);
+  --r:14px; --sh:0 1px 2px rgba(42,39,35,.04),0 8px 24px rgba(42,39,35,.05);
+  /* re-point the earlier theme's tokens */
+  --sky:var(--paper); --wire:var(--terra); --blk:var(--ink); --blk-2:var(--sand); --wht:var(--card); --chip:var(--sand); --shu:var(--red); --go:var(--sage); --gold:var(--amber);
+}
+html{background:var(--paper)!important}
+body{background:var(--paper)!important;color:var(--ink)!important;-webkit-font-smoothing:antialiased!important}
+#wire{display:none!important}
+*,h1,h2,h3,.kanji,.cloth b,.rank,.pts,.pump .lab,.top .t,.bar .t,.stations span,.verdicts .sym,.score b,.say,kbd.k,.paper .kind,.big,.seal,.hanko,
+.brush .lbl,.gaplbl,.end h2,.gauge,.cell .mm,.marker .grip,.found li .cmp,.go,.btn,.verdicts .lbl{font-family:var(--clean)!important;-webkit-font-smoothing:antialiased!important}
+[style*="clip-path"],.role,.bubble,.manual,.go,.verdicts button,.station,.btn,.marker .grip,.pump,.pad,.cert,.enter p,.lang-switch,.offer,.ls{clip-path:none!important}
+:focus-visible{outline:2px solid var(--terra)!important;outline-offset:2px!important}
+.en{color:var(--mute)}
+kbd.k{background:var(--card)!important;color:var(--ink-2)!important;border:1px solid var(--hair);border-radius:6px;box-shadow:none!important;font-size:.72em!important;height:1.8em;min-width:1.8em}
+h1,h2{letter-spacing:-.015em!important;font-weight:700}
+
+/* ------------------------------------------------ top bars and the language switch */
+body.g .top,body.d .bar{background:var(--paper)!important;border-bottom:1px solid var(--hair)!important;color:var(--ink)!important}
+body.g .top .t,body.d .bar .t{letter-spacing:.02em!important;font-weight:700}
+body.g .top a,body.d .bar a{color:var(--ink-2)!important;text-transform:none!important;letter-spacing:0!important;font-size:.9rem}
+.lang-switch{background:var(--card)!important;border-radius:999px!important;box-shadow:inset 0 0 0 1px var(--hair)!important;padding:3px!important}
+.lang-switch button{border-radius:999px!important;color:var(--ink-2)!important;font-weight:500!important}
+.lang-switch button[aria-pressed="true"]{background:var(--ink)!important;color:var(--card)!important}
+.lang-tip{border-radius:10px!important;background:var(--ink)!important}
+
+/* ================================================ the master's game */
+body.g{--floor:var(--paper); --panel:var(--card); --muted:var(--mute); --line:var(--hair); --master:var(--terra); --master-soft:var(--terra-soft);
+  --ok:var(--sage); --ok-soft:var(--sage-soft); --ng:var(--red); --ng-soft:var(--red-soft)}
+body.g .start h1{font-size:clamp(2rem,3.8vw,3rem)!important;letter-spacing:-.02em!important;line-height:1.1!important;color:var(--ink)}
+body.g .start h1 .en{color:var(--mute)!important;font-weight:400;letter-spacing:0!important}
+body.g .start > p{background:none!important;padding:0!important;color:var(--ink-2)!important}
+body.g .role,body.g .bubble,body.g .manual,body.g .brain{background:var(--card)!important;border:1px solid var(--hair)!important;border-radius:var(--r)!important;box-shadow:var(--sh)}
+body.g .role h2{font-size:1.3rem!important}
+body.g .card{background:var(--sand)!important;border-left:0!important;border-radius:10px!important;color:var(--ink)!important}
+body.g .card b{font-weight:600}
+body.g .go{background:var(--terra)!important;color:#fff!important;border-radius:10px!important;text-transform:none!important;letter-spacing:0!important;font-weight:600!important;font-size:1rem!important;box-shadow:none!important}
+body.g .go .en{color:#f6dcd4!important}
+body.g .go:hover{background:var(--terra-2)!important}
+body.g .go.alt,body.g .go[style*="transparent"]{background:var(--card)!important;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--hair)!important}
+body.g .go.alt .en{color:var(--mute)!important}
+body.g .flow b{font-weight:600}
+body.g .flow .en,body.g .role p,body.g label.own{color:var(--ink-2)!important}
+/* the line */
+body.g .beltbar{background:repeating-linear-gradient(90deg,var(--sand-2) 0 28px,var(--sand) 28px 34px)!important;box-shadow:none!important;border-radius:8px!important;height:34px!important}
+body.g .part .tray{outline:0!important;border-radius:12px!important;box-shadow:0 12px 30px rgba(42,39,35,.16)!important}
+body.g .part img{image-rendering:auto!important}
+body.g .gauge{background:var(--card)!important;border:1px solid var(--hair)!important;border-radius:999px!important;font-weight:600;padding:6px 16px!important;box-shadow:var(--sh)}
+body.g .ring{border-color:var(--amber)!important;border-radius:50%!important;box-shadow:0 0 0 2px rgba(255,255,255,.7)!important}
+body.g .verdicts button{background:var(--card)!important;border:1.5px solid!important;border-radius:var(--r)!important;box-shadow:var(--sh)}
+body.g .verdicts .sym{font-weight:300!important}
+body.g .verdicts .lbl{text-transform:none!important;letter-spacing:0!important;font-weight:600}
+body.g .b-ng{color:var(--red)!important;border-color:#e9c4bc!important} body.g .b-ok{color:var(--sage)!important;border-color:#cbd6c7!important}
+body.g .b-ng:hover{background:var(--red-soft)!important} body.g .b-ok:hover{background:var(--sage-soft)!important}
+body.g .keys,body.g .bins,body.g .bins span,body.g .andon .lab{background:none!important;color:var(--mute)!important;text-transform:none!important;letter-spacing:0!important}
+body.g .andon .lamp{border-radius:6px!important}
+body.g .pips i{border-radius:50%!important;border:1.5px solid var(--sand-2)!important;width:10px!important;height:10px!important}
+body.g .pips i.done{background:var(--ink-2)!important;border-color:var(--ink-2)!important} body.g .pips i.now{background:var(--terra)!important;border-color:var(--terra)!important}
+body.g .say.ok{color:var(--sage)!important} body.g .say.ng{color:var(--red)!important}
+body.g .after.hit{color:var(--sage)!important} body.g .after.miss{color:var(--terra)!important}
+body.g .score{border-top:1px solid var(--hair)!important}
+/* TACIT's brain */
+body.g .bz .bar{fill:#d9d2c5!important} body.g .bz.diff .bar{fill:var(--terra)!important}
+body.g .bz .gap{fill:rgba(217,154,43,.18)!important}
+body.g .bz .gapt{color:#9a6a12!important}
+body.g .next{border-top:1px solid var(--hair)!important}
+/* scrolls and the end screen */
+body.g .paper{background:var(--card)!important;border-radius:4px}
+body.g .rod{border-radius:6px!important}
+body.g .paper .kind{color:var(--terra)!important;letter-spacing:.1em!important}
+body.g .hanko{border-radius:50%!important;border-width:2px!important;color:var(--terra)!important;border-color:var(--terra)!important}
+body.g .seal{border-radius:12px!important;border-color:var(--terra)!important;color:var(--terra)!important}
+body.g .end h2{font-size:2rem!important}
+body.g .end .lead{background:none!important;padding:0!important;color:var(--ink-2)!important}
+body.g .found li{background:var(--card)!important;border:1px solid var(--hair)!important;border-left:3px solid var(--terra)!important;border-radius:12px!important;color:var(--ink)!important;box-shadow:var(--sh)}
+body.g .shelf b{border-radius:3px}
+
+/* ================================================ the dojo */
+body.d{--ai:var(--paper); --ai-2:var(--sand); --ai-3:var(--terra); --ai-line:var(--hair); --washi:var(--card); --washi-2:var(--sand); --sumi:var(--ink); --sumi-2:var(--ink-2)}
+body.d .stations span{border-radius:50%!important;border:1px solid var(--hair)!important;background:var(--card)!important;color:var(--mute)!important;opacity:1!important;font-weight:600}
+body.d .stations span.now{background:var(--terra)!important;border-color:var(--terra)!important;color:#fff!important}
+body.d .stations span.done{background:var(--ink)!important;border-color:var(--ink)!important;color:var(--card)!important}
+body.d .station{background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--hair);border-radius:20px!important;box-shadow:var(--sh)}
+body.d .station#s-end{background:transparent!important;border:0;box-shadow:none}
+body.d .kanji{color:var(--terra)!important;font-weight:500!important}
+body.d .head p,body.d .station .en,body.d .ruler,body.d .result .en{color:var(--ink-2)!important}
+body.d .result{color:var(--ink)!important}
+body.d .pts{color:var(--terra)!important;font-weight:700}
+body.d .btn{background:var(--card)!important;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--hair)!important;border-radius:10px!important;text-transform:none!important;letter-spacing:0!important;font-weight:600!important}
+body.d .btn .en{color:var(--mute)!important}
+body.d .btn.gold{background:var(--terra)!important;color:#fff!important;box-shadow:none!important} body.d .btn.gold .en{color:#f6dcd4!important}
+body.d .btn.gold:hover{background:var(--terra-2)!important}
+body.d .btn.ghost{background:transparent!important;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--hair)!important}
+/* eye */
+body.d .cell{border-radius:10px!important}
+body.d .cell img{image-rendering:auto!important}
+body.d .cell.ok{outline-color:#9fb59b!important} body.d .cell.ng{outline-color:#dca297!important}
+body.d .cell.ok .v{color:#e8f2e5!important} body.d .cell.ng .v{color:#ffd9d1!important}
+body.d .cell.gap{outline-color:var(--amber)!important;box-shadow:0 0 0 5px var(--amber-soft)!important}
+body.d .cell .you{border-radius:6px!important;background:var(--card)!important;color:var(--ink)!important}
+body.d .marker::before{background:var(--terra)!important;border-radius:3px!important;box-shadow:0 0 0 2px var(--card)!important}
+body.d .marker .grip{background:var(--ink)!important;color:var(--card)!important;border-radius:999px!important}
+body.d .marker .grip .en{color:#cfc8bc!important}
+body.d .manual-line{border-left-color:var(--mute)!important}
+body.d .manual-line > span{color:var(--ink-2)}
+body.d .brush path{stroke:var(--terra)!important;filter:none!important}
+body.d .brush .lbl{color:var(--terra)!important;text-shadow:none!important;font-weight:700;font-size:1.6rem!important}
+body.d .gaplbl{color:#9a6a12!important}
+/* ear */
+body.d .pump{background:var(--sand)!important;border:1px solid var(--hair)!important;border-radius:16px!important}
+body.d .pump .lab{color:var(--ink)!important}
+body.d .pump svg rect[fill="#3c5193"]{fill:var(--sage)!important} body.d .pump svg circle[fill="#5b6fb0"]{fill:#a7b9a3!important} body.d .pump svg rect[fill="#6b7aa5"]{fill:#cfc6b6!important}
+body.d .pump .waves circle{stroke:var(--terra)!important}
+body.d .pump.right{background:var(--sage-soft)!important;border-color:#b9c9b4!important} body.d .pump.wrong{background:var(--red-soft)!important;border-color:#e6bdb4!important}
+body.d .track{background:var(--sand-2)!important;border-radius:999px!important}
+body.d .track .fill{background:linear-gradient(90deg,#e7c79b,var(--terra))!important;border-radius:999px!important}
+body.d .track .stop{border-left-color:var(--ink)!important}
+body.d .meter span,body.d .track .stop span{color:var(--ink-2)!important}
+body.d .trail i{background:var(--sand)!important;color:var(--ink-2)!important;border-radius:999px!important}
+body.d .trail i.r{background:var(--sage-soft)!important;color:var(--sage)!important} body.d .trail i.w{background:var(--red-soft)!important;color:var(--red)!important}
+/* hand */
+body.d .pad{background:var(--sand)!important;border:1px solid var(--hair)!important;border-radius:16px!important}
+body.d .pad svg circle[fill="#3a4a7e"]{fill:#e6dfd2!important} body.d .pad svg circle[fill="#56659a"]{fill:#d6cdbd!important} body.d .pad svg circle[fill="#1a2343"]{fill:var(--card)!important}
+body.d .pad svg text{fill:var(--ink-2)!important}
+body.d .pad svg path[stroke="#fff"]{stroke:var(--mute)!important}
+body.d .gauge svg text[fill="#fff"]{fill:var(--ink)!important} body.d .gauge svg text[fill="#aab"]{fill:var(--mute)!important}
+body.d .gauge svg line[stroke="#fff"]{stroke:var(--ink)!important} body.d .gauge svg circle[fill="#fff"]{fill:var(--ink)!important}
+body.d .tries i{background:var(--sand)!important;color:var(--ink-2)!important;border-radius:999px!important}
+body.d .tries i.p{background:var(--sage-soft)!important;color:var(--sage)!important} body.d .tries i.f{background:var(--red-soft)!important;color:var(--red)!important}
+body.d #hand-res{color:var(--ink)!important}
+/* lesson offer */
+body.d .offer{background:var(--sand)!important;border-left:0!important;border-radius:12px!important}
+body.d .offer-t,body.d .offer .en{color:var(--ink)!important}
+body.d .offer .en{color:var(--ink-2)!important}
+/* rank */
+body.d .cert{background:var(--card)!important;border-radius:20px!important;outline:0!important;border:1px solid var(--hair)!important;box-shadow:var(--sh)}
+body.d .cert .rank{color:var(--ink)!important;letter-spacing:.02em!important;font-weight:700!important}
+body.d .seal{border-radius:14px!important;border-color:var(--terra)!important;color:var(--terra)!important;border-width:3px!important}
+body.d .secrets li{background:var(--sand)!important;border-left:3px solid var(--terra)!important;border-radius:10px!important}
+body.d #s-end .btn.ghost{background:var(--card)!important;color:var(--ink)!important}
+/* the entrance: a terracotta noren on warm paper */
+body.d .noren{background:var(--paper)!important}
+body.d .noren.open{background:transparent!important}
+body.d .rod{background:var(--ink)!important;border-radius:999px!important;height:10px!important}
+body.d .cloth{background:var(--terra)!important;background-image:none!important;box-shadow:none!important}
+body.d .cloth.l{border-right:2px solid var(--paper)!important}
+body.d .cloth b{color:var(--card)!important;text-shadow:none!important;font-weight:500!important}
+body.d .enter p{background:var(--card)!important;color:var(--ink)!important;border-radius:12px;padding:10px 16px!important;box-shadow:var(--sh)}
+/* the lesson player keeps its dark "video" look, with soft corners */
+.ls{border-radius:18px!important;box-shadow:0 30px 80px rgba(0,0,0,.35)!important;overflow:hidden}
+.ls-top .gen{background:var(--terra)!important;border-radius:999px}
+.ls-bar i{background:var(--terra)!important}
+.ls-ctl .dots i.on{background:var(--terra)!important}
+.ls-ctl button{border-radius:8px}
+.ls-ask button{border-radius:10px}
+.ls-strip div,.ls-pair div,.ls-zoom{border-radius:10px;overflow:hidden}
+.ls-zoom img,.ls-strip img,.ls-pair img{image-rendering:auto!important}
+.ls-big{font-family:var(--clean)!important;font-weight:600}
+/* in English mode the English text is the primary text: never greyed out */
+body.lang-en h1 .en,body.lang-en h2 .en,body.lang-en .btn .en,body.lang-en .go .en,body.lang-en .lbl .en,body.lang-en .grip .en{color:inherit!important}
+body.lang-en .head p .en,body.lang-en .result .en,body.lang-en .start > p .en{color:var(--ink-2)!important}
+body.d .head h2,body.lang-en.d .head h2 .en{color:var(--ink)!important}

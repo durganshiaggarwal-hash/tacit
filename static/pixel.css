@@ -1,0 +1,220 @@
+/* TACIT pixel theme: a sky-blue wireframe hall behind the page, hard black and white blocks on top,
+   a Japanese dot-matrix typeface (DotGothic16), monospace caps and keyboard chips on every action.
+   Loaded last on the game and the dojo, so it overrides their own styles. Red and green keep their meaning (✕ / ○);
+   gold is only the rank; vermilion only the seal. */
+:root{
+  --sky:#d8ecfc; --wire:#4aa3f0; --blk:#151515; --blk-2:#232323; --wht:#ffffff; --chip:#e4e4e4;
+  --shu:#e5432d; --go:#1f9d57; --gold:#f2b51b;
+  --px:"DotGothic16","Hiragino Sans","Yu Gothic",ui-monospace,monospace;
+  --notch:polygon(0 5px,5px 5px,5px 0,calc(100% - 5px) 0,calc(100% - 5px) 5px,100% 5px,100% calc(100% - 5px),calc(100% - 5px) calc(100% - 5px),calc(100% - 5px) 100%,5px 100%,5px calc(100% - 5px),0 calc(100% - 5px));
+  /* the pages' own tokens */
+  --sans:var(--px); --serif:var(--px); --ja:var(--px); --hand:var(--px);
+}
+html{background:var(--sky)}
+body{background:transparent!important;background-image:none!important;font-family:var(--px)!important;-webkit-font-smoothing:none;font-smooth:never;letter-spacing:.02em}
+button,input,select{font-family:var(--px)!important}
+.en{font-family:var(--px)!important;letter-spacing:.04em}
+kbd.k{display:inline-grid;place-items:center;min-width:1.7em;height:1.7em;padding:0 .35em;margin-left:.7em;background:var(--chip);color:var(--blk);font:400 .78em/1 var(--px);letter-spacing:0;vertical-align:middle;
+  box-shadow:inset -2px -2px 0 rgba(0,0,0,.18)}
+:focus-visible{outline:3px solid var(--wire)!important;outline-offset:-6px!important}
+
+/* ============================================================ the Inspection Line (game) */
+body.g{--floor:transparent; --panel:var(--wht); --ink:var(--blk); --muted:#4b5662; --line:var(--blk); --master:#1d63c9; --master-soft:#dceafe;
+  --ok:var(--go); --ok-soft:#e3f6ea; --ng:var(--shu); --ng-soft:#fde6e2; --paper:var(--wht); color:var(--blk)}
+body.g .top{background:var(--wht);border-bottom:3px solid var(--blk)}
+body.g .top .t{letter-spacing:.12em}
+body.g .top a{color:var(--blk);text-transform:uppercase;letter-spacing:.1em}
+body.g .start h1{font-size:clamp(2.2rem,5.4vw,4rem);letter-spacing:.04em;line-height:1.15}
+body.g .start > p{color:var(--blk);max-width:56ch;background:rgba(255,255,255,.75);padding:10px 12px}
+body.g .role,body.g .bubble,body.g .manual{border:3px solid var(--blk)!important;border-radius:0!important;clip-path:var(--notch);background:var(--wht)}
+body.g .role h2{font-size:1.7rem}
+body.g .card{border-radius:0;border-left:6px solid var(--shu);background:#f6f6f2;color:var(--blk)}
+body.g .go{border-radius:0!important;clip-path:var(--notch);background:var(--blk)!important;color:var(--wht)!important;border:0!important;text-transform:uppercase;letter-spacing:.12em;font-size:1.05rem!important;padding:16px 18px!important}
+body.g .go .en{color:#bfc7cf!important;text-transform:none;letter-spacing:.04em}
+body.g .go.alt{background:var(--wht)!important;color:var(--blk)!important;box-shadow:inset 0 0 0 3px var(--blk)}
+body.g .go.alt .en{color:#4b5662!important}
+body.g .window{background:transparent}
+body.g .beltbar{border-radius:0;background:repeating-linear-gradient(90deg,var(--blk) 0 30px,#2c2c2c 30px 36px);box-shadow:0 5px 0 #000}
+body.g .part .tray{border-radius:0;outline:4px solid var(--blk);box-shadow:8px 8px 0 rgba(21,21,21,.35)}
+body.g .part img{image-rendering:pixelated}
+body.g .gauge{border-radius:0;border:3px solid var(--blk);background:var(--wht)}
+body.g .ring{border-radius:0;border-color:#ffd400;box-shadow:0 0 0 2px var(--blk)}
+body.g .verdicts button{border-radius:0!important;clip-path:var(--notch);border-width:4px!important;font-weight:400;background:var(--wht)}
+body.g .verdicts .sym{font-size:3.8rem}
+body.g .verdicts .lbl{text-transform:uppercase;letter-spacing:.15em}
+body.g .b-ng{color:var(--shu);border-color:var(--shu)!important}
+body.g .b-ok{color:var(--go);border-color:var(--go)!important}
+body.g .b-ng:hover{background:var(--shu);color:var(--wht)} body.g .b-ok:hover{background:var(--go);color:var(--wht)}
+body.g .keys,body.g .bins{color:var(--blk);text-transform:uppercase;letter-spacing:.08em}
+body.g .andon .lamp{border-radius:0;clip-path:var(--notch)}
+body.g .andon .pole{background:var(--blk)}
+body.g .pips i{border-radius:0;border-width:2px;border-color:var(--blk)}
+body.g .pips i.done{background:var(--blk)} body.g .pips i.now{background:var(--wire);transform:none}
+body.g .say{font-size:1.4rem!important}
+body.g .score b{font-size:1.9rem}
+body.g .rank{color:var(--blk)!important}
+body.g .ladder i{border-radius:0} body.g .ladder i.on{background:var(--blk)}
+body.g .end h2{font-size:2.2rem}
+body.g .end .lead{color:var(--blk);background:rgba(255,255,255,.8);padding:8px 12px}
+body.g .found li{border-radius:0;background:var(--wht);border:3px solid var(--blk);border-left:8px solid var(--shu)}
+body.g .paper,body.g .rod{border-radius:0}
+body.g .hanko{border-radius:0;border-width:4px}
+body.g .seal{border-radius:0}
+body.g .cert{border-radius:0;outline-style:solid}
+body.g .flow li{margin-bottom:2px}
+
+/* ============================================================ the dojo */
+body.d{--ai:var(--blk); --ai-2:var(--blk-2); --ai-3:#1d63c9; --ai-line:rgba(255,255,255,.25); --washi:var(--wht); --washi-2:#f0f0ea; --sumi:var(--blk); color:var(--blk)}
+body.d .bar{background:var(--wht);border-bottom:3px solid var(--blk);color:var(--blk)}
+body.d .bar .t{letter-spacing:.2em}
+body.d .bar a{color:var(--blk)!important;opacity:1!important;text-transform:uppercase;letter-spacing:.1em}
+body.d .stations span{border-radius:0!important;border:2px solid var(--blk)!important;color:var(--blk);opacity:.45;background:var(--wht)}
+body.d .stations span.now{opacity:1;background:var(--wire)!important;color:var(--wht)!important;border-color:var(--blk)!important}
+body.d .stations span.done{opacity:1;background:var(--blk)!important;color:var(--wht)!important}
+/* stations sit in black blocks over the hall, like the reference's dark band */
+body.d .station{background:var(--blk);color:var(--wht);margin:26px auto 40px;clip-path:var(--notch);box-shadow:none;padding-top:28px!important}
+body.d .station#s-end{background:transparent}
+body.d .kanji{font-size:clamp(4rem,9vw,6.4rem);color:var(--wht)}
+body.d .head h2{letter-spacing:.04em}
+body.d .btn{border-radius:0!important;clip-path:var(--notch);text-transform:uppercase;letter-spacing:.12em;font-weight:400!important;background:var(--wht);color:var(--blk)}
+body.d .btn .en{text-transform:none;letter-spacing:.04em}
+body.d .btn.gold{background:var(--wire);color:var(--wht)} body.d .btn.gold .en{color:#eaf4ff}
+body.d .btn.ghost{background:transparent;color:var(--wht);box-shadow:inset 0 0 0 3px var(--wht);border:0}
+body.d .pts{color:var(--gold)}
+body.d .cell{border-radius:0}
+body.d .cell img{image-rendering:pixelated}
+body.d .cell .mm{font-size:.82rem}
+body.d .cell .you{border-radius:0}
+body.d .marker .grip{border-radius:0;clip-path:var(--notch);background:var(--wht)}
+body.d .marker::before{border-radius:0;background:var(--wire);box-shadow:0 0 0 2px var(--blk)}
+body.d .pump{border-radius:0!important;clip-path:var(--notch);background:var(--blk-2)}
+body.d .pump .lab{font-size:2.4rem}
+body.d .track,body.d .track .fill{border-radius:0}
+body.d .trail i{border-radius:0}
+body.d .pad{border-radius:0;clip-path:var(--notch);background:var(--blk-2)}
+body.d .cert{border-radius:0;clip-path:var(--notch);outline:3px solid var(--blk);outline-offset:-14px;background:var(--wht)}
+body.d .cert .rank{letter-spacing:.06em;color:var(--blk)}
+body.d .seal{border-radius:0!important}
+body.d .secrets li{background:#f0f0ea;border-left:6px solid var(--shu)}
+/* the noren: bright blue cloth, black rod, dot-matrix kanji */
+body.d .noren{background:var(--sky)}
+body.d .noren.open{background:transparent}
+body.d .cloth{background:var(--wire)!important;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 3px,transparent 3px 6px)!important;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25)!important}
+body.d .cloth.l{border-right:3px solid var(--blk)}
+body.d .cloth b{color:var(--wht);text-shadow:4px 4px 0 var(--blk)!important}
+body.d .rod{border-radius:0;background:var(--blk)}
+body.d .enter p{color:var(--blk);background:var(--wht);padding:8px 14px;clip-path:var(--notch)}
+body.d .enter p .en{color:#4b5662!important}
+
+@media (max-width:860px){body.d .station{margin:14px 8px 24px}}
+
+/* the rank screen sits on the sky, not in a black block */
+body.d #s-end .btn.ghost{color:var(--blk);box-shadow:inset 0 0 0 3px var(--blk);background:var(--wht)}
+body.d #s-end .btn.ghost .en{color:#4b5662}
+/* drawings recoloured from the old indigo to the hall's blue and black */
+body.d .pump svg rect[fill="#3c5193"]{fill:var(--wire)} body.d .pump svg circle[fill="#5b6fb0"]{fill:#9fd0fa} body.d .pump svg rect[fill="#6b7aa5"]{fill:#5a5a5a}
+body.d .pad svg circle[fill="#3a4a7e"]{fill:#2e2e2e} body.d .pad svg circle[fill="#56659a"]{fill:#4a4a4a} body.d .pad svg circle[fill="#1a2343"]{fill:#151515}
+/* the language switch, in the same style */
+.en-switch{border-radius:0!important;clip-path:var(--notch);font-family:var(--px)!important;background:var(--wht)!important;border:0!important;box-shadow:inset 0 0 0 3px var(--blk)!important;padding:8px 16px!important}
+.en-tip{border-radius:0!important;font-family:var(--px)!important}
+/* small labels that sit over the factory drawing get a white backing so they stay readable */
+body.g .keys{background:rgba(255,255,255,.92);display:table;margin:10px auto 0;padding:3px 12px}
+body.g .bins span{background:rgba(255,255,255,.92);padding:1px 8px}
+body.g .andon .lab{background:rgba(255,255,255,.92);padding:2px 6px}
+body.d .ruler span{background:transparent}
+
+/* ============================================================ readability: pixels only for display type
+   Reading text (paragraphs, labels, English lines, buttons' words) uses a clean font in dark ink;
+   the dot-matrix face stays on headings, the big kanji, symbols, scores, the rank and the curtain. */
+:root{ --clean:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  --sans:var(--clean); --ja:var(--clean); }
+body{font-family:var(--clean)!important;-webkit-font-smoothing:antialiased!important;font-smooth:auto!important;letter-spacing:0!important}
+button,input,select{font-family:var(--clean)!important}
+.en{font-family:var(--clean)!important;letter-spacing:0!important;opacity:1!important;text-transform:none!important}
+h1,h2,.kanji,.cloth b,.rank,.pts,.pump .lab,.top .t,.bar .t,.stations span,.verdicts .sym,.score b,.say,kbd.k,.paper .kind,.big,.seal,.hanko,
+.brush .lbl,.gaplbl,.end h2,.gauge,.cell .mm,.marker .grip,.found li .cmp,.go,.btn,.verdicts .lbl{font-family:var(--px)!important;-webkit-font-smoothing:none!important}
+.go .en,.btn .en,.verdicts .en,h1 .en,h2 .en{font-family:var(--clean)!important;-webkit-font-smoothing:antialiased!important}
+/* darker ink */
+body.g{--muted:#2a313a}
+body.g .role p,body.g .bubble .who,body.g .manual,body.g .card .en,body.g .keys,body.g .bins,body.g .lead,body.g .note{color:#1f252c!important}
+body.g .en{color:#3a434d}
+body.g .b-ng .en{color:var(--shu)!important} body.g .b-ok .en{color:var(--go)!important}
+body.g .go .en{color:#d6dbe0!important} body.g .go.alt .en{color:#3a434d!important}
+body.d .head p,body.d .ruler,body.d .result,body.d .trail i,body.d .meter span{opacity:1!important;color:#f4f4f4}
+body.d .station .en{color:#cfd5db}
+body.d .result{font-family:var(--clean)!important}
+body.d .cert .en,body.d .secrets .en,body.d .paper .en{color:#3a434d!important}
+body.d .btn .en{color:inherit}
+.en-tip,.en-switch{font-family:var(--clean)!important}
+.en{font-size:max(.84em,12.5px)!important}
+
+/* English mode: keep labels at their designed size */
+body.lang-en.g .verdicts .lbl{font-size:1.15rem}
+body.lang-en.g .say{font-size:1.15rem!important}
+body.lang-en h1{font-family:var(--clean)!important;letter-spacing:-.01em!important;-webkit-font-smoothing:antialiased!important}
+
+/* ============================================================ laptop screens (720 to 900 px tall): every step fits without scrolling */
+/* the language switch lives in the top-right corner of the bar, out of the way of the buttons */
+.lang-switch{top:8px!important;bottom:auto!important;right:12px!important;padding:2px!important;box-shadow:inset 0 0 0 2px #151515!important}
+.lang-switch button{padding:7px 11px!important;font-size:13px!important}
+body.g .top,body.d .bar{padding-right:190px!important}
+body.g .top a,body.d .bar a{margin-right:6px}
+@media (max-height:900px){
+  /* game: start */
+  body.g .start{padding-top:22px!important;padding-bottom:16px!important}
+  body.g .start h1{font-size:clamp(1.8rem,3.6vw,2.6rem)!important}
+  body.g .start > p{margin:10px 0 16px!important;font-size:.95rem}
+  body.g .roles{gap:16px}
+  body.g .role{padding:16px!important;gap:10px!important}
+  body.g .role h2{font-size:1.35rem!important}
+  body.g .card{padding:10px 14px}
+  body.g .card ul{margin:4px 0 0}
+  body.g label.own{font-size:.85rem}
+  body.g .go{padding:12px 16px!important}
+  body.g .flow{gap:8px}
+  /* game: the line */
+  body.g .line{padding-top:12px!important;gap:16px!important}
+  body.g .window{height:calc(clamp(220px,40vh,330px) + 110px)!important}
+  body.g .part{width:clamp(220px,40vh,330px)!important;height:clamp(220px,40vh,330px)!important;margin-left:calc(clamp(220px,40vh,330px) / -2)!important}
+  body.g .verdicts{margin-top:8px!important;gap:12px!important}
+  body.g .verdicts button{padding:8px 10px 6px!important}
+  body.g .verdicts .sym{font-size:2.6rem!important}
+  body.g .keys{margin-top:6px!important;font-size:.75rem}
+  body.g .bins{padding-top:2px}
+  body.g .bubble,body.g .manual{padding:10px 12px!important}
+  body.g .brain{padding:10px!important;gap:6px!important}
+  body.g .bz .est{font-size:.8rem}
+  body.g .next{font-size:.8rem;padding-top:6px}
+  body.g .end{padding-top:20px!important}
+  /* dojo: every station */
+  body.d .station{margin:14px auto 14px!important;padding-top:18px!important;padding-bottom:18px!important}
+  body.d .head{margin-bottom:6px!important;gap:16px!important;align-items:center!important}
+  body.d .kanji{font-size:clamp(2.8rem,6vh,3.8rem)!important}
+  body.d .head h2{font-size:1.35rem!important}
+  body.d .head p{font-size:.9rem;margin-top:2px!important}
+  /* eye: shorter cells, result and buttons on fewer lines */
+  body.d .strip-wrap{padding:46px 0 34px!important}
+  body.d .cell{aspect-ratio:1.3/1!important}
+  body.d .ruler{margin-top:0!important}
+  body.d .row{margin-top:8px!important;gap:10px!important}
+  body.d .result{font-size:1rem!important;line-height:1.45!important}
+  body.d .result .en{font-size:.9rem!important}
+  body.d .pts{font-size:2rem!important}
+  body.d .btn{padding:10px 18px!important}
+  body.d .offer{margin-top:4px!important;padding:8px 12px!important;flex:1 1 100%}
+  /* ear */
+  body.d .pump{padding:12px!important;gap:8px!important}
+  body.d .pump svg{width:120px!important;height:80px!important}
+  body.d .pump .lab{font-size:1.8rem!important}
+  body.d .meter{margin-top:10px!important}
+  /* hand: the pad scales with the screen height */
+  body.d .handgrid{grid-template-columns:minmax(0,min(60%,calc((100vh - 290px) * 420 / 340))) minmax(0,1fr)!important}
+  body.d .pad{width:100%!important}
+  body.d .gauge svg{max-width:300px!important}
+  /* rank */
+  body.d .cert{margin-top:6px!important;padding:24px 28px 20px!important}
+  body.d .cert .rank{font-size:clamp(4rem,12vh,7rem)!important}
+  body.d .secrets{margin-top:12px!important}
+  body.d #s-end .row{margin-top:10px!important}
+}
+body.d .pad,body.d .pad *{user-select:none!important;-webkit-user-select:none!important}

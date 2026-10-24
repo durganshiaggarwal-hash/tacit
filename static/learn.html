@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · 道場</title>
+<style>
+/* The hub: who you are, two ways to play, and the master's secrets as stages to clear. Deck colours. */
+:root{
+  --sky:#a3d8e4; --navy:#1e2a44; --navy-2:#2a3858; --ink:#16213a; --ink-2:#2f3d58; --mute:#4a5874;
+  --cream:#fbe7b2; --pale:#f0f4f9; --blue:#d6e2f1; --blush:#f7e4e1; --white:#fff;
+  --red:#c2412f; --green:#2f7a4a; --gold:#e0a419;
+  --f:Arial,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--sky);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.45}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
+.en{color:var(--mute)}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 200px 10px 22px;min-height:56px}
+.top .mark{width:36px;height:36px;border-radius:50%;background:var(--cream);color:var(--ink);display:grid;place-items:center;font-weight:700}
+.top b{letter-spacing:.14em;color:#fff}
+.top .plant{color:#b9c7da;font-size:.85rem;margin-left:6px}
+.top nav{margin-left:auto;display:flex;gap:18px;font-size:.88rem}
+.top nav a{color:#dbe6f3}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 24px 26px;display:grid;gap:18px}
+
+/* player card */
+.player{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:22px;align-items:center;background:var(--pale);border:2.5px solid var(--navy);border-radius:14px;padding:16px 22px}
+.av{width:62px;height:62px;border-radius:50%;background:var(--cream);border:2.5px solid var(--navy);display:grid;place-items:center;font-size:1.6rem;font-weight:700}
+.who h1{margin:0;font-size:1.5rem;letter-spacing:-.01em}
+.who p{margin:2px 0 8px;color:var(--ink-2);font-size:.9rem}
+.xp{height:12px;border-radius:12px;background:var(--blue);border:2px solid var(--navy);overflow:hidden;max-width:520px}
+.xp i{display:block;height:100%;background:var(--navy);transition:width .8s}
+.xpt{font-size:.8rem;color:var(--ink-2);margin-top:4px}
+.stat{text-align:center;padding:0 6px}
+.stat b{display:block;font-size:2rem;line-height:1}
+.stat small{font-size:.75rem;color:var(--ink-2);letter-spacing:.06em}
+.rankb{min-width:92px;text-align:center;background:var(--cream);border:2.5px solid var(--navy);border-radius:12px;padding:8px 10px}
+.rankb b{display:block;font-size:1.7rem;line-height:1.1}
+.rankb small{font-size:.72rem;color:var(--ink-2)}
+
+/* two big modes */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mode{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;border:2.5px solid var(--navy);border-radius:16px;padding:20px 22px;transition:transform .12s}
+.mode:hover{transform:translateY(-3px)}
+.mode.m{background:var(--cream)} .mode.j{background:var(--white)}
+.big{width:96px;height:96px;border-radius:18px;border:2.5px solid var(--navy);display:grid;place-items:center;font-size:3rem;font-weight:700;background:var(--white)}
+.mode.j .big{background:var(--blue)}
+.mode h2{margin:0;font-size:1.5rem}
+.mode p{margin:4px 0 12px;color:var(--ink-2)}
+.play{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:#fff;border-radius:10px;padding:10px 18px;font-weight:700}
+.play kbd{background:#fff;color:var(--ink);border-radius:5px;padding:1px 7px;font:inherit;font-size:.8rem}
+.pill{position:absolute;top:14px;right:16px;font-size:.72rem;font-weight:700;letter-spacing:.06em;background:var(--navy);color:#fff;border-radius:999px;padding:4px 10px}
+
+/* stage map */
+.map{background:var(--pale);border:2.5px solid var(--navy);border-radius:16px;padding:16px 22px 20px}
+.map-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.map-h h2{margin:0;font-size:1.2rem}
+.map-h span{font-size:.85rem;color:var(--ink-2)}
+.stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px;position:relative}
+.stages::before{content:"";position:absolute;left:12%;right:12%;top:44px;border-top:3px dashed var(--navy);opacity:.35}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.node{width:88px;height:88px;border-radius:50%;border:3px solid var(--navy);background:var(--white);display:grid;place-items:center;font-size:2.1rem;font-weight:700;position:relative;z-index:1}
+.stage.done .node{background:var(--cream)}
+.stage.next .node{background:var(--navy);color:#fff;box-shadow:0 0 0 6px rgba(30,42,68,.18);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(30,42,68,.06)}}
+.stars{font-size:1rem;letter-spacing:2px;color:var(--gold);height:1.2em}
+.stars i{font-style:normal;color:#9fb0c8}
+.stage b{font-size:.95rem}
+.stage small{font-size:.8rem;color:var(--ink-2)}
+.stage .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;border:2px solid var(--navy);border-radius:999px;padding:2px 9px;background:var(--white)}
+.stage.done .tag{background:var(--cream)} .stage.next .tag{background:var(--navy);color:#fff}
+.src{font-size:.78rem;color:var(--ink-2);margin-top:14px;text-align:center}
+@media (prefers-reduced-motion:reduce){.stage.next .node{animation:none}.mode{transition:none}}
+@media (max-width:900px){.modes{grid-template-columns:1fr}.player{grid-template-columns:auto 1fr}.stages{grid-template-columns:repeat(2,1fr)}.stages::before{display:none}}
+@media (max-height:820px){.wrap{gap:12px;padding-top:14px;padding-bottom:14px}.big{width:76px;height:76px;font-size:2.4rem}.node{width:70px;height:70px;font-size:1.7rem}.stages::before{top:35px}.mode{padding:14px 20px}.player{padding:10px 20px}.map{padding:12px 22px 14px}.stages{margin-top:8px;gap:10px}.mode p{margin-bottom:8px}}
+</style>
+<script src="/bilingual.js?v=20261025b" defer></script>
+<link rel="stylesheet" href="/calm.css?v=1">
+<link rel="stylesheet" href="/deck.css?v=2">
+</head>
+<body class="hub">
+<header class="top">
+  <span class="mark" aria-hidden="true">継</span><b>TACIT</b><span class="plant">川崎工場<span class="en">Kawasaki Plant</span></span>
+  <nav><a href="/passport">工場の画面<span class="en">Plant view</span></a><a href="/about">TACITとは<span class="en">About</span></a></nav>
+</header>
+
+<main class="wrap">
+  <section class="player" aria-label="Player">
+    <span class="av" aria-hidden="true">葵</span>
+    <div class="who">
+      <h1>佐藤 葵<span class="en">Aoi Sato</span></h1>
+      <p>鋳造検査 · 2年目 · 師匠：田中さん<span class="en">Casting inspection · year 2 · Master: Tanaka-san</span></p>
+      <div class="xp" aria-hidden="true"><i id="xp" style="width:0"></i></div>
+      <div class="xpt" id="xpt"></div>
+    </div>
+    <div class="stat"><b id="streak">0</b><small>🔥 連続日数<span class="en">🔥 day streak</span></small></div>
+    <div class="rankb"><b id="rank">—</b><small id="rank-s">段位<span class="en">Rank</span></small></div>
+  </section>
+
+  <section class="modes">
+    <a class="mode j" href="/junior"><span class="pill">今日の稽古<span class="en">Today</span></span>
+      <span class="big" aria-hidden="true">弟</span>
+      <span><h2>弟子モード<span class="en">Train as the junior</span></h2>
+        <p>目・耳・手の三つの稽古。約2分。<span class="en">Eye, ear and hand drills. About 2 minutes.</span></p>
+        <span class="play">▶ 稽古する<span class="en">▶ Play</span> <kbd>J</kbd></span></span></a>
+    <a class="mode m" href="/master">
+      <span class="big" aria-hidden="true">師</span>
+      <span><h2>師匠モード<span class="en">Teach as the master</span></h2>
+        <p>8個の部品を ○ / ✕。TACITが秘伝を見つけます。<span class="en">Judge 8 parts with ○ / ✕. TACIT finds your secrets.</span></p>
+        <span class="play">▶ 判定する<span class="en">▶ Play</span> <kbd>M</kbd></span></span></a>
+  </section>
+
+  <section class="map" aria-label="Stages">
+    <div class="map-h"><h2>師匠の秘伝マップ<span class="en">The master's secrets: your stages</span></h2><span id="cleared"></span></div>
+    <div class="stages" id="stages"></div>
+    <div class="src" id="src"></div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+let h = {days: [], best: {}, runs: 0, last: null};
+try { h = Object.assign(h, JSON.parse(localStorage.getItem("tacit-practice") || "{}")); h.best = h.best || {}; h.days = h.days || []; } catch (e) {}
+const iso = d => d.toISOString().slice(0, 10);
+let streak = 0; for (let d = new Date(); h.days.includes(iso(d)); d.setDate(d.getDate() - 1)) streak++;
+$("#streak").textContent = streak;
+
+// rank ladder: the same thresholds as the dojo certificate, from the best total so far
+const RANKS = [[0, "五級", "5th kyu"], [140, "三級", "3rd kyu"], [190, "一級", "1st kyu"], [230, "初段", "1st dan"], [262, "二段", "2nd dan"], [285, "三段", "3rd dan"]];
+const best = Math.max(h.last ? h.last.total : 0, h.bestTotal || 0);
+let ri = 0; RANKS.forEach((r, k) => { if (best >= r[0]) ri = k; });
+const cur = RANKS[ri], nxt = RANKS[ri + 1];
+$("#rank").textContent = h.last ? cur[1] : "—";
+$("#rank-s").innerHTML = h.last ? `段位<span class="en">${cur[2]}</span>` : `まだ<span class="en">Not ranked</span>`;
+const pct = nxt ? Math.round(100 * (best - cur[0]) / (nxt[0] - cur[0])) : 100;
+$("#xp").style.width = (h.last ? Math.max(4, pct) : 3) + "%";
+$("#xpt").innerHTML = !h.last ? `目・耳・手を一度に終えると段位がつきます。<span class="en">Finish all three drills in one run to get your rank.</span>`
+  : nxt ? `次の段位 ${nxt[1]} まで ${nxt[0] - best} 点 · 稽古 ${h.runs || 1} 回<span class="en">${nxt[0] - best} points to ${nxt[2]} · ${h.runs || 1} practice runs</span>`
+        : `最高段位です。<span class="en">Top rank reached.</span>`;
+
+fetch("/api/dojo/info").then(r => r.json()).then(i => {
+  const S = [
+    ["lip", "目", "シールリップ", "Sealing lip", `${i.eye.sealing_lip.toFixed(1)} mm から不良`, `Scrap from ${i.eye.sealing_lip.toFixed(1)} mm`],
+    ["flange", "目", "フランジ面", "Flange face", `${i.eye.flange_face.toFixed(1)} mm まで良品`, `Ship up to ${i.eye.flange_face.toFixed(1)} mm`],
+    ["ear", "耳", "故障音", "Pump sound", `${Math.round(100 * i.ear)}% で止める`, `Stop at a ${Math.round(100 * i.ear)}% fault`],
+    ["hand", "手", "バリ取り", "Deburring", `${i.hand} mm/s で抜く`, `Finish under ${i.hand} mm/s`],
+  ];
+  const stars = v => v >= 90 ? 3 : v >= 70 ? 2 : v >= 40 ? 1 : 0;
+  let nextSet = false, cleared = 0;
+  $("#stages").innerHTML = S.map(([k, kj, tj, te, rj, re]) => {
+    const v = h.best[k] || 0, st = stars(v), done = st >= 2; if (done) cleared++;
+    const isNext = !done && !nextSet; if (isNext) nextSet = true;
+    return `<a class="stage ${done ? "done" : isNext ? "next" : ""}" href="/junior#${k}">
+      <span class="node">${kj}</span>
+      <span class="stars" aria-label="${st} of 3 stars">${"★".repeat(st)}<i>${"★".repeat(3 - st)}</i></span>
+      <b>${tj}<span class="en">${te}</span></b><small>${rj}<span class="en">${re}</span></small>
+      <span class="tag">${done ? "クリア" : isNext ? "次はここ" : "未挑戦"}<span class="en">${done ? "Cleared" : isNext ? "Up next" : "Not yet"}</span></span></a>`;
+  }).join("");
+  $("#cleared").innerHTML = `${cleared} / 4 クリア<span class="en">${cleared} of 4 cleared</span>`;
+  const fromRound = /master round/.test(i.eye_src.sealing_lip || "");
+  $("#src").innerHTML = fromRound ? `秘伝は今日の師匠モードから取り込まれました。<span class="en">These secrets were captured in today's master round.</span>`
+    : `秘伝は師匠（田中さん）の判定から取り込まれています。<span class="en">These secrets come from the master's answers (Tanaka-san).</span>`;
+});
+document.addEventListener("keydown", e => { if (e.target.closest && e.target.closest("input,textarea")) return; if (e.key === "j" || e.key === "J") location.href = "/junior"; if (e.key === "m" || e.key === "M") location.href = "/master"; });
+</script>
+</body>
+</html>

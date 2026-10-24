@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Home: the manual's line struck through and corrected in the master's ink, then the flow. */
+:root{
+  --bg:#eef0ec; --panel:#ffffff; --paper:#fbfbf8; --ink-text:#1a1f26; --muted:#5c636c; --line:#d5d9d2;
+  --master:#233d8c; --master-soft:#e4e8f4; --print:#3a4049; --strike:#c2332b; --tacit:#a86a0c; --tacit-soft:#f6ead2;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --serif:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#121512; --panel:#191d19; --paper:#1d211d; --ink-text:#e6e8e3; --muted:#9aa19a; --line:#2b302b;
+  --master:#9fb2f0; --master-soft:#1e2640; --print:#c9cdc6; --strike:#f0857b; --tacit:#f0b44c; --tacit-soft:#33280f; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink-text);font-family:var(--sans);font-size:16px;line-height:1.6}
+a{color:var(--master)}
+:focus-visible{outline:2px solid var(--master);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center;padding:64px 0 56px}
+.hero h1{font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.15;margin:0 0 20px;font-weight:700;letter-spacing:-.005em}
+.hero h1 .two{display:block;color:var(--master)}
+.hero p{margin:0 0 14px;max-width:52ch;color:var(--muted);font-size:1.05rem}
+.hero p strong{color:var(--ink-text);font-weight:500}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-block;padding:11px 18px;border-radius:6px;text-decoration:none;font-weight:700;font-size:.95rem}
+.btn.primary{background:var(--master);color:var(--panel)}
+.btn.quiet{border:1px solid var(--line);color:var(--ink-text);background:var(--panel)}
+
+/* the sheet */
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:30px 34px 34px;font-family:var(--serif);color:var(--print);position:relative}
+.sheet .meta{display:flex;justify-content:space-between;font-family:var(--sans);font-size:.75rem;color:var(--muted);border-bottom:1.5px solid var(--print);padding-bottom:8px;margin-bottom:18px}
+.sheet h2{font-size:1.35rem;margin:0 0 4px;color:var(--ink-text);font-weight:700}
+.sheet .sub{font-size:.85rem;color:var(--muted);margin:0 0 22px}
+.clause{display:grid;grid-template-columns:2.6em minmax(0,1fr);gap:4px 10px;font-size:1.1rem;line-height:1.6;padding:32px 0 10px;border-top:1px solid var(--line)}
+.clause .no{color:var(--muted);font-size:.9rem}
+.clause .txt{position:relative}
+.struck{position:relative;white-space:nowrap}
+.struck::after{content:"";position:absolute;left:-3px;right:-3px;top:52%;height:2.5px;background:var(--strike);transform:rotate(-4deg) scaleX(0);transform-origin:left;animation:strike .45s .7s ease-out forwards}
+.fix{position:relative;display:inline-block}
+.ink{font-family:var(--hand);color:var(--master);font-size:2rem;font-weight:700;position:absolute;left:50%;bottom:72%;white-space:nowrap;line-height:1;transform:translateX(-45%) rotate(-5deg);clip-path:inset(0 100% 0 0);animation:write .6s 1.2s ease-out forwards}
+.margin{font-family:var(--hand);color:var(--master);font-size:1.7rem;line-height:1.2;margin:10px 0 0 2.9em;clip-path:inset(0 100% 0 0);animation:write .9s 1.9s ease-out forwards}
+.sheet .src{font-family:var(--sans);font-size:.75rem;color:var(--muted);margin-top:18px}
+@keyframes strike{to{transform:rotate(-4deg) scaleX(1)}}
+@keyframes write{to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.struck::after{animation:none;transform:rotate(-4deg)}.ink,.margin{animation:none;clip-path:none}}
+
+/* at risk */
+.risk{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0;display:flex;gap:22px;align-items:baseline;flex-wrap:wrap}
+.risk b{font-size:3rem;line-height:1;font-weight:700;color:var(--strike);font-variant-numeric:tabular-nums}
+.risk b.ok{color:#227a4c}
+.risk span{font-size:1.15rem;max-width:60ch}
+.risk a{margin-left:auto;font-weight:700;text-decoration:none}
+
+/* flow */
+.flow{padding:52px 0 20px}
+.flow h2,.three h2{font-size:1.4rem;margin:0 0 6px}
+.flow > p,.three > p{color:var(--muted);margin:0 0 26px;max-width:62ch}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:44px minmax(0,1fr) 190px;gap:18px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.steps li::before{counter-increment:s;content:counter(s);width:34px;height:34px;border-radius:50%;border:1.5px solid var(--master);color:var(--master);display:grid;place-items:center;font-weight:700}
+.steps h3{margin:0 0 4px;font-size:1.08rem}
+.steps h3 a{text-decoration:none}
+.steps h3 small{font-weight:400;color:var(--muted);font-size:.85rem;margin-left:8px}
+.steps p{margin:0;color:var(--muted);max-width:66ch}
+.steps .who{font-size:.85rem;color:var(--muted);padding-top:3px}
+.steps .who b{display:block;color:var(--ink-text);font-weight:500}
+
+.three{padding:40px 0 64px}
+.sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.sgrid a{display:block;padding:20px 22px 22px 0;text-decoration:none;color:inherit;border-right:1px solid var(--line);margin-right:22px}
+.sgrid a:last-child{border-right:0;margin-right:0}
+.sgrid h3{margin:0 0 6px;font-size:1.05rem;color:var(--master)}
+.sgrid p{margin:0 0 10px;color:var(--muted);font-size:.95rem}
+.sgrid .data{font-size:.8rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.sgrid .data.real{border-color:#227a4c}
+.sgrid .data.concept{border-color:var(--tacit)}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:.82rem;color:var(--muted)}
+
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:36px;padding:40px 0}.steps li{grid-template-columns:40px minmax(0,1fr)}.steps .who{grid-column:2}.sgrid{grid-template-columns:1fr}.sgrid a{border-right:0;margin-right:0;border-bottom:1px solid var(--line)}.risk a{margin-left:0}.sheet{padding:22px 18px 26px}}
+</style>
+<link rel="stylesheet" href="/tacit.css?v=20261025b">
+<script src="/tacit.js?v=20261025b" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <h1>The manual says <span style="white-space:nowrap">4.0 mm.</span><span class="two">The master rejects at <span style="white-space:nowrap">1.9 mm.</span></span></h1>
+      <p>Every plant has rules its best people never wrote down. When they retire, the rules go with them.</p>
+      <p><strong>TACIT finds those rules without an interview.</strong> The master only says yes or no to parts, sounds and strokes that TACIT generates, each one picked where their judgment is most likely to differ from the manual. Then it trains juniors on exactly the rules they are missing.</p>
+      <div class="cta"><a class="btn primary" href="/junior">技能道場: enter the dojo</a><a class="btn quiet" href="/game">検品ライン: be the master</a><a class="btn quiet" href="/eye">Full capture</a></div>
+    </div>
+    <figure class="sheet" aria-label="The written standard, corrected by the master">
+      <div class="meta"><span>IS-IMP-07, revision 3</span><span>Example standard for this demo</span></div>
+      <h2>Visual inspection: cast pump impeller</h2>
+      <p class="sub">3. Acceptance criteria</p>
+      <div class="clause"><span class="no">3.1</span><span class="txt">Sealing lip. Accept pits up to <span class="fix"><span class="struck">4.0 mm</span><span class="ink" aria-label="master's correction: 1.9 mm">1.9 mm</span></span>.</span></div>
+      <div class="clause"><span class="no">3.2</span><span class="txt">Flange face. Accept pits up to <span class="fix"><span class="struck">4.0 mm</span><span class="ink" aria-label="master's correction: 5.5 mm">5.5 mm</span></span> if round.</span></div>
+      <div class="clause"><span class="no">3.3</span><span class="txt">Reject parts with three or more pits.</span></div>
+      <p class="margin">Two pits on the lip? Reject, any size.</p>
+      <p class="src">Corrections written by TACIT from 60 accept or reject answers.</p>
+    </figure>
+  </section>
+
+  <section class="risk" aria-live="polite" id="risk"><b id="r-n">–</b><span id="r-t">Loading what this plant would lose…</span><a href="/passport">Open the Skill Passport</a></section>
+
+  <section class="flow">
+    <h2>How it works</h2>
+    <p>Five steps, in order. The master spends minutes, not days; everything after step 2 runs without them.</p>
+    <ol class="steps">
+      <li><div><h3><a href="/eye">Capture the master</a><small lang="ja">熟練者の判定</small></h3><p>TACIT generates a part, a pump sound or a deburring stroke. The master accepts or rejects it. Each next case is chosen where the master's line is still unclear and most likely to differ from the manual.</p></div><div class="who"><b>The master</b>About 10 minutes per sense</div></li>
+      <li><div><h3><a href="/rules">Rule cards</a><small lang="ja">ルールカード</small></h3><p>Every place the master's line differs from the manual becomes a plain rule, in English and Japanese, with real examples on both sides. The master approves it, rewords it or strikes it out.</p></div><div class="who"><b>The master</b>A few minutes</div></li>
+      <li><div><h3><a href="/train">Train a junior</a><small lang="ja">若手を育てる</small></h3><p>Practice cases are generated just past the master's line, on the side this junior gets wrong. A rule only counts as learned when they call it right on both sides of the line.</p></div><div class="who"><b>The junior</b>10 to 40 practice cases</div></li>
+      <li><div><h3><a href="/prince">The Prince's Copy</a><small lang="ja">書き込み入りの標準書</small></h3><p>The written standard with the master's corrections in the margin: ink where the master approved, pencil where they have not yet.</p></div><div class="who"><b>Everyone</b>The new reference copy</div></li>
+      <li><div><h3><a href="/passport">Skill Passport</a><small lang="ja">技能パスポート</small></h3><p>Which of the master's rules each junior holds, which are certified and signed off, and which still live in one person's head.</p></div><div class="who"><b>The plant manager</b>At a glance</div></li>
+    </ol>
+  </section>
+
+  <section class="three">
+    <h2>One factory, three senses</h2>
+    <p>All three are pump manufacturing, so one master's knowledge is captured end to end.</p>
+    <div class="sgrid">
+      <a href="/eye"><h3>Eye: castings</h3><p>Which pits on a cast impeller are acceptable, by zone and shape.</p><div class="data real">Real casting photos (Kaggle casting product dataset)</div></a>
+      <a href="/ear"><h3>Ear: pump sound</h3><p>When a running pump sounds wrong enough to stop, even in a noisy shop.</p><div class="data real">Real pump recordings (MIMII / DCASE, Hitachi): 50 normal, 50 faulty</div></a>
+      <a href="/hand"><h3>Hand: deburring</h3><p>How fast the tool may leave each edge without damaging it.</p><div class="data concept">Concept demo: strokes are generated</div></a>
+    </div>
+  </section>
+</main>
+<footer class="wrap">In this demo the master and junior can be simulated (backup sessions) or played by real people. Thapar Japan Hackathon 2026, JETRO-PS-03.</footer>
+
+<script>
+fetch("/api/passport").then(r => r.json()).then(p => {
+  const n = document.getElementById("r-n"), t = document.getElementById("r-t");
+  if (!p.total) { n.textContent = "0"; n.className = "ok"; t.textContent = "rules captured so far. Ten minutes with the master is enough to start."; return; }
+  n.textContent = p.at_risk; if (!p.at_risk) n.className = "ok";
+  t.textContent = p.at_risk ? `of ${p.total} unwritten rules would leave with the master if they retired today. No junior holds them yet.`
+                            : `of ${p.total} unwritten rules are at risk. Every one is held by a junior.`;
+}).catch(() => { document.getElementById("r-t").textContent = "Start the server to see this plant's numbers."; });
+</script>
+</body>
+</html>

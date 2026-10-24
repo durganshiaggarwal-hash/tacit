@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · Train a Junior</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+JP:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* Layout: the junior's bench — the part and the master's margin note on the left, their progress ledger on the right */
+:root{
+  --bg:#eef0f2; --panel:#ffffff; --ink:#15191e; --muted:#5d6672; --line:#d6dbe1;
+  --master:#2346c9; --master-soft:#e2e8fb; --manual:#8a8f96; --junior:#c27a00; --junior-soft:#fbefd9;
+  --accept:#227a4c; --accept-soft:#dcf0e4; --reject:#c23b2b; --reject-soft:#f9e1de;
+  --note:#fbf6e6; --note-ink:#3b3220;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ja:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1216; --panel:#171b21; --ink:#e5e8ec; --muted:#98a1ad; --line:#2a3039;
+  --master:#8ea6ff; --master-soft:#1d2645; --manual:#7d838b; --junior:#f2b33d; --junior-soft:#33280f;
+  --accept:#6bcf97; --accept-soft:#14301f; --reject:#f2857a; --reject-soft:#3a1c19;
+  --note:#2a2618; --note-ink:#efe6c8; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--master);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+header{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.06em;font-size:1.05rem}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.9rem}
+nav a[aria-current="page"]{background:var(--master-soft);color:var(--master);font-weight:600}
+.counters{display:flex;gap:22px;flex-wrap:wrap}
+.counter{display:flex;flex-direction:column}
+.counter b{font-family:var(--mono);font-size:1.3rem;font-weight:500;line-height:1.1}
+.counter.hl b{color:var(--accept)}
+
+main{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:20px;padding:20px max(16px,env(safe-area-inset-left));max-width:1400px;margin:0 auto;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.mode{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.pill.practice{color:var(--master)} .pill.shift{color:var(--reject)}
+.stage{position:relative;aspect-ratio:1;max-width:100%;background:#000;border-radius:6px;overflow:hidden;touch-action:none}
+.stage img{width:100%;height:100%;display:block;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.loupe{position:absolute;width:170px;height:170px;border-radius:50%;border:3px solid var(--master);pointer-events:none;background-repeat:no-repeat;box-shadow:0 6px 24px rgba(0,0,0,.35);display:none}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.verdicts button{border:2px solid;border-radius:8px;padding:14px 10px;font-weight:600;font-size:1.05rem}
+.btn-reject{border-color:var(--reject);color:var(--reject);background:var(--reject-soft)}
+.btn-accept{border-color:var(--accept);color:var(--accept);background:var(--accept-soft)}
+.verdicts button:disabled{opacity:.35;cursor:default}
+.hint{font-size:.8rem;color:var(--muted)}
+
+/* feedback + the master's margin note */
+.feedback{border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.feedback.right{background:var(--accept-soft)} .feedback.wrong{background:var(--reject-soft)}
+.feedback h3{margin:0;font-size:1.02rem}
+.feedback .row{display:flex;gap:12px;align-items:flex-start}
+.feedback img{width:96px;height:96px;border-radius:6px;flex:none}
+.note{background:var(--note);color:var(--note-ink);border-radius:4px;padding:10px 12px 12px;border-left:3px solid var(--junior);transform:rotate(-.4deg)}
+.note .who{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.note .hand{font-family:var(--hand);font-size:1.45rem;line-height:1.15}
+.note .ja{font-family:var(--ja);font-size:.86rem;opacity:.85;margin-top:4px}
+.next{align-self:flex-start;border:1px solid var(--ink);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:6px;font-weight:600}
+
+/* progress */
+.rules{display:flex;flex-direction:column;gap:8px}
+.rule{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:6px 14px;align-items:center;padding:10px;border-radius:8px;border:1px solid var(--line)}
+.rule.absorbed{border-color:var(--accept);background:var(--accept-soft)}
+.rule .txt{font-size:.86rem;line-height:1.35}
+.rule .st{font-family:var(--mono);font-size:.72rem;text-align:right}
+.st.absorbed{color:var(--accept)} .st.learning{color:var(--junior)} .st.not{color:var(--muted)}
+.rule svg{grid-column:1/-1;display:block;max-width:100%}
+svg text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.76rem;color:var(--muted)}
+.spark{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.spark svg{display:block}
+.shift-box{display:flex;flex-direction:column;gap:10px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.mono{font-variant-numeric:tabular-nums}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 14px;border-radius:6px;font-weight:500}
+.btn.primary{background:var(--master);border-color:var(--master);color:var(--panel)}
+.ghost{border:1px solid var(--line);background:transparent;color:var(--muted);padding:6px 10px;border-radius:6px;font-size:.82rem}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+.err{color:var(--reject);font-size:.85rem}
+.strip{display:flex;gap:10px;flex-wrap:wrap;padding:10px max(16px,env(safe-area-inset-left));background:var(--panel);border-bottom:1px solid var(--line)}
+.strip a{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:200px}
+.strip a.cur{border-color:var(--master);background:var(--master-soft)}
+.strip .bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden;min-width:60px}
+.strip .bar i{display:block;height:100%;background:var(--accept)}
+.strip b{font-family:var(--mono);font-weight:500}
+@media (max-width:980px){main{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="/tacit.css">
+<script src="/tacit.js" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train" aria-current="page"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+<header>
+  <div class="ptitle"><h1>Train a junior<small lang="ja">若手を育てる</small></h1><p>Practice aimed at the gaps between the junior and the master.</p></div>
+  <div class="counters">
+    <div class="counter"><span class="label">Practice parts</span><b id="c-answers">0</b></div>
+    <div class="counter hl"><span class="label">Master's rules absorbed</span><b id="c-absorbed">0 / 0</b></div>
+    <div class="counter"><span class="label">Last 20 right</span><b id="c-recent">–</b></div>
+  </div>
+</header>
+<div class="strip" id="strip" aria-label="Progress across senses"></div>
+
+<main id="main">
+  <section class="card" aria-label="Part to inspect">
+    <div class="mode"><span class="pill practice" id="mode-pill">Practice</span><span class="label" id="part-n"></span></div>
+    <div class="stage" id="stage"><img id="part" alt="Cast impeller, top view" src=""><div class="loupe" id="loupe"></div></div>
+    <div class="hint" id="hint">Would you ship this part? Hover to magnify. Keys: ← reject · → accept · Enter next.</div>
+    <div class="verdicts"><button class="btn-reject" id="b-reject">Reject</button><button class="btn-accept" id="b-accept">Accept</button></div>
+    <div id="feedback"></div>
+    <div class="err" id="err" role="alert"></div>
+  </section>
+
+  <section class="card" aria-label="Your progress">
+    <div class="mode"><span class="label">The master's rules, and how far you've come</span>
+      <span class="legend"><span>┆ manual</span><span style="color:var(--master)">● master</span><span style="color:var(--junior)">▲ you</span></span></div>
+    <div class="rules" id="rules"></div>
+    <div class="spark"><div><span class="label">Judgment gap to the master</span><div class="hint">Average difference between your calls and the master's, on 600 test parts. Lower is better.</div></div><svg id="spark" width="260" height="56"></svg></div>
+    <div class="shift-box">
+      <span class="label">Real shift test</span>
+      <div class="hint">150 parts as they come off the line: most are clean, about 2% are bad. No feedback until the end. Scored on bad parts you would ship and good parts you would scrap, against the master's calls.</div>
+      <div class="row-btns"><button class="btn primary" id="b-shift">Start real shift</button></div>
+      <div id="shift-result"></div>
+    </div>
+    <div class="row-btns" style="border-top:1px dashed var(--line);padding-top:10px">
+      <span class="label" style="align-self:center">Backup demo</span>
+      <button class="ghost" id="b-auto">Simulate a junior practising 40 parts</button>
+      <button class="ghost" id="b-autoshift">Simulate their real shift</button>
+      <button class="ghost" id="b-reset">Start over</button>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ZN = {sealing_lip: "Sealing lip", flange_face: "Flange face", rim: "Outer rim"};
+let part = null, waitingNext = false, busy = false;
+
+async function api(path, opts) {
+  const r = await fetch(path, Object.assign({headers: {"Content-Type": "application/json"}}, opts || {}));
+  if (!r.ok) { const t = await r.json().catch(() => ({detail: r.statusText})); const e = new Error(t.detail || r.statusText); e.status = r.status; throw e; }
+  return r.json();
+}
+function ruleSVG(r, w) {
+  const h = 30, lo = 1.5, hi = 7.0, X = v => 8 + (Math.min(Math.max(v, lo), hi) - lo) / (hi - lo) * (w - 16);
+  const m = X(r.manual), ml = X(r.master_limit), tl = X(r.trainee_limit), a = Math.min(m, ml), b = Math.max(m, ml);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Manual ${r.manual} mm, master ${r.master_limit.toFixed(1)} mm, you ${r.trainee_limit.toFixed(1)} mm">
+    <rect x="8" y="9" width="${w - 16}" height="12" fill="none" stroke="var(--line)"/>
+    <rect x="${a}" y="9" width="${b - a}" height="12" fill="var(--junior-soft)"/>
+    <line x1="${m}" x2="${m}" y1="4" y2="26" stroke="var(--manual)" stroke-width="2" stroke-dasharray="3 3"/>
+    <circle cx="${ml}" cy="15" r="5.5" fill="var(--master)"/>
+    <path d="M${tl} 7 l6 10 h-12z" fill="var(--junior)" stroke="var(--panel)" stroke-width="1"/></svg>`;
+}
+async function renderStrip() {
+  try {
+    const o = await api("/api/train/overview");
+    const item = (k, label, href, verb) => { const x = o[k], pct = x.rules ? 100 * x.absorbed / x.rules : 0;
+      return `<a href="${href}" class="${k === "eye" ? "cur" : ""}"><span>${label}</span><span class="bar"><i style="width:${pct}%"></i></span><b>${x.absorbed}/${x.rules}</b><span class="hint">${x.answers} ${verb}${k === "eye" ? "" : " →"}</span></a>`; };
+    $("#strip").innerHTML = `<span class="label" style="align-self:center">Master's rules absorbed</span>` +
+      item("eye", "Eye · castings", "/train", "parts") + item("ear", "Ear · pump sound", "/ear#practice", "clips") + item("hand", "Hand · deburring", "/hand#practice", "strokes");
+  } catch (e) {}
+}
+function renderState(s) {
+  renderStrip();
+  if (!s.ready) {
+    $("#main").innerHTML = `<section class="card" style="grid-column:1/-1"><div class="empty">There are no master's rules to train on yet. Go to <a href="/eye">Master capture</a>, answer some parts (or run the backup session), then come back.</div></section>`;
+    return;
+  }
+  $("#c-answers").textContent = s.answers;
+  $("#c-absorbed").textContent = `${s.absorbed} / ${s.rules.length}`;
+  $("#c-recent").textContent = s.recent_n ? `${s.correct_recent} / ${s.recent_n}` : "–";
+  const w = Math.max(220, Math.min(520, Math.round($("#rules").getBoundingClientRect().width) - 24));
+  $("#rules").innerHTML = s.rules.map(r => `<div class="rule ${r.status === "absorbed" ? "absorbed" : ""}">
+    <div class="txt">${esc(r.text_en)}</div>
+    <div class="st ${r.status === "absorbed" ? "absorbed" : r.status === "learning" ? "learning" : "not"}">${r.status === "absorbed" ? "✓ Absorbed" : r.status === "learning" ? "Learning" : "Not yet"}<br><span class="hint">${r.probes_right}/${r.probes} checks</span></div>
+    ${ruleSVG(r, w)}</div>`).join("");
+  // sparkline
+  const d = s.distance, sw = 260, sh = 56;
+  if (d.length > 1) {
+    const mx = Math.max(...d, 0.01), X = i => 4 + i / (d.length - 1) * (sw - 60), Y = v => 6 + (1 - v / mx) * (sh - 16);
+    const pts = d.map((v, i) => `${X(i)},${Y(v)}`).join(" ");
+    $("#spark").innerHTML = `<polyline points="${pts}" fill="none" stroke="var(--junior)" stroke-width="2"/>
+      <circle cx="${X(d.length - 1)}" cy="${Y(d.at(-1))}" r="3.5" fill="var(--junior)"/>
+      <text x="${X(d.length - 1) + 8}" y="${Y(d.at(-1)) + 4}">${(100 * d.at(-1)).toFixed(0)}%</text>
+      <text x="4" y="${sh - 1}">start ${(100 * d[0]).toFixed(0)}%</text>`;
+  } else $("#spark").innerHTML = `<text x="0" y="30">Answer a few parts to see this</text>`;
+  // shift
+  const inShift = !!s.shift;
+  $("#mode-pill").textContent = inShift ? `Real shift · part ${s.shift.i + 1} of ${s.shift.n}` : "Practice";
+  $("#mode-pill").className = "pill " + (inShift ? "shift" : "practice");
+  $("#b-shift").disabled = inShift;
+  const r = s.shift_result;
+  $("#shift-result").innerHTML = r ? `<table>
+      <thead><tr><th>${r.parts} parts · ${r.master_rejects} bad (${(100 * r.defect_rate).toFixed(1)}%)</th><th>Bad parts shipped</th><th>Good parts scrapped</th><th>Right</th></tr></thead>
+      <tbody><tr><td>${esc(r.trainee_name)}</td><td class="mono">${r.trainee.missed}</td><td class="mono">${r.trainee.false_alarms}</td><td class="mono">${r.trainee.correct}</td></tr>
+      <tr><td>Someone following only the manual</td><td class="mono">${r.manual_follower.missed}</td><td class="mono">${r.manual_follower.false_alarms}</td><td class="mono">${r.manual_follower.correct}</td></tr></tbody></table>` : "";
+}
+function showFeedback(fb) {
+  if (fb.mode !== "train") { $("#feedback").innerHTML = ""; return; }
+  const right = fb.correct, sizeTxt = fb.size_mm ? `${fb.size_mm.toFixed(1)} mm ${fb.shape} pit${fb.count > 1 ? `s (${fb.count})` : ""} on the ${ZN[fb.zone].toLowerCase()}` : "a clean part";
+  const head = right ? `Right. The master would ${fb.master_call} this too.` : `The master would ${fb.master_call} this.`;
+  const manual = fb.manual_differs ? `<div>The manual says <b>${fb.manual_call}</b>. This is one of the master's unwritten rules.</div>` : `<div>The manual agrees here.</div>`;
+  const note = fb.rule ? `<div class="note"><div class="who">Master's note</div><div class="hand">${esc(fb.rule.text_en.split(". The written")[0])}.</div><div class="ja" lang="ja">${esc(fb.rule.text_ja)}</div></div>` : "";
+  $("#feedback").innerHTML = `<div class="feedback ${right ? "right" : "wrong"}"><div class="row">${fb.image ? `<img src="${fb.image}" alt="The defect, ringed">` : ""}
+    <div><h3>${head}</h3><div class="hint">${sizeTxt}</div>${manual}</div></div>${note}
+    <button class="next" id="b-next">Next part →</button></div>`;
+  $("#b-next").onclick = loadPart;
+}
+function setButtons() { $("#b-reject").disabled = $("#b-accept").disabled = busy || waitingNext || !part; }
+async function loadPart() {
+  waitingNext = false; busy = true; setButtons(); $("#feedback").innerHTML = "";
+  try { part = await api("/api/train/next"); $("#part").src = part.image; $("#part-n").textContent = part.mode === "shift" ? "" : `Practice part #${part.n}`; $("#err").textContent = ""; }
+  catch (e) { if (e.status === 409) { renderState({ready: false}); return; } $("#err").textContent = "Could not load a part: " + e.message; }
+  busy = false; setButtons();
+}
+async function answer(verdict) {
+  if (busy || waitingNext || !part) return;
+  busy = true; setButtons();
+  try {
+    const r = await api("/api/train/answer", {method: "POST", body: JSON.stringify({id: part.id, verdict})});
+    renderState(r.state);
+    if (r.feedback.mode === "train") { waitingNext = true; showFeedback(r.feedback); busy = false; setButtons(); }
+    else { busy = false; await loadPart(); }
+  } catch (e) { $("#err").textContent = e.message; busy = false; setButtons(); }
+}
+$("#b-reject").onclick = () => answer("reject");
+$("#b-accept").onclick = () => answer("accept");
+$("#b-shift").onclick = async () => { renderState(await api("/api/train/shift", {method: "POST"})); loadPart(); };
+$("#b-auto").onclick = async () => { $("#b-auto").disabled = true; try { renderState(await api("/api/train/autofill?n=40", {method: "POST"})); } finally { $("#b-auto").disabled = false; loadPart(); } };
+$("#b-autoshift").onclick = async () => renderState(await api("/api/train/autoshift", {method: "POST"}));
+$("#b-reset").onclick = async () => { renderState(await api("/api/train/reset", {method: "POST"})); loadPart(); };
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") answer("reject"); else if (e.key === "ArrowRight") answer("accept");
+  else if (e.key === "Enter" && waitingNext) loadPart();
+});
+const stage = $("#stage"), loupe = $("#loupe"), ZOOM = 3;
+stage.addEventListener("pointermove", e => {
+  const r = stage.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+  loupe.style.display = "block"; loupe.style.left = (px - 85) + "px"; loupe.style.top = (py - 85) + "px";
+  loupe.style.backgroundImage = `url(${$("#part").src})`; loupe.style.backgroundSize = `${r.width * ZOOM}px ${r.height * ZOOM}px`;
+  loupe.style.backgroundPosition = `${-(px * ZOOM - 85)}px ${-(py * ZOOM - 85)}px`;
+});
+stage.addEventListener("pointerleave", () => loupe.style.display = "none");
+let last = null;
+window.addEventListener("resize", () => last && renderState(last));
+const _render = renderState; renderState = s => { last = s; _render(s); };
+api("/api/train/state").then(s => { renderState(s); if (s.ready) loadPart(); }).catch(e => $("#err").textContent = e.message);
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Render Blueprint: New → Blueprint → pick this repo → Apply.
+services:
+  - type: web
+    name: tacit
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/dojo/info
+    autoDeploy: true

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACIT · The Prince's Copy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans+JP:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;600;700&family=Yomogi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* Layout: one printed standard on a desk — the official text on the left of the sheet, a wide margin on the right for the master's handwriting */
+:root{
+  --desk:#e7e9ec; --paper:#fdfcf8; --print:#1d2127; --print-muted:#5f6670; --rule:#cfd3d8;
+  --ink:#1f3d9a; --ink-soft:rgba(31,61,154,.10); --pencil:#8b8f96; --strike:#c23b2b;
+  --ui:#15191e; --ui-muted:#5d6672; --ui-line:#d6dbe1; --ui-panel:#ffffff; --accent:#2346c9; --accent-soft:#e2e8fb;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --ja:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --hand-ja:"Yomogi","Hiragino Maru Gothic ProN","Yu Gothic",cursive;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --desk:#0f1216; --paper:#1b1f26; --print:#e3e6ea; --print-muted:#9aa3ae; --rule:#2e353f;
+  --ink:#9db3ff; --ink-soft:rgba(157,179,255,.10); --pencil:#858b94; --strike:#f2857a;
+  --ui:#e5e8ec; --ui-muted:#98a1ad; --ui-line:#2a3039; --ui-panel:#171b21; --accent:#8ea6ff; --accent-soft:#1d2645; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--desk);color:var(--ui);font-family:var(--sans);font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ui-muted)}
+
+header{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--ui-line);background:var(--ui-panel)}
+.brand{font-weight:700;letter-spacing:.06em;font-size:1.05rem}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--ui-muted);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.9rem}
+nav a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.lang{display:flex;border:1px solid var(--ui-line);border-radius:6px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--ui-muted);padding:6px 12px}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--ui-panel)}
+
+.wrap{max-width:1180px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-left)) 48px;display:flex;flex-direction:column;gap:14px}
+.lead{max-width:72ch;color:var(--ui-muted)}
+.lead b{color:var(--ui)}
+.stats{display:flex;gap:28px;flex-wrap:wrap}
+.stat b{display:block;font-family:var(--mono);font-size:1.4rem;font-weight:500}
+
+/* the sheet */
+.sheet{background:var(--paper);color:var(--print);border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 10px 30px rgba(0,0,0,.08);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);position:relative;overflow:hidden}
+.sheet::after{content:"";position:absolute;top:0;bottom:0;right:340px;border-left:1.5px solid rgba(194,59,43,.35);pointer-events:none}
+.body{padding:36px 36px 40px;font-family:var(--serif);min-width:0}
+.margin{padding:36px 22px 40px 26px;min-width:0}
+.docmeta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.72rem;color:var(--print-muted);border-bottom:2px solid var(--print);padding-bottom:8px}
+.body h1{font-family:var(--serif);font-size:1.5rem;margin:14px 0 2px;line-height:1.25}
+.body .sub{color:var(--print-muted);font-size:.9rem;margin-bottom:18px}
+.body h2{font-family:var(--sans);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 8px;color:var(--print-muted)}
+.body p,.body li{font-size:.98rem;line-height:1.6}
+.body ol{padding-left:22px;margin:0}
+
+/* acceptance rows: each row spans both columns so its note sits beside it */
+.rows{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px)}
+.row-l{padding:12px 36px;border-top:1px solid var(--rule);font-family:var(--serif);min-width:0}
+.row-r{padding:8px 22px 8px 26px;border-top:1px solid var(--rule);min-width:0;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.row-l .zone{font-family:var(--sans);font-weight:600;font-size:.95rem}
+.row-l .crit{font-size:1rem}
+.limit{position:relative;display:inline-block;font-variant-numeric:tabular-nums;font-weight:600}
+.limit.struck::after{content:"";position:absolute;left:-3px;right:-3px;top:52%;height:2px;background:var(--strike);transform:rotate(-6deg);border-radius:2px}
+.over{font-family:var(--hand);color:var(--ink);font-size:1.35rem;margin-left:6px;position:relative;top:-6px}
+.ja .over{font-family:var(--hand-ja);font-size:1rem}
+
+.note{font-family:var(--hand);color:var(--ink);font-size:1.4rem;line-height:1.12;position:relative;padding-left:16px}
+.note::before{content:"";position:absolute;left:0;top:.45em;width:9px;height:9px;border:2px solid currentColor;border-radius:50%}
+.note.pencil{color:var(--pencil)}
+.note .tiny{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-top:2px}
+.note{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:start}
+.note img{grid-row:1/span 2;grid-column:2;width:58px;height:58px;border-radius:3px;filter:grayscale(1) contrast(1.1);transform:rotate(1.5deg);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.note .txt{grid-column:1}
+.note .tiny{grid-column:1}
+.limit.wide.struck::after{transform:rotate(-1.2deg)}
+.ja .note{font-family:var(--hand-ja);font-size:1.02rem;line-height:1.4}
+.ja .body,.ja .row-l{font-family:var(--ja)}
+.signed{font-family:var(--hand);color:var(--ink);font-size:1.5rem;margin-top:24px;transform:rotate(-2deg)}
+.ja .signed{font-family:var(--hand-ja);font-size:1.1rem}
+.empty{padding:26px 36px;color:var(--print-muted);font-family:var(--sans)}
+.foot{font-size:.8rem;color:var(--ui-muted);max-width:80ch}
+.sheet + .sheet{margin-top:18px}
+.docnote{font-family:var(--sans);font-size:.78rem;color:var(--print-muted);margin-top:4px}
+
+@media (max-width:860px){
+  .sheet,.rows{grid-template-columns:1fr}
+  .sheet::after{display:none}
+  .margin{display:none}
+  .row-r{border-top:0;padding:0 36px 14px;border-left:3px solid var(--ink-soft);margin-left:36px;padding-left:14px}
+  .body,.row-l{padding-left:20px;padding-right:20px}
+  .row-r{margin-left:20px}
+}
+</style>
+<link rel="stylesheet" href="/tacit.css">
+<script src="/tacit.js" defer></script>
+</head>
+<body>
+<div class="tbar"><a class="tmark" href="/" aria-label="TACIT home"><b>TACIT</b><span>暗黙知</span></a><nav aria-label="Steps"><ol class="tsteps"><li><a href="/eye" data-step="capture"><span class="n">1</span><span class="nm">Capture the master</span><span class="st"></span></a></li><li><a href="/rules" data-step="rules"><span class="n">2</span><span class="nm">Rule cards</span><span class="st"></span></a></li><li><a href="/train" data-step="train"><span class="n">3</span><span class="nm">Train a junior</span><span class="st"></span></a></li><li><a href="/prince" data-step="prince" aria-current="page"><span class="n">4</span><span class="nm">The Prince's Copy</span><span class="st"></span></a></li><li><a href="/passport" data-step="passport"><span class="n">5</span><span class="nm">Skill Passport</span><span class="st"></span></a></li></ol></nav></div>
+<header>
+  <div class="ptitle"><h1>The Prince's Copy<small lang="ja">書き込み入りの標準書</small></h1></div>
+  <div class="lang" role="group" aria-label="Language"><button id="l-en" aria-pressed="true">English</button><button id="l-ja" aria-pressed="false">日本語</button></div>
+</header>
+
+<div class="wrap" id="wrap">
+  <p class="lead">Every inspector has the same written standard. <b>The master's copy has notes in the margin</b>, on what they see, hear and feel. TACIT wrote these notes from the master's answers alone: no interview, no writing. Ink means the master approved the note; pencil means it is still waiting for approval.</p>
+  <div class="stats">
+    <div class="stat"><span class="label">Margin notes</span><b id="s-notes">0</b></div>
+    <div class="stat"><span class="label">Approved in ink</span><b id="s-ink">0</b></div>
+    <div class="stat"><span class="label">Learned from</span><b id="s-answers">0 answers</b></div>
+    <div class="stat"><span class="label">Interview time</span><b>0 min</b></div>
+  </div>
+
+  <article class="sheet" id="sheet" aria-label="Inspection standard with the master's notes">
+    <div class="body">
+      <div class="docmeta"><span id="d-no">IS-IMP-07 · Rev. 3</span><span id="d-plant">Example standard written for this demo</span></div>
+      <h1 id="d-title">Visual Inspection Standard: Cast Pump Impeller</h1>
+      <div class="sub" id="d-sub">Foundry line · final visual inspection before machining</div>
+      <h2 id="h-scope">1. Scope</h2>
+      <p id="p-scope">Applies to every cast impeller leaving the foundry. Inspect the top face under bench lighting.</p>
+      <h2 id="h-proc">2. Procedure</h2>
+      <ol id="p-proc"><li>Clean the casting and place it face up.</li><li>Inspect the sealing lip, flange face and outer rim for pits.</li><li>Measure the largest pit with a gauge.</li><li>Decide accept or reject using section 3. Record rejects.</li></ol>
+      <h2 id="h-crit">3. Acceptance criteria</h2>
+    </div>
+    <aside class="margin" aria-hidden="true"></aside>
+    <div class="rows" id="rows"><div class="empty">Loading…</div></div>
+    <div class="body" style="grid-column:1/-1;padding-top:8px">
+      <h2 id="h-rec">4. Records</h2>
+      <p id="p-rec">Log each rejected part with the zone and pit size.</p>
+      <div class="signed" id="signed"></div>
+    </div>
+  </article>
+  <article class="sheet" id="sheet-ear" aria-label="Pump test procedure with the master's notes"></article>
+  <article class="sheet" id="sheet-hand" aria-label="Deburring instruction with the master's notes"></article>
+  <p class="foot" id="foot">The master in this demo is simulated. On a real line, each note is learned from the master's own answers and signed off by them on the Rule cards page.</p>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let lang = "en", data = null, all = null;
+try { lang = localStorage.getItem("tacit-lang") || "en"; } catch (e) {}
+
+const T = {
+  en: {no: "IS-IMP-07 · Rev. 3", plant: "Example standard written for this demo", title: "Visual Inspection Standard: Cast Pump Impeller",
+       sub: "Foundry line · final visual inspection before machining", scope: "1. Scope", pscope: "Applies to every cast impeller leaving the foundry. Inspect the top face under bench lighting.",
+       proc: "2. Procedure", pproc: ["Clean the casting and place it face up.", "Inspect the sealing lip, flange face and outer rim for pits.", "Measure the largest pit with a gauge.", "Decide accept or reject using section 3. Record rejects."],
+       crit: "3. Acceptance criteria", rec: "4. Records", prec: "Log each rejected part with the zone and pit size.",
+       zone: {sealing_lip: "3.1 Sealing lip", flange_face: "3.2 Flange face", rim: "3.3 Outer rim"},
+       crit1: lim => `Accept pits up to <span class="limit" data-l>${lim} mm</span>. Reject larger pits.`,
+       countRow: "3.4 Number of pits", countTxt: "Reject any part with 3 or more pits, wherever they are.",
+       approved: "approved by the master", pending: "learned · not yet approved", signed: n => `Notes approved: ${n}`,
+       foot: "The master in this demo is simulated. On a real line, each note is learned from the master's own answers and signed off by them on the Rule cards page.",
+       empty: 'No notes yet. Capture the master on the <a href="/eye">Master capture</a> page first.'},
+  ja: {no: "IS-IMP-07 · 第3版", plant: "本デモ用に作成した標準書の例", title: "外観検査標準書：鋳造ポンプインペラ",
+       sub: "鋳造ライン・機械加工前の最終外観検査", scope: "1. 適用範囲", pscope: "鋳造工程を出るすべてのインペラに適用する。作業台の照明下で上面を検査する。",
+       proc: "2. 手順", pproc: ["鋳物を清掃し、上面を上にして置く。", "シールリップ、フランジ面、外周リムのピットを確認する。", "最大のピットをゲージで測定する。", "第3項に従い合否を判定し、不合格品を記録する。"],
+       crit: "3. 合否判定基準", rec: "4. 記録", prec: "不合格品は部位とピットの大きさを記録する。",
+       zone: {sealing_lip: "3.1 シールリップ", flange_face: "3.2 フランジ面", rim: "3.3 外周リム"},
+       crit1: lim => `<span class="limit" data-l>${lim} mm</span>までのピットは合格。それを超えるものは不合格。`,
+       countRow: "3.4 ピットの個数", countTxt: "部位に関わらず、ピットが3個以上ある部品は不合格。",
+       approved: "熟練者が承認済み", pending: "学習済み・未承認", signed: n => `承認済みの書き込み：${n}件`,
+       foot: "本デモの熟練者はシミュレーションです。実際の現場では、熟練者本人の判定から学習し、ルールカード画面で本人が承認します。",
+       empty: 'まだ書き込みはありません。先に<a href="/eye">熟練者の判定</a>を取り込んでください。'}
+};
+
+function shortNote(c, L) {
+  const lim = c.limit.toFixed(1), anySize = c.limit <= 1.5, strict = c.direction === "stricter";
+  if (L === "ja") {
+    const pre = (c.count === 2 ? "2個以上：" : "") + (c.shape === "round" ? "丸いピット：" : c.shape === "irregular" ? "不規則なピット：" : "");
+    const body = strict ? (anySize ? "大きさに関わらず不合格" : `${lim} mm以上で不合格`) : `${lim} mmまで合格`;
+    return pre + body + (c.cause ? `（${({"Gas porosity": "ガス欠陥", "Shrinkage": "引け巣", "Sand inclusion": "砂かみ"})[c.cause] || c.cause}）` : "");
+  }
+  const pre = (c.count === 2 ? "Two or more pits: " : "") + (c.shape === "round" ? "Round pits: " : c.shape === "irregular" ? "Jagged pits: " : "");
+  const body = strict ? (anySize ? "reject at any size" : `reject from ${lim} mm`) : `OK up to ${lim} mm`;
+  return pre + body + (c.cause ? ` (${c.cause.toLowerCase()})` : "");
+}
+
+function render() {
+  const t = T[lang];
+  document.documentElement.lang = lang; $("#sheet").classList.toggle("ja", lang === "ja");
+  $("#d-no").textContent = t.no; $("#d-plant").textContent = t.plant; $("#d-title").textContent = t.title; $("#d-sub").textContent = t.sub;
+  $("#h-scope").textContent = t.scope; $("#p-scope").textContent = t.pscope; $("#h-proc").textContent = t.proc;
+  $("#p-proc").innerHTML = t.pproc.map(x => `<li>${esc(x)}</li>`).join(""); $("#h-crit").textContent = t.crit;
+  $("#h-rec").textContent = t.rec; $("#p-rec").textContent = t.prec; $("#foot").textContent = t.foot;
+  $("#l-en").setAttribute("aria-pressed", lang === "en"); $("#l-ja").setAttribute("aria-pressed", lang === "ja");
+  if (!data) return;
+  const cards = data.cards.filter(c => c.status !== "rejected");
+  $("#s-notes").textContent = cards.length; $("#s-ink").textContent = cards.filter(c => c.status === "approved").length;
+  $("#s-answers").textContent = `${data.swipes} answers`;
+  if (!cards.length) { $("#rows").innerHTML = `<div class="row-l empty" style="grid-column:1/-1">${t.empty}</div>`; $("#signed").textContent = ""; return; }
+  const manual = 4.0;
+  const rows = ["sealing_lip", "flange_face", "rim"].map(z => {
+    const cs = cards.filter(c => c.zone === z);
+    const whole = cs.find(c => c.shape === "any" && c.count === 1);           // overrides the row's number outright
+    const over = whole ? `<span class="over">${whole.direction === "stricter" && whole.limit <= 1.5 ? (lang === "ja" ? "全て" : "any") : whole.limit.toFixed(1)}</span>` : "";
+    let crit = t.crit1(manual.toFixed(1));
+    if (whole) crit = crit.replace('<span class="limit" data-l>', '<span class="limit struck" data-l>').replace("</span>", "</span>" + over);
+    const notes = cs.map(c => {
+      const ex = (c.examples || [])[c.direction === "stricter" ? 0 : 1];
+      return `<div class="note ${c.status === "approved" ? "" : "pencil"}"><span class="txt">${esc(shortNote(c, lang))}</span>
+        <span class="tiny">${c.status === "approved" ? t.approved : t.pending} · ${c.evidence} ${lang === "ja" ? "回の判定" : "answers"}</span>
+        ${ex ? `<img src="${ex.image}" alt="">` : ""}</div>`;
+    }).join("");
+    return `<div class="row-l"><div class="zone">${t.zone[z]}</div><div class="crit">${crit}</div></div><div class="row-r">${notes}</div>`;
+  }).join("");
+  $("#rows").innerHTML = rows + `<div class="row-l"><div class="zone">${t.countRow}</div><div class="crit">${t.countTxt}</div></div><div class="row-r"></div>`;
+  const nInk = cards.filter(c => c.status === "approved").length;
+  $("#signed").textContent = nInk ? `${t.signed(nInk)} — ${data.master}` : "";
+  renderExtra();
+}
+
+// ---------------------------------------------------------------- ear and hand documents
+const DOC = {
+  en: {
+    ear: {no: "IS-PMP-03 · Rev. 2", title: "Pump Running Check: Test Bench", sub: "Assembled pump · running check before shipping",
+          steps: ["Run the pump at rated speed for 30 seconds.", "Hold the sound-level meter 1 m from the casing.", "Decide using section 3. Tag any stopped pump for teardown."],
+          crit: "3. Stop criterion", rowQ: "3.1 Quiet shop", rowN: "3.2 Noisy shop", rule: '<span class="limit wide" data-l>Stop the pump if the meter reads above 82 dB.</span>',
+          note: "Concept: the pump sounds are real Hitachi recordings (MIMII / DCASE 2020) when loaded; the master is simulated."},
+    hand: {no: "WI-DB-02 · Rev. 1", title: "Deburring Work Instruction: Impeller Edges", sub: "Hand deburring after casting",
+           steps: ["Hold the tool at 45° to the edge.", "Move along the edge in one continuous stroke.", "Check the edge by touch afterwards."],
+           crit: "3. Stroke", rule: v => `Deburr at a steady 20 mm/s. End no faster than <span class="limit" data-l>${v} mm/s</span>.`,
+           note: "Concept demo: strokes are generated; a real version records the tool with a phone or wrist sensor."}},
+  ja: {
+    ear: {no: "IS-PMP-03 · 第2版", title: "ポンプ運転確認：テストベンチ", sub: "組立後のポンプ・出荷前の運転確認",
+          steps: ["定格回転で30秒間運転する。", "騒音計をケーシングから1 mの位置で保持する。", "第3項に従い判定する。停止したポンプは分解点検に回す。"],
+          crit: "3. 停止基準", rowQ: "3.1 静かな工場", rowN: "3.2 騒がしい工場", rule: '<span class="limit wide" data-l>騒音計が82 dBを超えたらポンプを停止する。</span>',
+          note: "ポンプ音は読み込み時に日立の実録音（MIMII / DCASE 2020）を使用。熟練者はシミュレーションです。"},
+    hand: {no: "WI-DB-02 · 第1版", title: "バリ取り作業指示書：インペラの縁", sub: "鋳造後の手作業バリ取り",
+           steps: ["工具を縁に対して45°に保つ。", "縁に沿って一度の連続したストロークで動かす。", "作業後、縁を指で確認する。"],
+           crit: "3. ストローク", rule: v => `一定の20 mm/sでバリ取りを行う。終端は<span class="limit" data-l>${v} mm/s</span>以下とする。`,
+           note: "コンセプトデモ：ストロークは生成したもの。実際には携帯電話や手首のセンサーで工具の動きを記録する。"}}
+};
+const EDGE_T = {en: {sealing_lip: "3.1 Sealing lip edge", flange_edge: "3.2 Flange face edge", rim: "3.3 Outer rim edge"},
+                ja: {sealing_lip: "3.1 シールリップの縁", flange_edge: "3.2 フランジ面の縁", rim: "3.3 外周リムの縁"}};
+function earNote(c, L) {
+  const lim = Math.round(c.limit), dis = c.distractor;
+  if (L === "ja") {
+    const d = {beep: "フォークリフトの音はポンプではない。", knock: "衝撃音はポンプではない。", none: ""}[dis];
+    return c.direction === "stricter" ? `${d}メーターではなく耳で：故障音${lim}%で停止` : `${d}故障音${lim}%までは運転継続`;
+  }
+  const d = {beep: "Forklift beep isn't the pump. ", knock: "The knocks aren't the pump. ", none: ""}[dis];
+  return c.direction === "stricter" ? `${d}Listen, don't read the meter: stop at ${lim}% fault` : `${d}Keep running until ${lim}% fault`;
+}
+function handNote(c, L) {
+  const v = Math.round(c.limit);
+  if (L === "ja") return c.direction === "stricter" ? `終端で減速：${v} mm/s以下` : `終端${v} mm/sまで問題なし`;
+  return c.direction === "stricter" ? `Ease off at the end: ${v} mm/s or slower` : `Fine up to ${v} mm/s at the end`;
+}
+function noteHTML(text, c) {
+  const tt = T[lang];
+  return `<div class="note ${c.status === "approved" ? "" : "pencil"}"><span class="txt">${esc(text)}</span>
+    <span class="tiny">${c.status === "approved" ? tt.approved : tt.pending} · ${c.evidence} ${lang === "ja" ? "回の判定" : "answers"}</span></div>`;
+}
+function sheetHTML(d, rows) {
+  return `<div class="body" style="grid-column:1/-1"><div class="docmeta"><span>${d.no}</span><span>${esc(d.note)}</span></div>
+    <h1>${d.title}</h1><div class="sub">${d.sub}</div>
+    <h2>${lang === "ja" ? "2. 手順" : "2. Procedure"}</h2><ol>${d.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol><h2>${d.crit}</h2></div>
+    <div class="rows" style="grid-column:1/-1">${rows}</div><div class="body" style="grid-column:1/-1;padding-top:4px"></div>`;
+}
+function renderExtra() {
+  if (!all) return;
+  const L = lang, live = c => c.status !== "rejected";
+  // ear
+  const de = DOC[L].ear, ear = all.ear.filter(live);
+  const earRows = [["quiet", de.rowQ], ["noisy", de.rowN]].map(([shop, label]) => {
+    const cs = ear.filter(c => c.shop === shop);
+    const crit = cs.some(c => c.direction === "stricter") ? de.rule.replace('class="limit wide" data-l', 'class="limit wide struck" data-l') : de.rule;
+    return `<div class="row-l"><div class="zone">${label}</div><div class="crit">${crit}</div></div><div class="row-r">${cs.map(c => noteHTML(earNote(c, L), c)).join("")}</div>`;
+  }).join("");
+  $("#sheet-ear").classList.toggle("ja", L === "ja");
+  $("#sheet-ear").innerHTML = sheetHTML(de, earRows);
+  // hand
+  const dh = DOC[L].hand, hand = all.hand.filter(live);
+  const handRows = ["sealing_lip", "flange_edge", "rim"].map(e => {
+    const c = hand.find(x => x.edge === e);
+    let crit = dh.rule(25);
+    if (c) crit = crit.replace('<span class="limit" data-l>', '<span class="limit struck" data-l>').replace("</span>", `</span><span class="over">${Math.round(c.limit)}</span>`);
+    return `<div class="row-l"><div class="zone">${EDGE_T[L][e]}</div><div class="crit">${crit}</div></div><div class="row-r">${c ? noteHTML(handNote(c, L), c) : ""}</div>`;
+  }).join("");
+  $("#sheet-hand").classList.toggle("ja", L === "ja");
+  $("#sheet-hand").innerHTML = sheetHTML(dh, handRows);
+  const tot = all.eye.filter(live).length + ear.length + hand.length;
+  const ink = [...all.eye, ...ear, ...hand].filter(c => c.status === "approved").length;
+  $("#s-notes").textContent = tot; $("#s-ink").textContent = ink;
+  $("#s-answers").textContent = `${all.answers.eye + all.answers.ear + all.answers.hand} answers`;
+}
+
+async function load() {
+  try { const r = await fetch("/api/rules/all"); all = await r.json(); data = {cards: all.eye, swipes: all.answers.eye, master: all.master}; }
+  catch (e) { data = {cards: [], swipes: 0, master: ""}; all = null; }
+  render();
+}
+$("#l-en").onclick = () => { lang = "en"; try { localStorage.setItem("tacit-lang", lang); } catch (e) {} render(); };
+$("#l-ja").onclick = () => { lang = "ja"; try { localStorage.setItem("tacit-lang", lang); } catch (e) {} render(); };
+render(); load();
+</script>
+</body>
+</html>

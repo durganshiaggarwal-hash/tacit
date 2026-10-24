@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>検品ライン · The Inspection Line</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap">
+<style>
+/* A conveyor at a foundry: one part at a time, two big buttons, a signal tower, scrolls for the master's secrets. */
+:root{
+  --floor:#e9ebe6; --panel:#ffffff; --ink:#1a1f26; --muted:#5c636c; --line:#d5d9d2;
+  --master:#233d8c; --master-soft:#e4e8f4; --seal:#c2332b;
+  --ok:#1f7a49; --ok-soft:#dcefe3; --ng:#c2332b; --ng-soft:#f8e0dc; --amber:#d99a1e;
+  --belt:#2b3036; --belt-2:#363c43; --paper:#fbf8ef; --rod:#5a3b22;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --serif:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --floor:#121512; --panel:#191d19; --ink:#e6e8e3; --muted:#9aa19a; --line:#2b302b;
+  --master:#9fb2f0; --master-soft:#1e2640; --ok:#5cc98d; --ok-soft:#14301f; --ng:#f0857b; --ng-soft:#3a1c19; --paper:#f3efe2; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{background:var(--floor);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--master);outline-offset:3px}
+.en{display:block;font-size:.78em;color:var(--muted);font-weight:400}
+
+/* top */
+.top{display:flex;align-items:center;gap:18px;padding:12px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:var(--panel)}
+.top .t{font-weight:700;font-size:1.15rem;letter-spacing:.06em}
+.top .t small{font-weight:400;color:var(--muted);font-size:.8rem;margin-left:8px;letter-spacing:0}
+.top a{margin-left:auto;color:var(--muted);font-size:.85rem;text-decoration:none}
+.pips{display:flex;gap:5px}
+.pips i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--muted);display:block}
+.pips i.done{background:var(--muted);border-color:var(--muted)}
+.pips i.now{border-color:var(--master);background:var(--master-soft);transform:scale(1.25)}
+.shelf{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--muted)}
+.shelf b{display:inline-block;width:14px;height:30px;border-radius:3px;background:linear-gradient(var(--rod) 0 4px,var(--paper) 4px calc(100% - 4px),var(--rod) calc(100% - 4px));box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+
+/* start */
+.start{max-width:1080px;margin:0 auto;padding:44px max(16px,env(safe-area-inset-left)) 40px}
+.start h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.4rem);margin:0;line-height:1.15}
+.start h1 .en{font-family:var(--sans);font-size:1.1rem;margin-top:6px}
+.start > p{max-width:60ch;color:var(--muted);margin:16px 0 30px;font-size:1.05rem}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.role{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.role h2{margin:0;font-size:1.6rem;font-family:var(--serif)}
+.role h2 .en{font-family:var(--sans);font-size:.95rem}
+.role p{margin:0;color:var(--muted)}
+.card{background:var(--paper);color:#2a2a2a;border-radius:4px;padding:14px 16px;border-left:4px solid var(--seal);font-size:.95rem}
+.card b{display:block;margin-bottom:6px}
+.card ul{margin:0;padding-left:18px}
+.card .en{color:#6b6b6b}
+.go{border:0;background:var(--master);color:#fff;font-weight:700;font-size:1.15rem;padding:16px 18px;border-radius:8px;margin-top:auto}
+.go .en{color:rgba(255,255,255,.8)}
+.flow{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:12px}
+.flow b{display:block}
+.go.alt{background:var(--ink);color:var(--panel)}
+.go.alt .en{color:inherit;opacity:.75}
+label.own{font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+
+/* line */
+.line{display:grid;grid-template-columns:240px minmax(0,1fr) 300px;gap:20px;max-width:1240px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-left)) 0;align-items:start}
+.side{display:flex;flex-direction:column;gap:12px}
+.bubble{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;position:relative}
+.bubble .who{font-size:.8rem;color:var(--muted)}
+.bubble .say{font-size:1.25rem;font-weight:700;margin-top:2px}
+.bubble .say.ok{color:var(--ok)} .bubble .say.ng{color:var(--ng)}
+.bubble .after{font-size:.9rem;margin-top:8px;min-height:1.5em}
+.bubble .after.hit{color:var(--ok)} .bubble .after.miss{color:var(--seal);font-weight:700}
+.mini{font-size:.86rem}
+.mini .card{padding:10px 12px;font-size:.84rem}
+.manual{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.9rem}
+.manual b{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
+
+.stage{position:relative}
+.window{position:relative;height:470px;overflow:hidden;border-radius:12px;background:linear-gradient(var(--floor),var(--floor))}
+.beltbar{position:absolute;left:0;right:0;bottom:24px;height:46px;background:repeating-linear-gradient(90deg,var(--belt) 0 34px,var(--belt-2) 34px 38px);border-radius:6px;box-shadow:inset 0 3px 0 rgba(255,255,255,.08),0 4px 0 #1b1f23}
+.beltbar.run{animation:run .55s linear}
+@keyframes run{from{background-position:0 0}to{background-position:152px 0}}
+.part{position:absolute;left:50%;bottom:58px;width:330px;height:330px;margin-left:-165px;transition:transform .5s cubic-bezier(.5,0,.6,1),opacity .5s}
+.part .tray{position:relative;width:100%;height:100%;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 10px 18px rgba(0,0,0,.25)}
+.part img{width:100%;height:100%;object-fit:cover;display:block}
+.ring{position:absolute;border:3px solid #ffcf3a;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 2px rgba(0,0,0,.4)}
+.gauge{position:absolute;left:50%;top:-10px;transform:translate(-50%,-100%);font-size:1.15rem!important;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 12px;white-space:nowrap;font-weight:700;font-size:1.05rem}
+.gauge .en{display:inline;margin-left:8px;font-size:.78rem}
+.part.in{transform:translateX(-160%);opacity:0;transition:none}
+.part.ship{transform:translateX(170%)}
+.part.scrap{transform:translate(0,140%) rotate(16deg);opacity:0}
+.bins{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);padding:4px 4px 0}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.verdicts button{border:3px solid;border-radius:12px;padding:18px 10px 14px;font-weight:700;font-size:2rem;line-height:1.1}
+.verdicts .en{font-size:1rem;margin-top:2px}
+.verdicts .lbl{display:block;font-size:1.05rem}
+.verdicts .sym{display:block;font-size:3.4rem;line-height:1;font-weight:700}
+.score{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:.9rem}
+.score b{font-size:1.6rem;font-variant-numeric:tabular-nums}
+.rank{font-family:var(--serif);font-size:2.4rem;font-weight:700;color:var(--master);line-height:1.1;display:inline-block}
+.rank.pop{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.35)}}
+.ladder{display:flex;gap:3px;margin-top:8px}.ladder i{flex:1;height:6px;border-radius:3px;background:var(--line)}.ladder i.on{background:var(--master)}
+.b-ng{border-color:var(--ng);background:var(--ng-soft);color:var(--ng)}
+.b-ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.b-ng .en,.b-ok .en{color:inherit;opacity:.8}
+.verdicts button:disabled{opacity:.45;cursor:default}
+.keys{font-size:.8rem;color:var(--muted);text-align:center;margin-top:8px}
+
+/* TACIT's brain: what the model believes, live */
+.rcol{display:flex;flex-direction:column;gap:12px}
+.rcol .andon{flex-direction:row;gap:6px;align-items:center;justify-content:flex-end}
+.rcol .andon .lamp{width:30px;height:20px;margin:0}
+.rcol .andon .pole{display:none}
+.rcol .andon .lab{margin:0 0 0 6px;text-align:left}
+.brain{background:var(--panel);border:3px solid var(--ink);padding:12px 12px 10px;display:flex;flex-direction:column;gap:10px}
+.brain[hidden]{display:none}
+.brain h3{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.brain h3 small{font-size:.75rem;color:var(--muted);font-weight:400}
+.bz{display:flex;flex-direction:column;gap:2px}
+.bz .t{font-weight:700;font-size:.92rem;display:flex;justify-content:space-between;gap:6px}
+.bz .t .c{font-weight:400;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.bz svg{width:100%;height:auto;display:block;overflow:visible}
+.bz .bar{fill:#9cc9f2;transition:y .45s ease,height .45s ease,fill .3s}
+.bz.diff .bar{fill:#1d63c9}
+.bz .est{font-size:.84rem}
+.bz .est b{font-size:1rem}
+.bz .gap{fill:rgba(242,181,27,.28);transition:x .45s,width .45s}
+.bz .gapt{font-size:.78rem;color:#9a6a00;font-weight:700}
+.next{font-size:.84rem;border-top:1px dashed var(--line);padding-top:8px}
+.next b{display:block;font-size:.78rem;color:var(--muted);font-weight:500}
+@media (prefers-reduced-motion:reduce){.bz .bar,.bz .gap{transition:none}}
+/* andon tower */
+.andon{display:flex;flex-direction:column;align-items:center}
+.andon .lamp{width:64px;height:54px;border-radius:8px 8px 4px 4px;margin-bottom:4px;opacity:.22;transition:opacity .15s,box-shadow .15s}
+.lamp.r{background:var(--ng)} .lamp.y{background:var(--amber)} .lamp.g{background:var(--ok)}
+.lamp.on{opacity:1;box-shadow:0 0 26px 6px currentColor}
+.lamp.r.on{color:rgba(194,51,43,.55)} .lamp.y.on{color:rgba(217,154,30,.55)} .lamp.g.on{color:rgba(31,122,73,.55)}
+.andon .pole{width:12px;height:150px;background:#8a9097;border-radius:2px}
+.andon .lab{font-size:.75rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* scroll */
+.veil{position:fixed;inset:0;background:rgba(10,12,14,.62);display:grid;place-items:center;padding:16px;z-index:10}
+.scroll{width:min(560px,100%);display:flex;flex-direction:column;align-items:center}
+.rod{width:104%;height:22px;border-radius:11px;background:linear-gradient(#7a5233,#4a2f1b);box-shadow:0 3px 6px rgba(0,0,0,.4)}
+.paper{width:100%;background:var(--paper);color:#222;overflow:hidden;max-height:0;transition:max-height .7s ease-out;box-shadow:inset 0 10px 10px -8px rgba(0,0,0,.25),inset 0 -10px 10px -8px rgba(0,0,0,.25)}
+.paper.open{max-height:520px}
+.paper .in{padding:24px 30px 26px;text-align:center;position:relative}
+.paper .kind{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--seal);letter-spacing:.2em}
+.paper .kind .en{font-family:var(--sans);letter-spacing:0;font-size:.85rem;color:#777}
+.paper .ja{font-family:var(--serif);font-size:1.35rem;line-height:1.6;margin:16px 0 6px}
+.paper .eng{color:#555;font-size:.98rem}
+.paper .why{font-size:.82rem;color:#777;margin-top:12px}
+.paper .act{margin-top:18px;display:flex;justify-content:center}
+.hanko{width:96px;height:96px;border-radius:50%;border:3px solid var(--seal);background:transparent;color:var(--seal);font-family:var(--serif);font-weight:700;font-size:1rem;line-height:1.2}
+.hanko .en{color:var(--seal);font-family:var(--sans);font-size:.7rem}
+.seal{position:absolute;right:26px;bottom:20px;width:92px;height:92px;border-radius:50%;border:4px solid var(--seal);color:var(--seal);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:1.5rem;transform:rotate(-12deg) scale(2.4);opacity:0;transition:transform .22s cubic-bezier(.3,1.6,.6,1),opacity .15s;background:rgba(194,51,43,.06)}
+.seal.down{transform:rotate(-12deg) scale(1);opacity:.92}
+.plain{border:2px solid #333;background:transparent;color:#222;padding:10px 22px;border-radius:8px;font-weight:700}
+
+/* end */
+.end{max-width:900px;margin:0 auto;padding:34px max(16px,env(safe-area-inset-left)) 48px}
+.end h2{font-family:var(--serif);font-size:2rem;margin:0 0 8px}
+.end .lead{font-size:1.15rem;color:var(--muted);margin:0 0 22px}
+.found{display:flex;flex-direction:column;gap:10px;margin:0 0 24px;padding:0;list-style:none}
+.found li{background:var(--paper);color:#222;border-radius:4px;padding:12px 16px;border-left:4px solid var(--seal);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.found li .cmp{font-size:.82rem;color:#666;text-align:right}
+.found li .eng{display:block;font-size:.85rem;color:#666}
+.cert{background:var(--paper);color:#222;border:2px solid #b9a77a;outline:6px double #d8c99e;outline-offset:-14px;padding:40px 36px 34px;text-align:center;position:relative;margin-bottom:24px}
+.cert .big{font-family:var(--serif);font-size:clamp(3rem,9vw,5rem);font-weight:700;letter-spacing:.25em;margin:0;line-height:1.1}
+.cert .en{color:#666}
+.cert p{margin:12px auto 0;max-width:46ch}
+.cert .seal{position:absolute;right:36px;bottom:30px;transform:rotate(-12deg) scale(1);opacity:.9}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row .go{margin-top:0;flex:1 1 220px}
+
+@media (max-width:980px){.line{grid-template-columns:1fr}.andon{display:none}.side{order:2}.window{height:400px}.part{width:280px;height:280px;margin-left:-140px}.roles{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.part,.paper,.seal{transition:none}.beltbar.run{animation:none}}
+</style>
+<link rel="stylesheet" href="/tacit.css?v=20261025b">
+<script src="/bilingual.js?v=20261025b" defer></script>
+<link rel="stylesheet" href="/pixel.css?v=20261025b">
+<link rel="stylesheet" href="/calm.css?v=1">
+<link rel="stylesheet" href="/deck.css?v=1">
+</head>
+<body class="g">
+<div class="top">
+  <span class="t">検品ライン<small>The Inspection Line</small></span>
+  <div class="pips" id="pips" aria-hidden="true"></div>
+  <div class="shelf" id="shelf" aria-label="Secrets found"></div>
+  <a href="/">← ホーム<span class="en">← Home</span></a>
+</div>
+
+<!-- start -->
+<section class="start" id="v-start">
+  <h1>熟練者の技を、次の世代へ。<span class="en">Pass a master's eye to the next generation.</span></h1>
+  <p>この画面は師匠用です。部品がラインを流れてきます。○ か ✕ で答えてください。TACIT が標準書に書かれていないルールを見つけ、弟子の道場へ渡します。<span class="en">This screen is for the master. Parts come down the line; answer ○ or ✕. TACIT finds the rules the manual never wrote down, then hands them to the junior's dojo.</span></p>
+  <div class="roles">
+    <div class="role">
+      <h2>師匠<span class="en">The master's screen</span></h2>
+      <p>TACIT との対局。8個の部品を ○ か ✕ で判定します。TACIT は毎回あなたの手を読もうとします。読めなかった手こそ、標準書にない知識です。<span class="en">A match against TACIT. Judge 8 parts with ○ or ✕. Before each one, TACIT tries to read your move. Every move it can't read is something the manual doesn't say.</span></p>
+      <div class="card" id="rolecard"><b>役割カード：田中さん、鋳造歴38年<span class="en">Role card: Tanaka-san, 38 years at the foundry</span></b><ul id="rc"></ul></div>
+      <label class="own"><input type="checkbox" id="own"> 自分自身として判定する（役割カードなし）<span class="en">Play as yourself instead (no role card)</span></label>
+      <label class="own"><input type="checkbox" id="full"> フルラウンド：3か所・13個（通常は2分デモ用の8個）<span class="en">Full round: 3 zones, 13 parts (the default is 8 parts, for a 2-minute demo)</span></label>
+      <button class="go" id="go-master">師匠として始める<kbd class="k">S</kbd><span class="en">Start as the master</span></button>
+    </div>
+    <div class="role">
+      <h2>その後は<span class="en">What happens next</span></h2>
+      <ol class="flow">
+        <li><b>師匠が ○ / ✕ で答える</b><span class="en">The master answers 8 parts. No interview, no writing.</span></li>
+        <li><b>TACIT が秘伝を見つける</b><span class="en">Wherever the master's line differs from the manual, it becomes a secret technique, worded from their answers.</span></li>
+        <li><b>弟子は道場で学ぶ</b><span class="en">The junior trains on exactly those lines in the dojo, on a different screen.</span></li>
+      </ol>
+      <a class="go alt" id="go-dojo" href="/junior" style="text-decoration:none;text-align:center">弟子の道場を見る<kbd class="k">D</kbd><span class="en">Open the junior's dojo</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- the line -->
+<section id="v-line" hidden>
+  <div class="line">
+    <div class="side" id="side"></div>
+    <div class="stage">
+      <div class="window" id="window"><div class="beltbar" id="belt"></div><div class="part" id="part"></div></div>
+      <div class="bins"><span>不良品箱<span class="en">Scrap bin</span></span><span>出荷<span class="en">Shipping</span></span></div>
+      <div class="verdicts">
+        <button class="b-ng" id="b-ng" aria-label="Reject"><span class="sym">✕</span><span class="lbl">不良<span class="en">Reject</span><kbd class="k">←</kbd></span></button>
+        <button class="b-ok" id="b-ok" aria-label="Accept"><span class="sym">○</span><span class="lbl">良品<span class="en">Ship it</span><kbd class="k">→</kbd></span></button>
+      </div>
+      <div class="keys">キー操作：← ✕ 不良 · → ○ 良品<span class="en">Keys: ← ✕ reject · → ○ ship</span></div>
+    </div>
+    <div class="rcol"><div class="brain" id="brain" aria-live="polite"></div><div class="andon" aria-hidden="true"><div class="lamp r" id="l-r"></div><div class="lamp y" id="l-y"></div><div class="lamp g" id="l-g"></div><div class="pole"></div><div class="lab">アンドン<span class="en">Signal tower: lights up after each call</span></div></div></div>
+  </div>
+</section>
+
+<!-- end -->
+<section class="end" id="v-end" hidden></section>
+
+<div class="veil" id="veil" hidden><div class="scroll" role="dialog" aria-modal="true" aria-labelledby="sc-kind"><div class="rod"></div><div class="paper" id="paper"><div class="in" id="sc"></div></div><div class="rod"></div></div></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const RANKS = ["10級", "8級", "6級", "4級", "2級", "初段", "二段", "三段", "四段"];
+let score = [0, 0], right = 0;
+function ladder(up) { const r = $("#rank"); if (!r) return; r.textContent = rankOf(); if (up) { r.classList.remove("pop"); void r.offsetWidth; r.classList.add("pop"); }
+  $("#ladder").innerHTML = RANKS.map((_, k) => `<i class="${k <= rankIdx() ? "on" : ""}"></i>`).join(""); }
+let nParts = 8;
+const rankIdx = () => Math.min(RANKS.length - 1, Math.round(right * (RANKS.length - 1) / nParts));
+const rankOf = () => RANKS[rankIdx()];
+let role = null, part = null, busy = false, scrolls = [], cardOn = true, roleCard = [], pending = null;
+
+async function api(p, body) {
+  const r = await fetch(p, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+  return r.json();
+}
+const show = id => ["v-start", "v-line", "v-end"].forEach(v => $("#" + v).hidden = v !== id);
+const cardLine = c => c.kind === "ng_from" ? [`${c.title_ja}：${c.limit.toFixed(1)} mm以上は ✕`, `${c.title_en}: ✕ from ${c.limit.toFixed(1)} mm`]
+                                          : [`${c.title_ja}：${c.limit.toFixed(1)} mmまでは ○`, `${c.title_en}: ○ up to ${c.limit.toFixed(1)} mm`];
+function shelf() {
+  $("#shelf").innerHTML = scrolls.length ? `${scrolls.map(() => "<b></b>").join("")}<span>${scrolls.length} 秘伝</span>` : "";
+}
+function pips(i, n) { $("#pips").innerHTML = Array.from({length: n}, (_, k) => `<i class="${k < i - 1 ? "done" : k === i - 1 ? "now" : ""}"></i>`).join(""); }
+function lamp(c) { ["r", "y", "g"].forEach(k => $("#l-" + k).classList.toggle("on", k === c)); }
+
+function side() {
+  if (role === "master") {
+    $("#side").innerHTML = `<div class="bubble"><div class="who">対局：師匠 対 TACIT<span class="en">A match: the master against TACIT</span></div><div class="say" id="say"></div><div class="after" id="after"></div><div class="score"><span>師匠<span class="en">Master surprised it</span><b id="s-m">0</b></span><span style="text-align:right">TACIT<span class="en">read the master</span><b id="s-t">0</b></span></div></div>
+      <div class="manual"><b>標準書<span class="en">The written manual</span></b>ピットが4.0 mmを超えたら ✕<span class="en">✕ if a pit is larger than 4.0 mm</span></div>
+      ${cardOn ? `<div class="mini"><div class="card"><b>あなたの秘密<span class="en">Your secrets (the role card)</span></b><ul>${roleCard.map(c => { const l = cardLine(c); return `<li>${l[0]}<span class="en">${l[1]}</span></li>`; }).join("")}</ul></div></div>` : ""}`;
+  } else {
+    $("#side").innerHTML = `<div class="manual"><b>あなたが知っていること<span class="en">What you know</span></b>標準書：ピットが4.0 mmを超えたら ✕<span class="en">The manual: ✕ if a pit is larger than 4.0 mm</span></div>
+      <div class="bubble"><div class="who">段位<span class="en">Your rank</span></div><span class="rank" id="rank">10級</span><div class="ladder" id="ladder"></div><div class="after" id="after">—</div></div>`; ladder();
+  }
+}
+function drawPart(p, enter) {
+  part = p; pips(p.i, p.n);
+  const ring = p.marker ? `<span class="ring" style="left:${p.marker.x}%;top:${p.marker.y}%;width:${2 * p.marker.r}%;height:${2 * p.marker.r}%"></span>` : "";
+  const el = $("#part");
+  el.className = "part" + (enter ? " in" : "");
+  el.innerHTML = `<div class="gauge">${esc(p.gauge_ja)}<span class="en">${esc(p.gauge_en)}</span></div><div class="tray"><img src="${p.image}" alt="Cast impeller. ${esc(p.gauge_en)}">${ring}</div>`;
+  if (enter) { void el.offsetWidth; el.className = "part"; $("#belt").classList.remove("run"); void $("#belt").offsetWidth; $("#belt").classList.add("run"); }
+  if (role === "master") {
+    renderBrain(p.brain, p.why);
+    const s = $("#say"); s.textContent = p.guess ? "✕ と読む" : "○ と読む"; s.className = "say " + (p.guess ? "ng" : "ok");
+    s.insertAdjacentHTML("beforeend", `<span class="en">TACIT reads your move: ${p.guess ? "✕ reject" : "○ ship"}</span>`);
+  }
+  busy = false; $("#b-ng").disabled = $("#b-ok").disabled = false;
+}
+
+// ------------------------------------------------------------------ TACIT's brain (live Bayesian belief per zone)
+const BW = 272, X = mm => 6 + (mm - 1.5) / 5.5 * (BW - 12), BAR_H = 54, BASE = 64;
+function renderBrain(b, why) {
+  const box = $("#brain"); if (!b) return;
+  box.hidden = false;
+  if (!box.dataset.ready || box.dataset.n != b.zones.length) {          // build once per round, then only move things
+    box.innerHTML = `<h3><span>TACITの頭脳<span class="en">TACIT's brain</span></span><small>live · ライブ</small></h3>` + b.zones.map((z, k) => `
+      <div class="bz" id="bz${k}"><div class="t"><span>${z.title_ja}<span class="en">${z.title_en}: where is the master's line?</span></span><span class="c" id="bc${k}"></span></div>
+        <svg viewBox="0 0 ${BW} 98" role="img" aria-label="TACIT's belief about the master's line on the ${z.title_en.toLowerCase()}">
+          <rect class="gap" id="bg${k}" x="0" y="2" width="0" height="${BASE - 2}"/>
+          ${b.grid.map((g, i) => `<rect class="bar" id="b${k}_${i}" x="${X(g) - 2}" width="4" y="${BASE}" height="0"/>`).join("")}
+          <line x1="${X(b.manual)}" x2="${X(b.manual)}" y1="0" y2="${BASE + 4}" stroke="#555" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="${X(b.manual) + 3}" y="9" font-size="9" fill="#555">標準書 4.0</text>
+          <line id="bm${k}" x1="0" x2="0" y1="0" y2="${BASE + 4}" stroke="#151515" stroke-width="2"/>
+          <line id="bi${k}" x1="0" x2="0" y1="${BASE + 4}" y2="${BASE + 4}" stroke="#151515" stroke-width="4"/>
+          <g id="be${k}"></g><g id="bn${k}"></g>
+          ${[2, 3, 4, 5, 6, 7].map(v => `<text x="${X(v)}" y="97" font-size="8" fill="#555" text-anchor="middle">${v}</text>`).join("")}
+        </svg>
+        <div class="est" id="bt${k}"></div></div>`).join("") + `<div class="next" id="bnext"></div>`;
+    box.dataset.ready = 1; box.dataset.n = b.zones.length;
+  }
+  b.zones.forEach((z, k) => {
+    const max = Math.max(...z.post);
+    z.post.forEach((v, i) => { const h = BAR_H * v / max, r = $(`#b${k}_${i}`); r.setAttribute("y", BASE - h); r.setAttribute("height", h); });
+    $(`#bz${k}`).classList.toggle("diff", z.differs);
+    $(`#bm${k}`).setAttribute("x1", X(z.mean)); $(`#bm${k}`).setAttribute("x2", X(z.mean));
+    $(`#bi${k}`).setAttribute("x1", X(z.lo)); $(`#bi${k}`).setAttribute("x2", X(z.hi));
+    const g = $(`#bg${k}`); if (z.differs) { const a = Math.min(X(z.mean), X(b.manual)), c = Math.max(X(z.mean), X(b.manual)); g.setAttribute("x", a); g.setAttribute("width", c - a); } else g.setAttribute("width", 0);
+    $(`#be${k}`).innerHTML = z.evidence.map(([sz, y]) => `<text x="${X(sz)}" y="${BASE + 16}" font-size="11" text-anchor="middle" fill="${y ? "#e5432d" : "#1f9d57"}" font-weight="700">${y ? "✕" : "○"}</text>`).join("");
+    $(`#bn${k}`).innerHTML = why && why.zone === z.zone ? `<path d="M${X(why.size) - 5} 0 L${X(why.size) + 5} 0 L${X(why.size)} 8 Z" fill="#f2b51b" stroke="#151515" stroke-width="1"/>` : "";
+    $(`#bc${k}`).innerHTML = `確信度 ${Math.round(100 * z.certainty)}%<span class="en">${Math.round(100 * z.certainty)}% certain</span>`;
+    $(`#bt${k}`).innerHTML = z.asked ? `<span class="ja">推定 <b>${z.mean.toFixed(1)} mm</b>（${z.lo.toFixed(1)}–${z.hi.toFixed(1)}）${z.differs ? ` <span class="gapt">標準書と違う</span>` : ""}</span>
+        <span class="en">Best guess ${z.mean.toFixed(1)} mm, 90% sure it is between ${z.lo.toFixed(1)} and ${z.hi.toFixed(1)}${z.differs ? ". Different from the manual: a secret." : "."}</span>`
+      : `まだ分からない<span class="en">No idea yet: every line from 1.5 to 7 mm is equally likely.</span>`;
+  });
+  $("#bnext").innerHTML = why ? `<b>次の質問<span class="en">Next test</span></b>${esc(why.ja)}<span class="en">${esc(why.en)}</span>` : `<b>更新中<span class="en">Updating</span></b>答えを反映しました。<span class="en">Your answer just moved TACIT's belief.</span>`;
+}
+
+async function start(r) {
+  role = r; scrolls = role === "master" ? [] : scrolls; shelf();
+  cardOn = !$("#own").checked; score = [0, 0]; right = 0;
+  const d = await api("/api/game/start", {role: r, quick: !$("#full").checked});
+  roleCard = d.role_card; nParts = d.n;
+  if (r === "apprentice") scrolls = [];
+  $("#brain").dataset.ready = ""; $("#brain").hidden = r !== "master";
+  shelf(); show("v-line"); side(); lamp(null); drawPart(d.part, true);
+}
+
+async function answer(v) {
+  if (busy || !part) return; busy = true; $("#b-ng").disabled = $("#b-ok").disabled = true;
+  let o; try { o = await api("/api/game/answer", {verdict: v}); } catch (e) { busy = false; $("#b-ng").disabled = $("#b-ok").disabled = false; alertBox(e.message); return; }
+  const el = $("#part"); el.className = "part " + (v === "ng" ? "scrap" : "ship");
+  if (role === "master") {
+    lamp(o.read ? (v === "ng" ? "r" : "g") : "y");
+    const a = $("#after");
+    a.className = "after " + (o.read ? "hit" : "miss");
+    score[o.read ? 1 : 0]++; $("#s-m").textContent = score[0]; $("#s-t").textContent = score[1];
+    a.innerHTML = o.read ? "読まれた。<span class='en'>TACIT read your move.</span>" : (v === "ng") === !!o.manual ? "読めなかった！<span class='en'>TACIT didn't see that coming. Learning.</span>"
+      : "標準書と違う手！<span class='en'>A move the manual doesn't know. Learning.</span>";
+  } else {
+    lamp(o.correct ? (v === "ng" ? "r" : "g") : "y");
+    const a = $("#after"); a.className = "after " + (o.correct ? "hit" : "miss");
+    if (o.correct) { right++; ladder(true); }
+    a.innerHTML = o.correct ? "師匠と同じ判断。<span class='en'>Same call as the master.</span>" : `師匠なら ${o.truth ? "✕" : "○"}。<span class='en'>The master would ${o.truth ? "reject it" : "ship it"}.</span>`;
+  }
+  if (role === "master") renderBrain((o.next || o.summary || {}).brain, null);     // the belief moves the moment you answer
+  await new Promise(r => setTimeout(r, 520));
+  pending = o;
+  if (o.scroll) openScroll(o.scroll); else proceed();
+}
+function proceed() {
+  const o = pending; pending = null;
+  if (o.summary) return finish(o.summary);
+  drawPart(o.next, true);
+}
+
+function openScroll(r) {
+  const m = role === "master";
+  $("#sc").innerHTML = `<div class="kind" id="sc-kind">${m ? "秘伝発見" : "師匠の教え"}<span class="en">${m ? "Secret technique found" : "The master's lesson"}</span></div>
+    <div class="ja">${esc(r.text_ja)}</div><div class="eng">${esc(r.text_en)}</div>
+    <div class="why">${m ? `TACIT found this from your ${r.evidence} answers on the ${esc(r.title_en.toLowerCase())}. It is not in the manual.` : "The manual does not say this. Only the master knew."}</div>
+    <div class="act">${m ? `<button class="hanko" id="sc-go">押印<span class="en">Stamp to approve</span></button>` : `<button class="plain" id="sc-go">わかりました<span class="en">Got it</span></button>`}</div>
+    <div class="seal" id="seal">承認</div>`;
+  $("#veil").hidden = false; const p = $("#paper"); p.classList.remove("open"); void p.offsetWidth; p.classList.add("open");
+  setTimeout(() => $("#sc-go").focus(), 400);
+  $("#sc-go").onclick = () => {
+    scrolls.push(r); shelf();
+    if (m) { $("#sc-go").style.visibility = "hidden"; $("#seal").classList.add("down"); setTimeout(closeScroll, 900); } else closeScroll();
+  };
+}
+function closeScroll() { $("#veil").hidden = true; $("#paper").classList.remove("open"); proceed(); }
+
+function finish(s) {
+  show("v-end"); lamp(null);
+  if (s.role === "master") {
+    const card = Object.fromEntries(roleCard.map(c => [c.zone, c]));
+    $("#v-end").innerHTML = `<h2>${s.rules.length}つの秘伝が見つかりました<span class="en">${s.rules.length} secret technique${s.rules.length === 1 ? "" : "s"} found in ${s.parts} parts</span></h2>
+      <p class="lead">対局結果：TACIT が読めたのは ${s.parts}手中 ${s.reads}手。読めなかった ${s.parts - s.reads}手こそ、標準書に欠けている知識です。インタビューも記入も不要、○ と ✕ だけ。<span class="en">TACIT read ${s.reads} of your ${s.parts} moves. The ${s.parts - s.reads} it couldn't read are exactly what the manual is missing. No interview, no writing: just ○ and ✕.</span></p>
+      ${s.rules.length ? `<ul class="found">${s.rules.map(r => { const c = card[r.zone]; return `<li><span>${esc(r.text_ja)}<span class="en">${esc(r.text_en)}</span></span>
+        <span class="cmp">${cardOn && c ? `役割カード ${c.limit.toFixed(1)} mm<br>TACIT の推定 ${r.limit.toFixed(1)} mm<span class="en">Role card: ${c.limit.toFixed(1)} mm · TACIT found: ${r.limit.toFixed(1)} mm</span>` : `${r.evidence}回の回答から<span class="en">From ${r.evidence} answers</span>`}</span></li>`; }).join("")}</ul>`
+        : `<p class="lead">標準書とまったく同じ判断だったので、新しい発見はありませんでした。実際の熟練者はたいてい違います。役割カードでもう一度どうぞ。<span class="en">You judged exactly like the manual, so there was nothing new to find. A real master usually differs. Try again with the role card.</span></p>`}
+      <p class="lead" style="margin-top:6px">師匠の仕事はここまで。次は弟子の番です。<span class="en">The master's part is done. The junior now trains on these exact lines in the dojo.</span></p>
+      <div class="row"><a class="go" href="/junior" style="text-decoration:none;text-align:center">弟子に渡す：技能道場へ<kbd class="k">D</kbd><span class="en">Hand over to the junior: open the dojo</span></a><button class="go" id="e-again" style="background:transparent;color:var(--ink);border:2px solid var(--line)">もう一度<span class="en" style="color:var(--muted)">Play the master again</span></button></div>`;
+    $("#e-again").onclick = () => start("master");
+  } else {
+    const n = s.rules.length, k = s.passed.length;
+    $("#v-end").innerHTML = s.kaiden ? `<div class="cert"><p style="margin:0 auto 10px;color:#666">免許皆伝：師匠の教えのすべてを伝えること<span class="en">Menkyo kaiden: full transmission of the master's teachings</span></p><div class="big">免許皆伝</div>
+        <p style="font-family:var(--serif);font-size:1.3rem">段位：${RANKS[Math.max(rankIdx(), RANKS.indexOf("初段"))]} · 教え${s.parts - s.right}回、すべて身についた<span class="en">${s.parts - s.right} lessons from the master, every one learned</span></p><p>師匠の秘伝 ${n}つ、すべて伝承されました。<span class="en">All ${n} of the master's secret techniques were passed on, in ${s.parts} parts. A wrong call showed the lesson; the next part proved it stuck.</span></p><div class="seal">皆伝</div></div>`
+      : `<h2>${k} / ${n} 伝承<span class="en">${k} of ${n} secret techniques passed on</span></h2><p class="lead">段位 ${rankOf()}. Same call as the master on ${s.right} of ${s.parts} parts (${Math.round(100 * s.right / s.parts)}%). Play again to learn the rest.</p>`;
+    $("#v-end").insertAdjacentHTML("beforeend", `<ul class="found">${s.rules.map(r => `<li><span>${esc(r.text_ja)}<span class="en">${esc(r.text_en)}</span></span><span class="cmp">${s.passed.includes(r.zone) ? "伝承 ✓ passed on" : "まだ · not yet"}</span></li>`).join("")}</ul>
+      <div class="row"><button class="go alt" id="e-app">もう一度<span class="en">Play the apprentice again</span></button><button class="go" id="e-home">最初から<span class="en">Back to the start</span></button></div>`);
+    $("#e-app").onclick = () => start("apprentice"); $("#e-home").onclick = home;
+  }
+}
+function alertBox(msg) { $("#v-end").innerHTML = `<p class="lead">${esc(msg)}</p>`; show("v-end"); }
+async function home() {
+  show("v-start"); $("#pips").innerHTML = ""; scrolls = []; shelf();
+}
+
+$("#b-ng").onclick = () => answer("ng"); $("#b-ok").onclick = () => answer("ok");
+$("#go-master").onclick = () => start("master");
+document.addEventListener("keydown", e => {
+  if (!$("#veil").hidden) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("#sc-go")?.click(); } return; }
+  if (!$("#v-start").hidden && (e.key === "s" || e.key === "S")) { $("#go-master").click(); return; }
+  if ($("#v-line").hidden && (e.key === "d" || e.key === "D")) { location.href = "/junior"; return; }
+  if ($("#v-line").hidden) return;
+  if (e.key === "ArrowLeft") answer("ng"); if (e.key === "ArrowRight") answer("ok");
+});
+// role card on the start screen
+roleCard = [{zone: "sealing_lip", title_en: "Sealing lip", title_ja: "シールリップ", kind: "ng_from", limit: 2.0},
+            {zone: "flange_face", title_en: "Flange face", title_ja: "フランジ面", kind: "ok_up_to", limit: 5.5},
+            {zone: "rim", title_en: "Outer rim", title_ja: "外周リム", kind: "ok_up_to", limit: 6.0}];
+$("#rc").innerHTML = roleCard.map(c => { const l = cardLine(c); return `<li>${l[0]}<span class="en">${l[1]}</span></li>`; }).join("") + `<li>それ以外は標準書どおり<span class="en">Everything else: follow the manual</span></li>`;
+function drawCard() { const rc = $("#full").checked ? roleCard : roleCard.filter(c => c.zone !== "rim"); $("#rc").innerHTML = rc.map(c => { const l = cardLine(c); return `<li>${l[0]}<span class="en">${l[1]}</span></li>`; }).join("") + `<li>それ以外は標準書どおり<span class="en">Everything else: follow the manual</span></li>`; }
+const allCard = roleCard.slice(); drawCard(); $("#full").onchange = drawCard;
+$("#own").onchange = () => $("#rolecard").style.opacity = $("#own").checked ? .35 : 1;
+</script>
+</body>
+</html>

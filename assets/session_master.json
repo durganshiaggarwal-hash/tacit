@@ -1,0 +1,2843 @@
+{
+ "master": "Master inspector",
+ "log": [
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.5,
+    "contrast": 0.82,
+    "count": 1,
+    "base": 0,
+    "seed": 376383645
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0013"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 2.5,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 4.8,
+    "contrast": 1.13,
+    "count": 1,
+    "base": 37,
+    "seed": 1167425778
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1136"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 4.8,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 2.5,
+    "contrast": 0.8,
+    "count": 1,
+    "base": 51,
+    "seed": 1190382222
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1255"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 2.5,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 4.8,
+    "contrast": 1.19,
+    "count": 1,
+    "base": 1,
+    "seed": 1162779115
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0521"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 4.8,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 2.5,
+    "contrast": 0.81,
+    "count": 1,
+    "base": 7,
+    "seed": 17790419
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0738"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 2.5,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 4.8,
+    "contrast": 0.97,
+    "count": 1,
+    "base": 27,
+    "seed": 2141492029
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1183"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 4.8,
+    "info_gain": null,
+    "note": "Warm-up: one example per zone and shape"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 4.7,
+    "contrast": 1.09,
+    "count": 1,
+    "base": 41,
+    "seed": 1511830742
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0839"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 4.7,
+    "info_gain": 0.38565939680171984,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 4.7,
+    "contrast": 1.04,
+    "count": 1,
+    "base": 22,
+    "seed": 666239354
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0712"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 4.7,
+    "info_gain": 0.38565939680171984,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 3.1,
+    "contrast": 1.22,
+    "count": 1,
+    "base": 21,
+    "seed": 1444696807
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0400"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 3.1,
+    "info_gain": 0.3628993526698295,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.1,
+    "contrast": 0.95,
+    "count": 1,
+    "base": 45,
+    "seed": 840995399
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0357"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.1,
+    "info_gain": 0.3628993526698295,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.9,
+    "contrast": 1.08,
+    "count": 1,
+    "base": 5,
+    "seed": 809899613
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0716"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.9,
+    "info_gain": 0.33256056735163486,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.9,
+    "contrast": 1.19,
+    "count": 1,
+    "base": 4,
+    "seed": 125773896
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0794"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 5.9,
+    "info_gain": 0.33256056735163486,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.9,
+    "contrast": 1.0,
+    "count": 1,
+    "base": 47,
+    "seed": 1514711733
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0547"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 5.9,
+    "info_gain": 0.3323936813603874,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.2,
+    "contrast": 0.89,
+    "count": 1,
+    "base": 56,
+    "seed": 194890680
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0208"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 2.2,
+    "info_gain": 0.3007826019311382,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 1.1,
+    "count": 1,
+    "base": 11,
+    "seed": 1628312689
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0640"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 2.0,
+    "info_gain": 0.2938812944781523,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.7,
+    "contrast": 1.08,
+    "count": 1,
+    "base": 45,
+    "seed": 1991049240
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0814"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.7,
+    "info_gain": 0.2890781455462178,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.7,
+    "contrast": 1.02,
+    "count": 1,
+    "base": 25,
+    "seed": 2030045015
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0818"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 6.7,
+    "info_gain": 0.28834013961057897,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 4.0,
+    "contrast": 1.01,
+    "count": 1,
+    "base": 50,
+    "seed": 1627210303
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0997"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 4.0,
+    "info_gain": 0.26013017794675164,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.6,
+    "contrast": 1.15,
+    "count": 1,
+    "base": 24,
+    "seed": 605291690
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1038"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 1.6,
+    "info_gain": 0.2414120702220532,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 4.1,
+    "contrast": 0.85,
+    "count": 2,
+    "base": 7,
+    "seed": 1565548042
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1292",
+    "p0097"
+   ],
+   "why": {
+    "context": "sealing_lip/round/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 4.1,
+    "contrast": 0.81,
+    "count": 2,
+    "base": 51,
+    "seed": 176863876
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0329",
+    "p0347"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 4.1,
+    "contrast": 1.24,
+    "count": 2,
+    "base": 22,
+    "seed": 1911122052
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1088",
+    "p0309"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 4.1,
+    "contrast": 0.9,
+    "count": 2,
+    "base": 48,
+    "seed": 299909236
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1132",
+    "p1072"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 4.1,
+    "contrast": 1.0,
+    "count": 2,
+    "base": 8,
+    "seed": 1999344461
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0097",
+    "p0444"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 4.1,
+    "contrast": 1.08,
+    "count": 2,
+    "base": 1,
+    "seed": 1991575180
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1132",
+    "p1043"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 4.1,
+    "info_gain": 0.4079717877979761,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.1,
+    "contrast": 1.03,
+    "count": 1,
+    "base": 53,
+    "seed": 1995236120
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0027"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.1,
+    "info_gain": 0.23417121621108056,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 0.83,
+    "count": 1,
+    "base": 20,
+    "seed": 485792374
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0734"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 1.5,
+    "info_gain": 0.2149664530914302,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 0.92,
+    "count": 1,
+    "base": 16,
+    "seed": 518994643
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0221"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.1,
+    "info_gain": 0.20522700449497439,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.1,
+    "contrast": 0.86,
+    "count": 3,
+    "base": 17,
+    "seed": 1722230529
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0874",
+    "p0751",
+    "p0215"
+   ],
+   "why": {
+    "context": "sealing_lip/round/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.1,
+    "contrast": 1.05,
+    "count": 3,
+    "base": 27,
+    "seed": 619379841
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0479",
+    "p1305",
+    "p0105"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 2.1,
+    "contrast": 1.08,
+    "count": 3,
+    "base": 57,
+    "seed": 1367752506
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0406",
+    "p0794",
+    "p0572"
+   ],
+   "why": {
+    "context": "flange_face/round/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 2.1,
+    "contrast": 1.18,
+    "count": 3,
+    "base": 56,
+    "seed": 312402043
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0871",
+    "p1033",
+    "p1039"
+   ],
+   "why": {
+    "context": "flange_face/irregular/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 2.1,
+    "contrast": 0.82,
+    "count": 3,
+    "base": 49,
+    "seed": 1696194208
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0027",
+    "p1116",
+    "p0154"
+   ],
+   "why": {
+    "context": "rim/round/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 2.1,
+    "contrast": 0.96,
+    "count": 3,
+    "base": 6,
+    "seed": 168856718
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0181",
+    "p0426",
+    "p0213"
+   ],
+   "why": {
+    "context": "rim/irregular/3",
+    "size_mm": 2.1,
+    "info_gain": 0.35455759989678093,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.5,
+    "contrast": 1.12,
+    "count": 1,
+    "base": 56,
+    "seed": 1686949517
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0929"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.5,
+    "info_gain": 0.20323371771586796,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 0.97,
+    "count": 1,
+    "base": 25,
+    "seed": 922932768
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0711"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 6.1,
+    "info_gain": 0.20310513810550246,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.5,
+    "contrast": 1.15,
+    "count": 2,
+    "base": 18,
+    "seed": 2112488123
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0319",
+    "p1244"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 5.5,
+    "info_gain": 0.35028148110606666,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.5,
+    "contrast": 1.03,
+    "count": 2,
+    "base": 38,
+    "seed": 739369451
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0740",
+    "p0761"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 5.5,
+    "info_gain": 0.35028148110606666,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.8,
+    "contrast": 0.88,
+    "count": 2,
+    "base": 52,
+    "seed": 581917524
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0444",
+    "p0591"
+   ],
+   "why": {
+    "context": "sealing_lip/round/2",
+    "size_mm": 2.8,
+    "info_gain": 0.34212271863668386,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.8,
+    "contrast": 1.22,
+    "count": 2,
+    "base": 57,
+    "seed": 1606851424
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0010",
+    "p0075"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/2",
+    "size_mm": 2.8,
+    "info_gain": 0.34212271863668386,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 2.8,
+    "contrast": 0.86,
+    "count": 2,
+    "base": 40,
+    "seed": 102092473
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1086",
+    "p0572"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 2.8,
+    "info_gain": 0.34212271863668386,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 2.8,
+    "contrast": 1.21,
+    "count": 2,
+    "base": 34,
+    "seed": 1205598967
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0665",
+    "p1161"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 2.8,
+    "info_gain": 0.34212271863668386,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.0,
+    "contrast": 1.04,
+    "count": 1,
+    "base": 31,
+    "seed": 658332664
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1017"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.0,
+    "info_gain": 0.18704605775505334,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.7,
+    "contrast": 0.8,
+    "count": 1,
+    "base": 32,
+    "seed": 1659251524
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0102"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 5.7,
+    "info_gain": 0.18522976994252405,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 0.94,
+    "count": 1,
+    "base": 11,
+    "seed": 777213504
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0554"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 2.0,
+    "info_gain": 0.18311421703347341,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.7,
+    "contrast": 1.07,
+    "count": 1,
+    "base": 53,
+    "seed": 2066787853
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1152"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 5.7,
+    "info_gain": 0.18217300277764226,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.6,
+    "contrast": 1.13,
+    "count": 1,
+    "base": 10,
+    "seed": 1460534081
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1088"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.6,
+    "info_gain": 0.18207276758856283,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.4,
+    "contrast": 0.84,
+    "count": 2,
+    "base": 19,
+    "seed": 848452982
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1132",
+    "p0216"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 6.4,
+    "info_gain": 0.30503520807361706,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.8,
+    "contrast": 1.21,
+    "count": 1,
+    "base": 45,
+    "seed": 1986944590
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0477"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 1.8,
+    "info_gain": 0.16699087629247766,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 0.83,
+    "count": 2,
+    "base": 12,
+    "seed": 1865850388
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1292",
+    "p0572"
+   ],
+   "why": {
+    "context": "sealing_lip/round/2",
+    "size_mm": 2.0,
+    "info_gain": 0.2839324808530943,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 0.87,
+    "count": 2,
+    "base": 40,
+    "seed": 766760084
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1021",
+    "p0992"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/2",
+    "size_mm": 2.0,
+    "info_gain": 0.2839324808530943,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.2,
+    "contrast": 1.03,
+    "count": 1,
+    "base": 41,
+    "seed": 1695794246
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0839"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 2.2,
+    "info_gain": 0.14786557217338192,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.7,
+    "contrast": 0.89,
+    "count": 1,
+    "base": 48,
+    "seed": 2049571150
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1161"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 1.7,
+    "info_gain": 0.1475989661863354,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 4.7,
+    "contrast": 1.23,
+    "count": 2,
+    "base": 2,
+    "seed": 1719956238
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0132",
+    "p1233"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 4.7,
+    "info_gain": 0.24673573022391793,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 3.6,
+    "contrast": 1.07,
+    "count": 2,
+    "base": 39,
+    "seed": 1042672248
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1244",
+    "p0343"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 3.6,
+    "info_gain": 0.24090047269986098,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.6,
+    "contrast": 0.97,
+    "count": 2,
+    "base": 30,
+    "seed": 699103886
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0547",
+    "p1200"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 3.6,
+    "info_gain": 0.24090047269986098,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.3,
+    "contrast": 1.02,
+    "count": 1,
+    "base": 25,
+    "seed": 30122969
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1086"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.3,
+    "info_gain": 0.1376491327914693,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.16,
+    "count": 2,
+    "base": 57,
+    "seed": 1716261155
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1092",
+    "p0729"
+   ],
+   "why": {
+    "context": "sealing_lip/round/2",
+    "size_mm": 1.5,
+    "info_gain": 0.22340959496415475,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 0.9,
+    "count": 2,
+    "base": 21,
+    "seed": 1491964129
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1279",
+    "p0216"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/2",
+    "size_mm": 1.5,
+    "info_gain": 0.22340959496415475,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.4,
+    "contrast": 0.98,
+    "count": 1,
+    "base": 10,
+    "seed": 645726
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1262"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.4,
+    "info_gain": 0.1282782268564503,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 0.99,
+    "count": 3,
+    "base": 18,
+    "seed": 2103865480
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1171",
+    "p0793",
+    "p0013"
+   ],
+   "why": {
+    "context": "sealing_lip/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.14,
+    "count": 3,
+    "base": 54,
+    "seed": 412216003
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0948",
+    "p0948",
+    "p0230"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 1.5,
+    "contrast": 0.93,
+    "count": 3,
+    "base": 16,
+    "seed": 1648520696
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0102",
+    "p0729",
+    "p0132"
+   ],
+   "why": {
+    "context": "flange_face/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 1.5,
+    "contrast": 0.98,
+    "count": 3,
+    "base": 4,
+    "seed": 972018089
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1277",
+    "p0634",
+    "p0866"
+   ],
+   "why": {
+    "context": "flange_face/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 1.5,
+    "contrast": 1.06,
+    "count": 3,
+    "base": 58,
+    "seed": 263476185
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0330",
+    "p0388",
+    "p0839"
+   ],
+   "why": {
+    "context": "rim/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 1.5,
+    "contrast": 1.17,
+    "count": 3,
+    "base": 53,
+    "seed": 1369052290
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0328",
+    "p0593",
+    "p0280"
+   ],
+   "why": {
+    "context": "rim/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.22208317096363245,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.0,
+    "contrast": 1.06,
+    "count": 1,
+    "base": 7,
+    "seed": 1773729627
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0938"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.0,
+    "info_gain": 0.12753160673682762,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.0,
+    "contrast": 1.25,
+    "count": 1,
+    "base": 21,
+    "seed": 1725762600
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1132"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 6.0,
+    "info_gain": 0.12656379070108237,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 4.2,
+    "contrast": 1.0,
+    "count": 2,
+    "base": 36,
+    "seed": 1263536662
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0132",
+    "p0259"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 4.2,
+    "info_gain": 0.21716916788455404,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.7,
+    "contrast": 0.93,
+    "count": 2,
+    "base": 11,
+    "seed": 2143332914
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1017",
+    "p0357"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 5.7,
+    "info_gain": 0.21345482893516549,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.9,
+    "contrast": 1.2,
+    "count": 1,
+    "base": 55,
+    "seed": 184710299
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1072"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 1.9,
+    "info_gain": 0.1144470030691177,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.3,
+    "contrast": 0.88,
+    "count": 2,
+    "base": 40,
+    "seed": 487971975
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1276",
+    "p0076"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 5.3,
+    "info_gain": 0.1961792124792467,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.5,
+    "contrast": 0.89,
+    "count": 1,
+    "base": 17,
+    "seed": 1099884554
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1201"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.5,
+    "info_gain": 0.1126316372800471,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.2,
+    "contrast": 1.2,
+    "count": 1,
+    "base": 47,
+    "seed": 73060872
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0874"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.2,
+    "info_gain": 0.11062231626155183,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.2,
+    "contrast": 0.81,
+    "count": 2,
+    "base": 8,
+    "seed": 1531142162
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0343",
+    "p1327"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 5.2,
+    "info_gain": 0.19140416567933127,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.2,
+    "contrast": 1.08,
+    "count": 1,
+    "base": 4,
+    "seed": 1316683214
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0724"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 6.2,
+    "info_gain": 0.11037969715009421,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.1,
+    "contrast": 1.25,
+    "count": 2,
+    "base": 45,
+    "seed": 1983728048
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0593",
+    "p0012"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 3.1,
+    "info_gain": 0.1890917811087488,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.2,
+    "contrast": 1.11,
+    "count": 1,
+    "base": 8,
+    "seed": 368267277
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1305"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.2,
+    "info_gain": 0.10814917792087875,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.9,
+    "contrast": 0.95,
+    "count": 1,
+    "base": 17,
+    "seed": 513127713
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0961"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 1.9,
+    "info_gain": 0.10649952001616281,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.6,
+    "contrast": 1.01,
+    "count": 2,
+    "base": 15,
+    "seed": 485126279
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1088",
+    "p0591"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 5.6,
+    "info_gain": 0.1818043148739551,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 0.89,
+    "count": 2,
+    "base": 30,
+    "seed": 2094941118
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1244",
+    "p0656"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 6.1,
+    "info_gain": 0.21632356207326148,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 2.7,
+    "contrast": 0.98,
+    "count": 2,
+    "base": 13,
+    "seed": 1255570839
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0417",
+    "p0402"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 2.7,
+    "info_gain": 0.1800161974544583,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.0,
+    "contrast": 0.84,
+    "count": 1,
+    "base": 17,
+    "seed": 757510716
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0174"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.0,
+    "info_gain": 0.10321607350191009,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.1,
+    "contrast": 0.82,
+    "count": 1,
+    "base": 11,
+    "seed": 820925147
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0076"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 2.1,
+    "info_gain": 0.1031378361142582,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.7,
+    "contrast": 1.17,
+    "count": 1,
+    "base": 46,
+    "seed": 840296944
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0591"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.7,
+    "info_gain": 0.10295293648677073,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.1,
+    "contrast": 1.11,
+    "count": 1,
+    "base": 50,
+    "seed": 1525204830
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0575"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 2.1,
+    "info_gain": 0.09039840473312655,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 1.17,
+    "count": 1,
+    "base": 6,
+    "seed": 384534193
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0679"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.1,
+    "info_gain": 0.08671537805064633,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 0.99,
+    "count": 1,
+    "base": 23,
+    "seed": 1974313088
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0541"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 6.1,
+    "info_gain": 0.08641561244088403,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 3.7,
+    "contrast": 0.8,
+    "count": 2,
+    "base": 56,
+    "seed": 693467144
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0578",
+    "p1255"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 3.7,
+    "info_gain": 0.14641317552016753,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.17,
+    "count": 2,
+    "base": 10,
+    "seed": 2021463056
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0902",
+    "p0654"
+   ],
+   "why": {
+    "context": "sealing_lip/round/2",
+    "size_mm": 1.5,
+    "info_gain": 0.1419207909453878,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.24,
+    "count": 2,
+    "base": 32,
+    "seed": 1233851007
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1021",
+    "p1200"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/2",
+    "size_mm": 1.5,
+    "info_gain": 0.1419207909453878,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.5,
+    "contrast": 1.15,
+    "count": 1,
+    "base": 53,
+    "seed": 730280731
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0354"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.5,
+    "info_gain": 0.08067806347069983,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 0.9,
+    "count": 1,
+    "base": 16,
+    "seed": 1669763290
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0400"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 2.0,
+    "info_gain": 0.08011348598750345,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.2,
+    "contrast": 1.04,
+    "count": 1,
+    "base": 40,
+    "seed": 673292751
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0213"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.2,
+    "info_gain": 0.0771727483529685,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.9,
+    "contrast": 0.99,
+    "count": 1,
+    "base": 21,
+    "seed": 1318987538
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1201"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 5.9,
+    "info_gain": 0.07682749252654142,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.7,
+    "contrast": 1.13,
+    "count": 2,
+    "base": 31,
+    "seed": 1248530885
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0434",
+    "p0357"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 5.7,
+    "info_gain": 0.1328143172587024,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.9,
+    "contrast": 1.11,
+    "count": 1,
+    "base": 47,
+    "seed": 1494028752
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0628"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 5.9,
+    "info_gain": 0.07629882306180136,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.9,
+    "contrast": 1.1,
+    "count": 1,
+    "base": 31,
+    "seed": 186700091
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0575"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 1.9,
+    "info_gain": 0.07612335779314938,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.8,
+    "contrast": 0.92,
+    "count": 1,
+    "base": 19,
+    "seed": 335298392
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0234"
+   ],
+   "why": {
+    "context": "rim/irregular/1",
+    "size_mm": 5.8,
+    "info_gain": 0.07293652139435314,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.6,
+    "contrast": 1.11,
+    "count": 1,
+    "base": 22,
+    "seed": 795767121
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0865"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.6,
+    "info_gain": 0.07228590393452339,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.6,
+    "contrast": 0.97,
+    "count": 2,
+    "base": 34,
+    "seed": 353868050
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0062",
+    "p1146"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 5.6,
+    "info_gain": 0.12508868905325998,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.8,
+    "contrast": 0.82,
+    "count": 1,
+    "base": 11,
+    "seed": 406030753
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0634"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/1",
+    "size_mm": 1.8,
+    "info_gain": 0.07051120216909479,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.1,
+    "contrast": 0.89,
+    "count": 1,
+    "base": 24,
+    "seed": 252633358
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0358"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.1,
+    "info_gain": 0.0703493157100119,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.1,
+    "contrast": 0.9,
+    "count": 2,
+    "base": 4,
+    "seed": 1195507444
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0541",
+    "p0101"
+   ],
+   "why": {
+    "context": "flange_face/irregular/2",
+    "size_mm": 3.1,
+    "info_gain": 0.12134057588151181,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 5.9,
+    "contrast": 1.15,
+    "count": 2,
+    "base": 42,
+    "seed": 1763570706
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1262",
+    "p0076"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 5.9,
+    "info_gain": 0.11830036723760484,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 3.0,
+    "contrast": 0.92,
+    "count": 1,
+    "base": 21,
+    "seed": 2140580276
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1262"
+   ],
+   "why": {
+    "context": "flange_face/irregular/1",
+    "size_mm": 3.0,
+    "info_gain": 0.06792911917721989,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 4.0,
+    "contrast": 1.09,
+    "count": 2,
+    "base": 51,
+    "seed": 1451199530
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p1244",
+    "p0672"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 4.0,
+    "info_gain": 0.11689343037786082,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.08,
+    "count": 3,
+    "base": 35,
+    "seed": 1070586812
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1201",
+    "p0102",
+    "p1255"
+   ],
+   "why": {
+    "context": "sealing_lip/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "sealing_lip",
+    "size_mm": 1.5,
+    "contrast": 1.08,
+    "count": 3,
+    "base": 37,
+    "seed": 1311679658
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0628",
+    "p0706",
+    "p1219"
+   ],
+   "why": {
+    "context": "sealing_lip/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 1.5,
+    "contrast": 1.24,
+    "count": 3,
+    "base": 25,
+    "seed": 452654723
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0062",
+    "p0467",
+    "p0854"
+   ],
+   "why": {
+    "context": "flange_face/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "flange_face",
+    "size_mm": 1.5,
+    "contrast": 1.22,
+    "count": 3,
+    "base": 5,
+    "seed": 562348691
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1296",
+    "p1277",
+    "p1128"
+   ],
+   "why": {
+    "context": "flange_face/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 1.5,
+    "contrast": 0.88,
+    "count": 3,
+    "base": 58,
+    "seed": 1074274468
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0259",
+    "p0406",
+    "p0782"
+   ],
+   "why": {
+    "context": "rim/round/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 1.5,
+    "contrast": 1.03,
+    "count": 3,
+    "base": 53,
+    "seed": 1788247963
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0191",
+    "p0181",
+    "p0693"
+   ],
+   "why": {
+    "context": "rim/irregular/3",
+    "size_mm": 1.5,
+    "info_gain": 0.11631554677936201,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "irregular",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 1.22,
+    "count": 2,
+    "base": 26,
+    "seed": 441413443
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p1210",
+    "p1010"
+   ],
+   "why": {
+    "context": "rim/irregular/2",
+    "size_mm": 6.1,
+    "info_gain": 0.11625015032181951,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 5.8,
+    "contrast": 0.93,
+    "count": 2,
+    "base": 28,
+    "seed": 1233537732
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0132",
+    "p0132"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 5.8,
+    "info_gain": 0.11591653099496735,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.1,
+    "contrast": 1.0,
+    "count": 2,
+    "base": 45,
+    "seed": 700559671
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0994",
+    "p0051"
+   ],
+   "why": {
+    "context": "rim/round/2",
+    "size_mm": 6.1,
+    "info_gain": 0.11924990617368236,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "sealing_lip",
+    "size_mm": 2.0,
+    "contrast": 1.02,
+    "count": 1,
+    "base": 15,
+    "seed": 2146412809
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0852"
+   ],
+   "why": {
+    "context": "sealing_lip/round/1",
+    "size_mm": 2.0,
+    "info_gain": 0.06625918256226959,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 4.2,
+    "contrast": 0.92,
+    "count": 2,
+    "base": 9,
+    "seed": 1244513964
+   },
+   "y": 1,
+   "fake": false,
+   "patches": [
+    "p0572",
+    "p1093"
+   ],
+   "why": {
+    "context": "flange_face/round/2",
+    "size_mm": 4.2,
+    "info_gain": 0.1128827811534252,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "rim",
+    "size_mm": 6.0,
+    "contrast": 0.89,
+    "count": 1,
+    "base": 4,
+    "seed": 1674918641
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0406"
+   ],
+   "why": {
+    "context": "rim/round/1",
+    "size_mm": 6.0,
+    "info_gain": 0.06478341609474714,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  },
+  {
+   "theta": {
+    "defect": "pit",
+    "shape": "round",
+    "zone": "flange_face",
+    "size_mm": 5.5,
+    "contrast": 1.03,
+    "count": 1,
+    "base": 35,
+    "seed": 812556558
+   },
+   "y": 0,
+   "fake": false,
+   "patches": [
+    "p0710"
+   ],
+   "why": {
+    "context": "flange_face/round/1",
+    "size_mm": 5.5,
+    "info_gain": 0.06180183297766606,
+    "note": "Generated where the master's answer teaches the most"
+   }
+  }
+ ],
+ "rule_status": {},
+ "cause_names": {}
+}

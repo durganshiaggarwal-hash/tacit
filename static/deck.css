@@ -1,0 +1,132 @@
+/* TACIT deck colours, so the app matches the pitch slides:
+   sky-teal page, navy ink and outlines, cream-yellow highlights, pale-blue and blush cards.
+   Loaded last on My learning, the master's game and the dojo; it re-points the calm theme's tokens and thickens outlines.
+   Fixed meanings stay: navy = action, red = NG / scrap, green = OK / ship, cream = the master's knowledge (the tacit gap). */
+:root{
+  --paper:#a3d8e4; --card:#f0f4f9; --sand:#fbe7b2; --sand-2:#d6e2f1; --hair:#1e2a44;
+  --ink:#16213a; --ink-2:#2f3d58; --mute:#4a5874;
+  --terra:#1e2a44; --terra-2:#0f1830; --terra-soft:#d6e2f1;
+  --sage:#2f7a4a; --sage-soft:#dcefe2; --red:#c2412f; --red-soft:#f7e4e1; --amber:#e0a419; --amber-soft:#fbe7b2;
+  --blush:#f7e4e1; --white:#ffffff;
+  --r:10px; --sh:none;
+  --f:Arial,"Helvetica Neue","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --clean:Arial,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+}
+html,body{background:var(--paper)!important}
+body,*{font-family:var(--clean)}
+h1,h2,h3,b,strong{color:var(--ink)}
+.en{color:var(--mute)}
+
+/* outlined cards, like the slide boxes */
+body.g .role,body.g .bubble,body.g .manual,body.g .brain,body.g .found li,
+body.d .station,body.d .cert,.hero,.box,.place{border:2.5px solid var(--hair)!important;box-shadow:none!important}
+body.d .station{border-radius:14px!important}
+body.g .top,body.d .bar{background:var(--hair)!important;border-bottom:0!important;color:#fff!important}
+body.g .top .t,body.d .bar .t,body.g .top .t small,body.d .bar span{color:#fff!important}
+body.g .top a,body.d .bar a{color:#dbe6f3!important}
+body.g .top .en,body.d .bar .en{color:#b9c7da!important}
+body.d .stations span{border:2px solid #fff!important;background:transparent!important;color:#fff!important}
+body.d .stations span.now{background:var(--sand)!important;border-color:var(--sand)!important;color:var(--ink)!important}
+body.d .stations span.done{background:#fff!important;border-color:#fff!important;color:var(--ink)!important}
+body.g .pips i{border-color:#8fa3bf!important} body.g .pips i.done{background:#fff!important;border-color:#fff!important} body.g .pips i.now{background:var(--sand)!important;border-color:var(--sand)!important}
+.lang-switch{background:#fff!important;box-shadow:inset 0 0 0 2px var(--hair)!important}
+.lang-switch button[aria-pressed="true"]{background:var(--hair)!important;color:#fff!important}
+
+/* buttons: navy filled for the main action, outlined white for the rest */
+body.g .go,body.d .btn.gold,.primary{background:var(--hair)!important;color:#fff!important;border-radius:8px!important}
+body.g .go .en,body.d .btn.gold .en,.primary .en{color:#c9d6e8!important}
+body.g .go.alt,body.g .go[style*="transparent"],body.d .btn,body.d .btn.ghost{background:#fff!important;color:var(--ink)!important;box-shadow:inset 0 0 0 2px var(--hair)!important;border-radius:8px!important}
+body.lang-en .go.alt .en,body.lang-en .btn:not(.gold) .en{color:var(--ink)!important}
+kbd.k{border-color:#8fa3bf!important}
+
+/* highlights in cream, like "Reasoning-first capture" */
+body.g .card,body.d .offer,body.d .secrets li,.box:first-child{background:var(--sand)!important}
+body.g .card{border:2px solid var(--hair)!important}
+body.d .offer{border:2px solid var(--hair)!important}
+body.d .secrets li{border:2px solid var(--hair)!important;border-left:6px solid var(--hair)!important}
+body.g .found li{border-left:8px solid var(--hair)!important;background:var(--white)!important}
+
+/* the master's game */
+body.g .start h1,body.g .end h2{color:var(--ink)!important;text-transform:uppercase;letter-spacing:.01em!important;font-weight:800!important}
+body.lang-ja.g .start h1{text-transform:none}
+body.g .gauge{border:2px solid var(--hair)!important;background:#fff!important}
+body.g .part .tray{box-shadow:none!important;outline:3px solid var(--hair)!important;outline-offset:0}
+body.g .beltbar{background:repeating-linear-gradient(90deg,var(--hair) 0 28px,#33415f 28px 34px)!important}
+body.g .verdicts button{background:#fff!important;border-width:3px!important}
+body.g .b-ng{border-color:var(--red)!important} body.g .b-ok{border-color:var(--sage)!important}
+body.g .bz .bar{fill:#b7c8de!important} body.g .bz.diff .bar{fill:var(--hair)!important}
+body.g .bz .gap{fill:rgba(251,231,178,.85)!important}
+body.g .bz .gapt{color:#7a5300!important;background:var(--sand);padding:0 4px;border-radius:4px}
+body.g .keys,body.g .bins,body.g .bins span,body.g .andon .lab{color:var(--ink)!important}
+body.g .paper .kind,body.g .hanko,body.g .seal{color:var(--red)!important;border-color:var(--red)!important}
+
+/* the dojo */
+body.d .kanji{color:var(--hair)!important;font-weight:800!important}
+body.d .head h2{text-transform:none;font-weight:800!important}
+body.d .pts{color:var(--hair)!important}
+body.d .cell.gap{outline-color:var(--amber)!important;box-shadow:0 0 0 5px var(--sand)!important}
+body.d .marker::before{background:var(--hair)!important}
+body.d .brush path{stroke:var(--red)!important}
+body.d .brush .lbl{color:var(--red)!important}
+body.d .gaplbl{color:#7a5300!important;background:var(--sand);padding:1px 8px;border-radius:6px}
+body.d .pump{background:var(--sand-2)!important;border:2px solid var(--hair)!important}
+body.d .pump svg rect[fill="#3c5193"]{fill:var(--hair)!important} body.d .pump svg circle[fill="#5b6fb0"]{fill:#7f93b3!important}
+body.d .pump .waves circle{stroke:var(--amber)!important}
+body.d .track{background:var(--sand-2)!important}
+body.d .track .fill{background:linear-gradient(90deg,var(--sand),var(--red))!important}
+body.d .pad{background:var(--sand-2)!important;border:2px solid var(--hair)!important}
+body.d .pad svg circle[fill="#3a4a7e"]{fill:#c5d4e8!important} body.d .pad svg circle[fill="#56659a"]{fill:#a9bcd8!important}
+body.d .cert .rank{color:var(--hair)!important}
+body.d .seal{border-color:var(--red)!important;color:var(--red)!important}
+body.d .noren{background:var(--paper)!important}
+body.d .cloth{background:var(--hair)!important}
+body.d .cloth b{color:var(--sand)!important}
+body.d .rod{background:#0b1222!important}
+body.d .enter p{border:2px solid var(--hair)}
+.ls-top .gen,.ls-bar i,.ls-ctl .dots i.on{background:var(--sand)!important;color:var(--ink)!important}
+.ls{background:#16213a!important}
+
+/* My learning */
+aside{background:var(--hair)!important;border-right:0!important;color:#fff}
+aside b,aside .logo b{color:#fff!important}
+aside small,aside .en,aside p{color:#b9c7da!important}
+aside .mark{background:var(--sand)!important;color:var(--ink)!important}
+aside .place{background:#2a3858!important;border:0!important}
+aside .place i{background:var(--sand)!important;color:var(--ink)!important}
+aside nav a{color:#dbe6f3!important}
+aside nav a:hover{background:#2a3858!important}
+aside nav a[aria-current="page"]{background:var(--sand)!important;color:var(--ink)!important}
+aside nav a[aria-current="page"] .en{color:var(--ink)!important}
+aside .help,aside .me{border-top-color:#33415f!important}
+aside .help a{color:#fff!important;border-bottom-color:#8fa3bf!important}
+aside .me i{background:var(--sand)!important;color:var(--ink)!important}
+.eyebrow,.sub,.sec-h p,.meta,footer{color:var(--ink-2)!important}
+h1{text-transform:none}
+h1 .dot{color:var(--hair)!important}
+.hero{border-radius:12px!important;background:#fff!important}
+.art{background:var(--sand-2)!important}
+.tag{background:var(--sand-2)!important;color:var(--ink)!important;border:1.5px solid var(--hair)}
+.tag.t{background:var(--sand)!important}
+.bar{background:var(--sand-2)!important} .bar i{background:var(--hair)!important}
+.list{border-top:2.5px solid var(--hair)!important}
+.item{border-bottom:1.5px solid rgba(30,42,68,.35)!important}
+.item:hover{background:rgba(255,255,255,.45)!important}
+.item .ic{background:#fff!important;border:2px solid var(--hair);color:var(--ink)!important}
+.item .when.next{color:var(--red)!important}
+.box{background:var(--card)!important;border-radius:12px!important}
+.box:first-child{background:var(--sand)!important}
+.days i{border-color:var(--hair)!important;color:var(--ink)!important}
+.days i.on{background:var(--hair)!important;color:#fff!important}
+.master i{border:2px solid var(--hair)!important}
+.link{border-bottom-color:var(--hair)!important}
+footer{border-top:2px solid var(--hair)!important}
+/* the game page re-uses the name --paper for its scroll paper, so set the page colour literally */
+html,body,body.g,body.d{background:#a3d8e4!important}
+body.g .window{background:transparent!important}
+body.lang-en.g .start h1 .en,body.lang-en.g .end h2 .en{color:var(--ink)!important}
+body.g .start > p,body.g .end .lead{color:var(--ink)!important}
+
+/* the hub: the language switch sits in the navy bar */
+body.hub .lang-switch{top:10px!important;bottom:auto!important;right:16px!important}
+body.hub aside{display:none}
+body.hub .en{color:inherit}
